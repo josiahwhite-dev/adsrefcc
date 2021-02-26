@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/adsrefcc/static/css/main.6034c08e.chunk.css",
+    "main.js": "/adsrefcc/static/js/main.52d48a52.chunk.js",
+    "main.js.map": "/adsrefcc/static/js/main.52d48a52.chunk.js.map",
+    "runtime-main.js": "/adsrefcc/static/js/runtime-main.379d1288.js",
+    "runtime-main.js.map": "/adsrefcc/static/js/runtime-main.379d1288.js.map",
+    "static/js/2.48ba5db8.chunk.js": "/adsrefcc/static/js/2.48ba5db8.chunk.js",
+    "static/js/2.48ba5db8.chunk.js.map": "/adsrefcc/static/js/2.48ba5db8.chunk.js.map",
+    "index.html": "/adsrefcc/index.html",
+    "static/css/main.6034c08e.chunk.css.map": "/adsrefcc/static/css/main.6034c08e.chunk.css.map",
+    "static/js/2.48ba5db8.chunk.js.LICENSE.txt": "/adsrefcc/static/js/2.48ba5db8.chunk.js.LICENSE.txt",
+    "static/media/BackArrow.87ec3327.svg": "/adsrefcc/static/media/BackArrow.87ec3327.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.379d1288.js",
+    "static/js/2.48ba5db8.chunk.js",
+    "static/css/main.6034c08e.chunk.css",
+    "static/js/main.52d48a52.chunk.js"
+  ]
+}
