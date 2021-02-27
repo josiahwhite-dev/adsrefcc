@@ -105,7 +105,7 @@ function Algorithms() {
       <BodyWrapper>
         <ItemRow>
           <DataType
-            url="/binarysearch"
+            url="#/binarysearch"
             colour="#F06449"
             title="binary search"
             description="linked lists are a structure made

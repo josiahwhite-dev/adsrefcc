@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { HashRouter, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";
 
 //Main Pages
@@ -20,7 +20,7 @@ import Dijkstra from "./Pages/algorithms/dijkstra/Dijkstra";
 function App() {
   return (
     <div className="App">
-      <Router basename={process.env.PUBLIC_URL}>
+      <HashRouter>
         {/* main pages */}
         <Route path="/" exact component={Home} />
         <Route path="/algorithms" component={Algorithms} />
@@ -36,7 +36,7 @@ function App() {
         <Route path="/bfs" component={BFS} />
 
         <Route path="/dijkstra" component={Dijkstra} />
-      </Router>
+      </HashRouter>
     </div>
   );
 }

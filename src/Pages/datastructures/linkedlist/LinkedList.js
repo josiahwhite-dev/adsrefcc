@@ -324,6 +324,20 @@ function BFS() {
   const [nodeY, setNodeY] = useState(200);
   const [looper, setLooper] = useState(0);
   const [changer, setChanger] = useState(0);
+  const [isRendered, setIsRendered] = useState(0);
+
+  //let frameWidth = holderRef.current.getBoundingClientRect().width;
+  //let frameHeight = holderRef.current.getBoundingClientRect().height;
+
+  const [frameWidth, setFrameWidth] = useState();
+  const [frameHeight, setFrameHeight] = useState();
+
+  const a = useEffect(() => {
+    if (holderRef.current.getBoundingClientRect().width > 0) {
+      setFrameWidth(holderRef.current.getBoundingClientRect().width);
+      setFrameHeight(holderRef.current.getBoundingClientRect().height);
+    }
+  }, [holderRef.current]);
 
   window.addEventListener("resize", function () {
     // your custom logic
@@ -378,9 +392,6 @@ function BFS() {
   console.log(nodeLink);
 
   function setup(p5, canvasParentRef) {
-    let frameWidth = holderRef.current.getBoundingClientRect().width;
-    let frameHeight = holderRef.current.getBoundingClientRect().height;
-
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 
@@ -542,9 +553,9 @@ function BFS() {
   }
 
   return (
-    <AlgorithmsWrapper className="BFS">
+    <AlgorithmsWrapper className="BFS" onLoad={() => console.log("Loaded!")}>
       <TopWrapper>
-        <BackLink as={Link} to="/algorithms">
+        <BackLink as={Link} to="/datastructures">
           <BackArrow />
         </BackLink>
 
