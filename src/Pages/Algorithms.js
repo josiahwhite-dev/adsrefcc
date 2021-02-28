@@ -27,7 +27,7 @@ const BodyWrapper = styled.div`
 `;
 
 const ItemRow = styled.div`
-  margin-top: 35vh;
+  margin-top: 40vh;
   width: 66%;
   display: flex;
   flex-wrap: wrap;
@@ -44,16 +44,15 @@ const ItemRow = styled.div`
 const Item = styled.div`
   min-width: 300px;
   width: 30vw;
-  height: 35vh;
+  height: auto;
   margin: 1vw;
   border-radius: 4vw;
-  background-color: red;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  overflow: auto;
+  margin-bottom: 1vh;
   text-decoration: none;
 
   h1 {
@@ -65,10 +64,14 @@ const Item = styled.div`
     font-size: 2vh;
     font-weight: bolder;
     color: white;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 10%;
+    margin: 2vh;
+    margin-top: 4vh;
     transform: translateY(-30%);
+  }
+
+  ${media.mobile} {
+    width: 90vw;
+    border-radius: 8vh;
   }
 `;
 

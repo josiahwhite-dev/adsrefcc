@@ -477,6 +477,8 @@ function BFS() {
           holderRef.current.getBoundingClientRect().width) /
         15;
     }
+
+    setGlobalHeight(p5.windowHeight);
     console.log("resize");
   }
 
@@ -592,9 +594,40 @@ function BFS() {
   }
 
   function mouseWheel(event) {
-    console.log(event);
-    for (let m = 0; m < nodeLink.length; m++) {
-      nodeLink[m].y += event._mouseWheelDeltaY / 8;
+    //console.log(event);
+
+    //console.log(window.innerWidth);
+
+    if (event.mouseX > 0 && event.mouseY > 0) {
+      for (let m = 0; m < nodeLink.length; m++) {
+        nodeLink[m].y += event._mouseWheelDeltaY / 8;
+        nodeLink[m].color = "grey";
+
+        setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
+      }
+    }
+  }
+
+  function mouseDragged(p5) {
+    console.log(p5.mouseY);
+    console.log(frameHeight);
+
+    /* for (let m = 0; m < nodeLink.length; m++) {
+      if (event.mouseY > frameHeight / 4) {
+        nodeLink[m].y += event.mouseY / 80;
+      } else {
+        nodeLink[m].y -= event.mouseY / 80;
+      }
+    }*/
+
+    if (p5.mouseX > 0 && p5.mouseY > 0) {
+      for (let i = 0; i < nodeLink.length; i++) {
+        if (p5.mouseY < frameHeight / 2) {
+          nodeLink[i].y -= p5.mouseX / 50;
+        } else {
+          nodeLink[i].y += p5.mouseX / 50;
+        }
+      }
     }
 
     setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
@@ -660,6 +693,7 @@ function BFS() {
                 draw={draw}
                 windowResized={windowResized}
                 mouseWheel={mouseWheel}
+                mouseDragged={mouseDragged}
               />
             )}
           </SketchHolder>
