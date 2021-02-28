@@ -3,7 +3,7 @@ import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
 import { TopWrapper, Title, media } from "../../Shared";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Sketch from "react-p5";
 import p5 from "p5";
 
@@ -11,11 +11,12 @@ const AlgorithmsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  height: 100%;
+  height: auto;
   width: 100%;
   background-color: #61dafb;
   justify-content: center;
   align-items: center;
+  overflow-x: scroll;
 
   ${media.mobile} {
     justify-content: center;
@@ -31,7 +32,7 @@ const BodyWrapper = styled.div`
   flex-grow: 20;
   align-items: center;
   justify-content: space-evenly;
-  overflow-y: scroll;
+  overflow-y: visible;
   overflow-x: hidden;
 
   ${media.mobile} {
@@ -43,14 +44,15 @@ const BodyWrapper = styled.div`
 
 const ItemRowDescription = styled.div`
   width: 66%;
-  background-color: purple;
-  display: flex;
+  background-color: transparent;
+  display: grid;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: auto;
   margin-left: 10%;
   width: 100vw;
+  overflow: visible;
 
   justify-content: space-evenly;
   ${media.mobile} {
@@ -62,23 +64,24 @@ const ItemRowDescription = styled.div`
 `;
 
 const ItemRowContent = styled.div`
-  width: 66%;
-  background-color: orange;
+  background-color: transparent;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  margin-right: 10%;
-  width: 100vw;
-
+  flex-direction: row;
   justify-content: center;
+
+  margin-right: 10%;
+  min-width: 40vw;
+  max-width: 40vw;
+  min-height: 100%;
+  max-height: 100%;
+
   ${media.mobile} {
     justify-content: center;
     align-items: center;
-    width: 100%;
+    min-width: 100%;
 
-    height: 60vh;
+    min-height: 47vh;
     margin-top: "30vh";
     margin: 0%;
   }
@@ -87,14 +90,15 @@ const ItemRowContent = styled.div`
 const Item = styled.div`
   min-width: 300px;
   width: 30vw;
-  height: 35vh;
+  height: auto;
   margin: 1vw;
   border-radius: 4vw;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  text-overflow: ellipsis;
+  overflow: auto;
+  margin-bottom: 1vh;
 
   h1 {
     font-size: 8vh;
@@ -105,10 +109,15 @@ const Item = styled.div`
     font-size: 2vh;
     font-weight: bolder;
     color: white;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 10%;
+    margin: 2vh;
+    margin-top: 4vh;
     transform: translateY(-30%);
+  }
+
+  ${media.mobile} {
+    width: 90vw;
+    max-width: 400px;
+    border-radius: 8vh;
   }
 `;
 
@@ -120,22 +129,19 @@ const InputValue = styled.input`
   text-align: center;
   font-size: 4vh;
   padding: 2vh;
-  margin-top: 2vh;
+  margin-left: 1vw;
   max-width: 10vw;
   font-weight: bold;
   color: #535353;
   outline: none;
-  margin-left: 1vh;
-  margin-right: vh;
+
   ${media.mobile} {
     max-width: none;
     border-radius: 2vh;
     width: 10vh;
     height: 2vh;
-    margin-top: 0vh;
+
     font-size: 3vh;
-    padding-left: 1vh;
-    padding-right: 1vh;
   }
 `;
 
@@ -145,7 +151,7 @@ const AddButton = styled.div`
   height: 10vh;
   background-color: #78fc59;
   border-radius: 4vh;
-  margin-top: 2vh;
+
   margin-left: 2vh;
   align-items: center;
 
@@ -175,7 +181,7 @@ const MinusButton = styled.div`
   height: 10vh;
   background-color: #f06449;
   border-radius: 4vh;
-  margin-top: 2vh;
+
   margin-left: 2vh;
   align-items: center;
 
@@ -251,13 +257,12 @@ const ControlHolder = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
-  height: 12vh;
-  margin-bottom: 2vh;
+  min-height: 12vh;
   align-items: center;
   justify-content: center;
 
   z-index: 0;
-  background-color: blue;
+  background-color: transparent;
   ${media.mobile} {
     height: 7vh;
     width: 100%;
@@ -299,6 +304,21 @@ const TextInsert = styled.input`
   outline: none;
 `;
 
+const SketchHolder = styled.div`
+  min-width: 40vw;
+  max-width: 40vw;
+  min-height: 70vh;
+  max-height: 70vh;
+  background-color: transparent;
+
+  ${media.mobile} {
+    min-width: 100vw;
+    max-width: 100vw;
+    max-height: 40vh;
+    min-height: 40vh;
+  }
+`;
+
 function Info(props) {
   return (
     <Item style={{ backgroundColor: props.colour }}>
@@ -311,6 +331,7 @@ function Info(props) {
 
 function BFS() {
   const holderRef = useRef();
+  const screenRef = useRef();
   //Frame
   const [globalWidth, setGlobalWidth] = useState(0);
   const [globalHeight, setGlobalHeight] = useState(0);
@@ -336,12 +357,12 @@ function BFS() {
     if (holderRef.current.getBoundingClientRect().width > 0) {
       setFrameWidth(holderRef.current.getBoundingClientRect().width);
       setFrameHeight(holderRef.current.getBoundingClientRect().height);
+
+      for (let i = 0; i < nodeLink.length; i++) {
+        nodeLink[i].r = (frameHeight + frameWidth) / 15;
+      }
     }
   }, [holderRef.current, isRendered]);
-
-  window.addEventListener("resize", function () {
-    // your custom logic
-  });
 
   const createNodes = useEffect(() => {
     if (looper < 3) {
@@ -350,7 +371,7 @@ function BFS() {
         y: nodeY,
         value: nodeValue,
         id: nodeID,
-        r: 100,
+        r: (frameHeight + frameWidth) / 15,
         next: null,
         colour: "#72ff98",
         bgColour: "#9bffb6",
@@ -391,12 +412,14 @@ function BFS() {
 
   console.log(nodeLink);
 
+  const [alreadyDone, setAlreadyDone] = useState(0);
+
   function setup(p5, canvasParentRef) {
     setIsRendered(isRendered + 1);
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 
-    p5.createCanvas(frameWidth, frameHeight * 0.8).parent(canvasParentRef);
+    p5.createCanvas(frameWidth, frameHeight).parent(canvasParentRef);
 
     let newXY = [...nodeLink];
     let currX = frameWidth / 2;
@@ -405,6 +428,7 @@ function BFS() {
     for (let i = 0; i < nodeLink.length; i++) {
       nodeLink[i].x = currX;
       nodeLink[i].y = currY;
+      nodeLink[i].r = (frameHeight + frameWidth) / 15;
 
       if (i % 2 == 0) {
         currX -= frameWidth / 10;
@@ -422,20 +446,43 @@ function BFS() {
 
     //Finding node closest to center;
 
-    p5.background("#e3dac9");
+    p5.background("#FFFFFF");
   }
 
+  function test() {}
+
   function windowResized(p5) {
+    /*
+    //Just fix holderref properties pls
+    if (holderRef.current.getBoundingClientRect().width > 1000) {
+      p5.resizeCanvas(
+        holderRef.current.getBoundingClientRect().width,
+        holderRef.current.getBoundingClientRect().height * 0.8
+      );
+      p5.resizeCanvas(
+        holderRef.getBoundingClientRect().width,
+        holderRef.current.getBoundingClientRect().height * 0.8
+      );
+    } else {
+    }*/
+
     p5.resizeCanvas(
       holderRef.current.getBoundingClientRect().width,
-      holderRef.current.getBoundingClientRect().height * 0.8
+      holderRef.current.getBoundingClientRect().height
     );
+
+    for (let i = 0; i < nodeLink.length; i++) {
+      nodeLink[i].r =
+        (holderRef.current.getBoundingClientRect().height +
+          holderRef.current.getBoundingClientRect().width) /
+        15;
+    }
+    console.log("resize");
   }
 
   let draw = (p5) => {
     p5.clear();
     p5.noStroke();
-    p5.background("#e3dac9");
 
     for (let i = 0; i < nodeLink.length; i++) {
       //Background Circle
@@ -493,7 +540,7 @@ function BFS() {
       y: nodeY,
       value: nodeValue,
       id: nodeID,
-      r: 100,
+      r: (frameHeight + frameWidth) / 15,
       next: null,
       colour: "#72ff98",
       bgColour: "#9bffb6",
@@ -554,7 +601,11 @@ function BFS() {
   }
 
   return (
-    <AlgorithmsWrapper className="BFS" onLoad={() => console.log("Loaded!")}>
+    <AlgorithmsWrapper
+      className="BFS"
+      onLoad={() => console.log("Loaded!")}
+      ref={screenRef}
+    >
       <TopWrapper>
         <BackLink as={Link} to="/datastructures">
           <BackArrow />
@@ -588,28 +639,30 @@ function BFS() {
             "
           />
         </ItemRowDescription>
-        <ItemRowContent id="IRC" ref={holderRef}>
-          {
-            // This fixes the issue of the render paradox
-            //Width of is not known until render, but conditional statement
-            //Forces rerender and fixes issue
-            frameWidth < 1 && (
+        <ItemRowContent>
+          <SketchHolder id="IRC" ref={holderRef}>
+            {
+              // This fixes the issue of the render paradox
+              //Width of is not known until render, but conditional statement
+              //Forces rerender and fixes issue
+              frameWidth < 1 && (
+                <Sketch
+                  setup={test}
+                  draw={draw}
+                  windowResized={windowResized}
+                  mouseWheel={mouseWheel}
+                />
+              )
+            }
+            {frameWidth > 1 && (
               <Sketch
                 setup={setup}
                 draw={draw}
                 windowResized={windowResized}
                 mouseWheel={mouseWheel}
               />
-            )
-          }
-          {frameWidth > 1 && (
-            <Sketch
-              setup={setup}
-              draw={draw}
-              windowResized={windowResized}
-              mouseWheel={mouseWheel}
-            />
-          )}
+            )}
+          </SketchHolder>
 
           <ControlHolder>
             <InputValue

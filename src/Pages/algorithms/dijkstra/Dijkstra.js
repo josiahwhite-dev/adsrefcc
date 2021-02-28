@@ -327,6 +327,18 @@ function Dijkstra() {
   const [matrixLoaded, setMatrixLoaded] = useState(false);
   const [nodesSet, setNodesSet] = useState(false);
 
+  const [frameWidth, setFrameWidth] = useState();
+  const [frameHeight, setFrameHeight] = useState();
+
+  const [isRendered, setIsRendered] = useState(0);
+
+  const a = useEffect(() => {
+    if (holderRef.current.getBoundingClientRect().width > 0) {
+      setFrameWidth(holderRef.current.getBoundingClientRect().width);
+      setFrameHeight(holderRef.current.getBoundingClientRect().height);
+    }
+  }, [holderRef.current, isRendered]);
+
   window.addEventListener("resize", function () {
     // your custom logic
   });
@@ -416,9 +428,7 @@ function Dijkstra() {
   console.log(nodeLink);
 
   function setup(p5, canvasParentRef) {
-    let frameWidth = holderRef.current.getBoundingClientRect().width;
-    let frameHeight = holderRef.current.getBoundingClientRect().height;
-
+    setIsRendered(isRendered + 1);
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 
@@ -475,9 +485,6 @@ function Dijkstra() {
     p5.clear();
     p5.noStroke();
     p5.background("#e3dac9");
-
-    let frameWidth = holderRef.current.getBoundingClientRect().width;
-    let frameHeight = holderRef.current.getBoundingClientRect().height;
 
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
@@ -818,16 +825,28 @@ function Dijkstra() {
           />
         </ItemRowDescription>
         <ItemRowContent id="IRC" ref={holderRef}>
-          <Sketch
-            setup={setup}
-            draw={draw}
-            windowResized={windowResized}
-            mouseWheel={mouseWheel}
-            mousePressed={mousePressed}
-            mouseDragged={mouseDragged}
-            mouseReleased={mouseReleased}
-          />
-
+          {frameWidth < 1 && (
+            <Sketch
+              setup={setup}
+              draw={draw}
+              windowResized={windowResized}
+              mouseWheel={mouseWheel}
+              mousePressed={mousePressed}
+              mouseDragged={mouseDragged}
+              mouseReleased={mouseReleased}
+            />
+          )}
+          {frameWidth > 1 && (
+            <Sketch
+              setup={setup}
+              draw={draw}
+              windowResized={windowResized}
+              mouseWheel={mouseWheel}
+              mousePressed={mousePressed}
+              mouseDragged={mouseDragged}
+              mouseReleased={mouseReleased}
+            />
+          )}
           <ControlHolder>
             <InputValue
               placeholder="value"
