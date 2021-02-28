@@ -337,7 +337,7 @@ function BFS() {
       setFrameWidth(holderRef.current.getBoundingClientRect().width);
       setFrameHeight(holderRef.current.getBoundingClientRect().height);
     }
-  }, [holderRef.current]);
+  }, [holderRef.current, isRendered]);
 
   window.addEventListener("resize", function () {
     // your custom logic
@@ -392,6 +392,7 @@ function BFS() {
   console.log(nodeLink);
 
   function setup(p5, canvasParentRef) {
+    setIsRendered(isRendered + 1);
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 
@@ -588,12 +589,27 @@ function BFS() {
           />
         </ItemRowDescription>
         <ItemRowContent id="IRC" ref={holderRef}>
-          <Sketch
-            setup={setup}
-            draw={draw}
-            windowResized={windowResized}
-            mouseWheel={mouseWheel}
-          />
+          {
+            // This fixes the issue of the render paradox
+            //Width of is not known until render, but conditional statement
+            //Forces rerender and fixes issue
+            frameWidth < 1 && (
+              <Sketch
+                setup={setup}
+                draw={draw}
+                windowResized={windowResized}
+                mouseWheel={mouseWheel}
+              />
+            )
+          }
+          {frameWidth > 1 && (
+            <Sketch
+              setup={setup}
+              draw={draw}
+              windowResized={windowResized}
+              mouseWheel={mouseWheel}
+            />
+          )}
 
           <ControlHolder>
             <InputValue
