@@ -633,11 +633,12 @@ function BFS() {
         nodeLink[m].y -= event.mouseY / 80;
       }
     }*/
+    console.log("TOP: ", document.documentElement.scrollTop);
 
     if (window.innerWidth > 1000) {
       if (p5.mouseX > 0 && p5.mouseY > 0) {
         window.onscroll = function () {
-          window.scrollTo(0, 0);
+          document.body.style.overflow = "hidden";
         };
         for (let i = 0; i < nodeLink.length; i++) {
           if (p5.mouseY < mouseCurrentY) {
@@ -650,7 +651,7 @@ function BFS() {
     } else {
       if (p5.mouseY < frameHeight) {
         window.onscroll = function () {
-          window.scrollTo(null, null);
+          window.scrollTo(0, 0);
         };
         for (let i = 0; i < nodeLink.length; i++) {
           if (p5.mouseY < mouseCurrentY) {
