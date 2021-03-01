@@ -350,8 +350,8 @@ function BFS() {
   //let frameWidth = holderRef.current.getBoundingClientRect().width;
   //let frameHeight = holderRef.current.getBoundingClientRect().height;
 
-  const [frameWidth, setFrameWidth] = useState();
-  const [frameHeight, setFrameHeight] = useState();
+  const [frameWidth, setFrameWidth] = useState(0);
+  const [frameHeight, setFrameHeight] = useState(0);
 
   const a = useEffect(() => {
     if (holderRef.current.getBoundingClientRect().width > 0) {
@@ -415,39 +415,18 @@ function BFS() {
   const [alreadyDone, setAlreadyDone] = useState(0);
 
   function setup(p5, canvasParentRef) {
-    setIsRendered(isRendered + 1);
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 
     p5.createCanvas(frameWidth, frameHeight).parent(canvasParentRef);
 
-    let newXY = [...nodeLink];
-    let currX = frameWidth / 2;
-    let currY = (frameHeight * 0.8) / 8;
-
-    for (let i = 0; i < nodeLink.length; i++) {
-      nodeLink[i].x = currX;
-      nodeLink[i].y = currY;
-      nodeLink[i].r = (frameHeight + frameWidth) / 15;
-
-      if (i % 2 == 0) {
-        currX -= frameWidth / 10;
-        setNodeX(currX);
-        console.log("Even!");
-      } else {
-        currX += frameWidth / 10;
-        console.log("Odd!");
-        setNodeX(currX);
-      }
-
-      currY += frameHeight / 8;
-      setNodeY(currY);
-    }
-
     //Finding node closest to center;
+    setIsRendered(1);
 
     p5.background("#FFFFFF");
   }
+
+  const fixPositions = useEffect(() => {}, [isRendered]);
 
   function test() {}
 
@@ -485,6 +464,32 @@ function BFS() {
   let draw = (p5) => {
     p5.clear();
     p5.noStroke();
+
+    if (isRendered == 1) {
+      let newXY = [...nodeLink];
+      let currX = frameWidth / 2;
+      let currY = (frameHeight * 0.8) / 8;
+
+      for (let i = 0; i < nodeLink.length; i++) {
+        nodeLink[i].x = currX;
+        nodeLink[i].y = currY;
+        nodeLink[i].r = (frameHeight + frameWidth) / 15;
+
+        if (i % 2 == 0) {
+          currX -= frameWidth / 10;
+          setNodeX(currX);
+          console.log("Even!");
+        } else {
+          currX += frameWidth / 10;
+          console.log("Odd!");
+          setNodeX(currX);
+        }
+
+        currY += frameHeight / 8;
+        setNodeY(currY);
+      }
+      setIsRendered(2);
+    }
 
     for (let i = 0; i < nodeLink.length; i++) {
       //Background Circle
@@ -612,6 +617,15 @@ function BFS() {
     console.log(p5.mouseY);
     console.log(frameHeight);
 
+    /*
+    for (let i = 0; i < nodeLink.length; i++) {
+      if (p5.mouseY < mouseCurrentY) {
+        nodeLink[i].y += p5.mouseX / 50;
+      } else {
+        nodeLink[i].y -= p5.mouseX / 50;
+      }
+    }*/
+
     /* for (let m = 0; m < nodeLink.length; m++) {
       if (event.mouseY > frameHeight / 4) {
         nodeLink[m].y += event.mouseY / 80;
@@ -620,17 +634,45 @@ function BFS() {
       }
     }*/
 
-    if (p5.mouseX > 0 && p5.mouseY > 0) {
-      for (let i = 0; i < nodeLink.length; i++) {
-        if (p5.mouseY < frameHeight / 2) {
-          nodeLink[i].y -= p5.mouseX / 50;
-        } else {
-          nodeLink[i].y += p5.mouseX / 50;
+    if (window.innerWidth > 1000) {
+      if (p5.mouseX > 0 && p5.mouseY > 0) {
+        window.onscroll = function () {
+          window.scrollTo(0, 0);
+        };
+        for (let i = 0; i < nodeLink.length; i++) {
+          if (p5.mouseY < mouseCurrentY) {
+            nodeLink[i].y += p5.mouseX / 50;
+          } else {
+            nodeLink[i].y -= p5.mouseX / 50;
+          }
+        }
+      }
+    } else {
+      if (p5.mouseY < frameHeight) {
+        window.onscroll = function () {
+          window.scrollTo(0, 0);
+        };
+        for (let i = 0; i < nodeLink.length; i++) {
+          if (p5.mouseY < mouseCurrentY) {
+            nodeLink[i].y += p5.mouseX / 50;
+          } else {
+            nodeLink[i].y -= p5.mouseX / 50;
+          }
         }
       }
     }
 
     setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
+  }
+
+  const [mouseCurrentY, setMouseCurrentY] = useState();
+
+  function mousePressed(p5) {
+    setMouseCurrentY(p5.mouseY);
+  }
+
+  function mouseReleased(p5) {
+    window.onscroll = function () {};
   }
 
   return (
@@ -694,6 +736,8 @@ function BFS() {
                 windowResized={windowResized}
                 mouseWheel={mouseWheel}
                 mouseDragged={mouseDragged}
+                mousePressed={mousePressed}
+                mouseReleased={mouseReleased}
               />
             )}
           </SketchHolder>
