@@ -650,7 +650,7 @@ function BFS() {
     } else {
       if (p5.mouseY < frameHeight) {
         window.onscroll = function () {
-          window.scrollTo(0, 0);
+          window.scrollTo(null, null);
         };
         for (let i = 0; i < nodeLink.length; i++) {
           if (p5.mouseY < mouseCurrentY) {
