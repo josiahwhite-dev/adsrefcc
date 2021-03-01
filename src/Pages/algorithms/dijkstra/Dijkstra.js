@@ -11,11 +11,12 @@ const AlgorithmsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  height: 100%;
+  height: auto;
   width: 100%;
   background-color: #61dafb;
   justify-content: center;
   align-items: center;
+  overflow-x: scroll;
 
   ${media.mobile} {
     justify-content: center;
@@ -31,7 +32,7 @@ const BodyWrapper = styled.div`
   flex-grow: 20;
   align-items: center;
   justify-content: space-evenly;
-  overflow-y: scroll;
+  overflow-y: visible;
   overflow-x: hidden;
 
   ${media.mobile} {
@@ -43,14 +44,15 @@ const BodyWrapper = styled.div`
 
 const ItemRowDescription = styled.div`
   width: 66%;
-  background-color: purple;
-  display: flex;
+  background-color: transparent;
+  display: grid;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: auto;
   margin-left: 10%;
   width: 100vw;
+  overflow: visible;
 
   justify-content: space-evenly;
   ${media.mobile} {
@@ -62,23 +64,24 @@ const ItemRowDescription = styled.div`
 `;
 
 const ItemRowContent = styled.div`
-  width: 66%;
-  background-color: orange;
+  background-color: transparent;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  margin-right: 10%;
-  width: 100vw;
-
+  flex-direction: row;
   justify-content: center;
+
+  margin-right: 10%;
+  min-width: 40vw;
+  max-width: 40vw;
+  min-height: 100%;
+  max-height: 100%;
+
   ${media.mobile} {
     justify-content: center;
     align-items: center;
-    width: 100%;
+    min-width: 100%;
 
-    height: 60vh;
+    min-height: 47vh;
     margin-top: "30vh";
     margin: 0%;
   }
@@ -87,14 +90,15 @@ const ItemRowContent = styled.div`
 const Item = styled.div`
   min-width: 300px;
   width: 30vw;
-  height: 35vh;
+  height: auto;
   margin: 1vw;
   border-radius: 4vw;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  text-overflow: ellipsis;
+  overflow: auto;
+  margin-bottom: 1vh;
 
   h1 {
     font-size: 8vh;
@@ -105,10 +109,15 @@ const Item = styled.div`
     font-size: 2vh;
     font-weight: bolder;
     color: white;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 10%;
+    margin: 2vh;
+    margin-top: 4vh;
     transform: translateY(-30%);
+  }
+
+  ${media.mobile} {
+    width: 90vw;
+    max-width: 400px;
+    border-radius: 8vh;
   }
 `;
 
@@ -120,22 +129,19 @@ const InputValue = styled.input`
   text-align: center;
   font-size: 4vh;
   padding: 2vh;
-  margin-top: 2vh;
+  margin-left: 1vw;
   max-width: 10vw;
   font-weight: bold;
   color: #535353;
   outline: none;
-  margin-left: 1vh;
-  margin-right: vh;
+
   ${media.mobile} {
     max-width: none;
     border-radius: 2vh;
     width: 10vh;
     height: 2vh;
-    margin-top: 0vh;
+
     font-size: 3vh;
-    padding-left: 1vh;
-    padding-right: 1vh;
   }
 `;
 
@@ -145,7 +151,7 @@ const AddButton = styled.div`
   height: 10vh;
   background-color: #78fc59;
   border-radius: 4vh;
-  margin-top: 2vh;
+
   margin-left: 2vh;
   align-items: center;
 
@@ -175,7 +181,7 @@ const MinusButton = styled.div`
   height: 10vh;
   background-color: #f06449;
   border-radius: 4vh;
-  margin-top: 2vh;
+
   margin-left: 2vh;
   align-items: center;
 
@@ -251,13 +257,12 @@ const ControlHolder = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
-  height: 12vh;
-  margin-bottom: 2vh;
+  min-height: 12vh;
   align-items: center;
   justify-content: center;
 
   z-index: 0;
-  background-color: blue;
+  background-color: transparent;
   ${media.mobile} {
     height: 7vh;
     width: 100%;
@@ -267,7 +272,7 @@ const ControlHolder = styled.div`
 
 const ArrayPosHolder = styled.div`
   display: grid;
-  background-color: orange;
+  background-color: blue;
 
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr auto;
@@ -297,6 +302,21 @@ const TextInsert = styled.input`
   }
 
   outline: none;
+`;
+
+const SketchHolder = styled.div`
+  min-width: 40vw;
+  max-width: 40vw;
+  min-height: 70vh;
+  max-height: 70vh;
+  background-color: transparent;
+
+  ${media.mobile} {
+    min-width: 100vw;
+    max-width: 100vw;
+    max-height: 40vh;
+    min-height: 40vh;
+  }
 `;
 
 function Info(props) {
@@ -336,6 +356,10 @@ function Dijkstra() {
     if (holderRef.current.getBoundingClientRect().width > 0) {
       setFrameWidth(holderRef.current.getBoundingClientRect().width);
       setFrameHeight(holderRef.current.getBoundingClientRect().height);
+
+      for (let i = 0; i < nodeLink.length; i++) {
+        nodeLink[i].r = (frameHeight + frameWidth) / 15;
+      }
     }
   }, [holderRef.current, isRendered]);
 
@@ -370,7 +394,7 @@ function Dijkstra() {
         y: nodeY,
         value: nodeValue,
         id: nodeID,
-        r: 100,
+        r: (frameHeight + frameWidth) / 15,
         distance: [],
         colour: "#72ff98",
         bgColour: "#9bffb6",
@@ -477,9 +501,18 @@ function Dijkstra() {
   function windowResized(p5) {
     p5.resizeCanvas(
       holderRef.current.getBoundingClientRect().width,
-      holderRef.current.getBoundingClientRect().height * 0.8
+      holderRef.current.getBoundingClientRect().height
     );
+
+    for (let i = 0; i < nodeLink.length; i++) {
+      nodeLink[i].r = (frameHeight + frameWidth) / 15;
+    }
+
+    setGlobalHeight(p5.windowHeight);
+    console.log("resize");
   }
+
+  function test() {}
 
   let draw = (p5) => {
     p5.clear();
@@ -754,28 +787,71 @@ function Dijkstra() {
     setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
   }
 
+  const [mouseCurrentY, setMouseCurrentY] = useState();
+
   function mousePressed(p5) {
     for (let m = 0; m < nodeLink.length; m++) {
       console.log(nodeLink[m].active);
     }
+    setMouseCurrentY(p5.mouseY);
     return false;
   }
 
   function mouseDragged(p5) {
+    let isMovingObject = false;
+
     let distance;
     for (let i = 0; i < nodeLink.length; i++) {
       distance = p5.dist(p5.mouseX, p5.mouseY, nodeLink[i].x, nodeLink[i].y);
 
       if (distance < nodeLink[i].r) {
         nodeLink[i].active = true;
+        isMovingObject = true;
+        window.onscroll = function () {
+          document.body.style.overflow = "hidden";
+        };
       }
     }
-    for (let i = 0; i < nodeLink.length; i++) {
-      if (nodeLink[i].active) {
-        nodeLink[i].x = p5.mouseX;
-        nodeLink[i].y = p5.mouseY;
-        break;
+    if (isMovingObject == true) {
+      for (let i = 0; i < nodeLink.length; i++) {
+        if (nodeLink[i].active) {
+          nodeLink[i].x = p5.mouseX;
+          nodeLink[i].y = p5.mouseY;
+          break;
+        }
       }
+    }
+
+    if (!isMovingObject) {
+      if (window.innerWidth > 1000) {
+        if (p5.mouseX > 0 && p5.mouseY > 0) {
+          window.onscroll = function () {
+            document.body.style.overflow = "hidden";
+          };
+          for (let i = 0; i < nodeLink.length; i++) {
+            if (p5.mouseY < mouseCurrentY) {
+              nodeLink[i].y += p5.mouseX / 50;
+            } else {
+              nodeLink[i].y -= p5.mouseX / 50;
+            }
+          }
+        }
+      } else {
+        if (p5.mouseY < frameHeight) {
+          window.onscroll = function () {
+            window.scrollTo(0, 0);
+          };
+          for (let i = 0; i < nodeLink.length; i++) {
+            if (p5.mouseY < mouseCurrentY) {
+              nodeLink[i].y += p5.mouseX / 100;
+            } else {
+              nodeLink[i].y -= p5.mouseX / 100;
+            }
+          }
+        }
+      }
+
+      setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
     }
 
     return false;
@@ -787,6 +863,7 @@ function Dijkstra() {
         nodeLink[i].active = false;
       }
     }
+    window.onscroll = function () {};
   }
 
   return (
@@ -824,29 +901,31 @@ function Dijkstra() {
             "
           />
         </ItemRowDescription>
-        <ItemRowContent id="IRC" ref={holderRef}>
-          {frameWidth < 1 && (
-            <Sketch
-              setup={setup}
-              draw={draw}
-              windowResized={windowResized}
-              mouseWheel={mouseWheel}
-              mousePressed={mousePressed}
-              mouseDragged={mouseDragged}
-              mouseReleased={mouseReleased}
-            />
-          )}
-          {frameWidth > 1 && (
-            <Sketch
-              setup={setup}
-              draw={draw}
-              windowResized={windowResized}
-              mouseWheel={mouseWheel}
-              mousePressed={mousePressed}
-              mouseDragged={mouseDragged}
-              mouseReleased={mouseReleased}
-            />
-          )}
+        <ItemRowContent>
+          <SketchHolder id="IRC" ref={holderRef}>
+            {frameWidth < 1 && (
+              <Sketch
+                setup={test}
+                draw={draw}
+                windowResized={windowResized}
+                mouseWheel={mouseWheel}
+                mousePressed={mousePressed}
+                mouseDragged={mouseDragged}
+                mouseReleased={mouseReleased}
+              />
+            )}
+            {frameWidth > 1 && (
+              <Sketch
+                setup={setup}
+                draw={draw}
+                windowResized={windowResized}
+                mouseWheel={mouseWheel}
+                mousePressed={mousePressed}
+                mouseDragged={mouseDragged}
+                mouseReleased={mouseReleased}
+              />
+            )}
+          </SketchHolder>
           <ControlHolder>
             <InputValue
               placeholder="value"

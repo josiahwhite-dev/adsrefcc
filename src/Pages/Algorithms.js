@@ -6,7 +6,7 @@ import { TopWrapper, Title, media } from "./Shared";
 const AlgorithmsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: relative;
   height: 100%;
   width: 100%;
   background-color: #61dafb;
@@ -27,11 +27,11 @@ const BodyWrapper = styled.div`
 `;
 
 const ItemRow = styled.div`
-  margin-top: 40vh;
   width: 66%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  overflow: visible;
 
   justify-content: space-evenly;
   ${media.mobile} {
@@ -108,7 +108,7 @@ function Algorithms() {
       <BodyWrapper>
         <ItemRow>
           <DataType
-            url="#/binarysearch"
+            url="/binarysearch"
             colour="#F06449"
             title="binary search"
             description="linked lists are a structure made

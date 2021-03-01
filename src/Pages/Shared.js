@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const media = {
+  mobile: "@media(max-width: 1024px)",
+};
+
 export const TopWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -18,7 +22,3 @@ export const Title = styled.h1`
   color: black;
   padding-left: 1%;
 `;
-
-export const media = {
-  mobile: "@media(max-width: 1024px)",
-};

@@ -6,7 +6,7 @@ import { TopWrapper, Title, media } from "./Shared";
 const DataStructuresWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: relative;
   height: 100%;
   width: 100%;
   background-color: #61dafb;
@@ -27,15 +27,13 @@ const BodyWrapper = styled.div`
 `;
 
 const ItemRow = styled.div`
-  margin-top: 35vh;
-  width: 90%;
-  margin-left: 10%;
-  margin-right: 10%;
+  width: 66%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-evenly;
+  overflow: visible;
 
+  justify-content: space-evenly;
   ${media.mobile} {
     justify-content: center;
     align-items: center;
@@ -46,16 +44,15 @@ const ItemRow = styled.div`
 const Item = styled.div`
   min-width: 300px;
   width: 30vw;
-  height: 35vh;
-  margin: 2.5vh;
+  height: auto;
+  margin: 1vw;
   border-radius: 4vw;
-  background-color: red;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  overflow: auto;
+  margin-bottom: 1vh;
   text-decoration: none;
 
   h1 {
@@ -67,10 +64,14 @@ const Item = styled.div`
     font-size: 2vh;
     font-weight: bolder;
     color: white;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 10%;
+    margin: 2vh;
+    margin-top: 4vh;
     transform: translateY(-30%);
+  }
+
+  ${media.mobile} {
+    width: 90vw;
+    border-radius: 8vh;
   }
 `;
 

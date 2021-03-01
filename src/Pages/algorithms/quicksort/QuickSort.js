@@ -554,7 +554,9 @@ function QuickSort() {
 
           <ArrayHolder>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <h1>status: {found}</h1>
+              <h1 style={{ minHeight: "5vh", maxHeight: "5vh" }}>
+                status: {found}
+              </h1>
               <ArrayPosHolder>
                 {arrayLink.map(
                   ({

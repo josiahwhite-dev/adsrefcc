@@ -99,7 +99,7 @@ function Home() {
   return (
     <HomeWrapper>
       <TopWrapper>
-        <HomeTitle>AyDS</HomeTitle>
+        <HomeTitle>adsref.cc</HomeTitle>
       </TopWrapper>
       <BodyWrapper>
         <DataStructures />
