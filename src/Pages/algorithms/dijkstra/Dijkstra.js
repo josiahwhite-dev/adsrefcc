@@ -147,7 +147,7 @@ const InputValue = styled.input`
 
 const AddButton = styled.div`
   display: flex;
-  width: 10vh;
+  width: 30vw;
   height: 10vh;
   background-color: #78fc59;
   border-radius: 4vh;
@@ -165,7 +165,7 @@ const AddButton = styled.div`
 
   ${media.mobile} {
     border-radius: 2vh;
-    width: 6vh;
+    width: 80vw;
     height: 6vh;
     margin-top: 0vh;
 
@@ -338,6 +338,7 @@ function Dijkstra() {
   //Nodes
   const [nodeLink, setNodeLink] = useState([]);
   const [nodeValue, setNodeValue] = useState(37);
+
   const [nodeID, setNodeID] = useState(0);
   const [nodeNext, setNodeNext] = useState(null);
   const [nodeX, setNodeX] = useState(200);
@@ -456,7 +457,7 @@ function Dijkstra() {
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 
-    p5.createCanvas(frameWidth, frameHeight * 0.8).parent(canvasParentRef);
+    p5.createCanvas(frameWidth, frameHeight).parent(canvasParentRef);
 
     /* let newXY = [...nodeLink];
     let currX = frameWidth / 10;
@@ -517,7 +518,6 @@ function Dijkstra() {
   let draw = (p5) => {
     p5.clear();
     p5.noStroke();
-    p5.background("#e3dac9");
 
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
@@ -562,7 +562,7 @@ function Dijkstra() {
     //Creating Lines
     for (let m = 0; m < nodeLink.length; m++) {
       for (let w = 0; w < nodeLink[m].connections.length; w++) {
-        p5.strokeWeight(20);
+        p5.strokeWeight(frameWidth / 30);
         p5.stroke("#72ff98");
         p5.line(
           nodeLink[m].x,
@@ -635,7 +635,7 @@ function Dijkstra() {
       for (let w = 0; w < nodeLink[m].connections.length; w++) {
         p5.noStroke();
         p5.textSize(nodeLink[m].r / 4);
-        p5.fill(p5.color("white")).text(
+        p5.fill(p5.color("#7c7c7c")).text(
           Math.floor(
             p5.dist(
               nodeLink[m].x,
@@ -652,7 +652,14 @@ function Dijkstra() {
     }
   };
 
+  const [startValue, setStartValue] = useState(0);
+  const [endValue, setEndValue] = useState(6);
+
   async function addNode() {
+    for (let m = 0; m < nodeLink.length; m++) {
+      nodeLink[m].colour = "#72ff98";
+      nodeLink[m].bgColour = "#9bffb6";
+    }
     //Visiting
     let visited = [];
     let parent = [];
@@ -660,7 +667,7 @@ function Dijkstra() {
     //Distance
     let infinity = 99999;
     let distFromStart = [];
-    let nearestNode = 0;
+    let nearestNode = startValue;
 
     //For finding nearest
     let minValue = 99999;
@@ -734,42 +741,6 @@ function Dijkstra() {
       nodeLink[order[f]].colour = "#F52F2F";
       nodeLink[order[f]].bgColour = "#F66161";
       await sleep(1000);
-    }
-  }
-
-  async function removeNode() {
-    let temp = [...nodeLink];
-    let newTemp;
-
-    console.log("nodeValue: ", nodeValue);
-    console.log("==", nodeValue == nodeLink[1].value);
-
-    for (let i = 0; i < temp.length; i++) {
-      nodeLink[i].colour = "#CB391E";
-      nodeLink[i].bgColour = "#DD4125";
-      await sleep(1000);
-      nodeLink[i].colour = "#72ff98";
-      nodeLink[i].bgColour = "#9bffb6";
-
-      if (temp[i].value == nodeValue) {
-        nodeLink[i].colour = "purple";
-        await sleep(1000);
-        if (i > 0) {
-          temp[i - 1].next = temp[i + 1];
-        }
-
-        for (let j = temp.length - 1; j > i; j--) {
-          temp[j].x = temp[j - 1].x;
-          temp[j].y = temp[j - 1].y;
-        }
-
-        temp.splice(i, 1);
-        setNodeLink(temp);
-        console.log("Index: ", i);
-        setNodeY(nodeY - globalHeight / 8);
-        //do nodex
-        break;
-      }
     }
   }
 
@@ -927,17 +898,18 @@ function Dijkstra() {
             )}
           </SketchHolder>
           <ControlHolder>
-            <InputValue
-              placeholder="value"
-              onChange={(event) => setNodeValue(event.target.value)}
+            {/* <InputValue
+              placeholder="start"
+              onChange={(event) => setStartValue(event.target.value)}
             />
+            <InputValue
+              placeholder="end"
+              onChange={(event) => setEndValue(event.target.value)}
+           />*/}
 
             <AddButton onClick={() => addNode()}>
               <p>+</p>
             </AddButton>
-            <MinusButton onClick={() => removeNode()}>
-              <p>-</p>
-            </MinusButton>
           </ControlHolder>
         </ItemRowContent>
       </BodyWrapper>
