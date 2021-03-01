@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
-import { TopWrapper, Title, media } from "../../Shared";
+import { TopWrapper, Title, media, Item } from "../../Shared";
 import ArrayElement from "./ArrayElement";
 import React, { useState, useEffect } from "react";
 
@@ -84,39 +84,6 @@ const ItemRowContent = styled.div`
   }
 `;
 
-const Item = styled.div`
-  min-width: 300px;
-  width: 30vw;
-  height: auto;
-  margin: 1vw;
-  border-radius: 4vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: auto;
-  margin-bottom: 1vh;
-
-  h1 {
-    font-size: 8vh;
-    font-weight: bolder;
-    color: white;
-  }
-  p {
-    font-size: 2vh;
-    font-weight: bolder;
-    color: white;
-    margin: 2vh;
-    margin-top: 4vh;
-    transform: translateY(-30%);
-  }
-
-  ${media.mobile} {
-    width: 90vw;
-    border-radius: 8vh;
-  }
-`;
-
 const InputValue = styled.input`
   border: 0;
   background-color: #e8e8e8;
@@ -146,7 +113,7 @@ const AddButton = styled.div`
   width: auto;
   min-width: 10vw;
   height: 10vh;
-  background-color: #ffc324;
+  background-color: #ffe26a;
   border-radius: 4vh;
   margin-left: 1vw;
   margin-right: 1vw;
@@ -498,6 +465,9 @@ function QuickSort() {
   }, [changer]);
 
   const run10times = useEffect(() => {
+    if (changer == 0) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     if (changer < 9) {
       setChanger(changer + 1);
       setArrayValue(Math.floor(Math.random() * 99) + 1);
@@ -516,7 +486,7 @@ function QuickSort() {
       <BodyWrapper>
         <ItemRowDescription>
           <Info
-            colour="#F06449"
+            colour="#F76146"
             title="description"
             description="arrays are a way of storing data.
             arrays are made up of ‘elements’, which
@@ -528,7 +498,7 @@ function QuickSort() {
             "
           />
           <Info
-            colour="#6DD3CE"
+            colour="#40B8ED"
             title="use cases"
             description="arrays are best used in applications
             where data will often be accessed,

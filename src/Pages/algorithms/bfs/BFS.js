@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
-import { TopWrapper, Title, media } from "../../Shared";
+import { TopWrapper, Title, media, Item } from "../../Shared";
 import ArrayElement from "./ArrayElement";
 import React, { useState, useEffect, useRef } from "react";
 import Sketch from "react-p5";
@@ -11,11 +11,12 @@ const AlgorithmsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  height: 100%;
+  height: auto;
   width: 100%;
   background-color: #61dafb;
   justify-content: center;
   align-items: center;
+  overflow-x: scroll;
 
   ${media.mobile} {
     justify-content: center;
@@ -31,7 +32,7 @@ const BodyWrapper = styled.div`
   flex-grow: 20;
   align-items: center;
   justify-content: space-evenly;
-  overflow-y: scroll;
+  overflow-y: visible;
   overflow-x: hidden;
 
   ${media.mobile} {
@@ -43,14 +44,15 @@ const BodyWrapper = styled.div`
 
 const ItemRowDescription = styled.div`
   width: 66%;
-  background-color: purple;
-  display: flex;
+  background-color: transparent;
+  display: grid;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: auto;
   margin-left: 10%;
   width: 100vw;
+  overflow: visible;
 
   justify-content: space-evenly;
   ${media.mobile} {
@@ -62,53 +64,26 @@ const ItemRowDescription = styled.div`
 `;
 
 const ItemRowContent = styled.div`
-  width: 66%;
-  background-color: orange;
+  background-color: transparent;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  margin-right: 10%;
-  width: 100vw;
-
+  flex-direction: row;
   justify-content: center;
+
+  margin-right: 10%;
+  min-width: 40vw;
+  max-width: 40vw;
+  min-height: 100%;
+  max-height: 100%;
+
   ${media.mobile} {
     justify-content: center;
     align-items: center;
-    width: 100%;
+    min-width: 100%;
 
-    height: 60vh;
+    min-height: 47vh;
     margin-top: "30vh";
     margin: 0%;
-  }
-`;
-
-const Item = styled.div`
-  min-width: 300px;
-  width: 30vw;
-  height: 35vh;
-  margin: 1vw;
-  border-radius: 4vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  text-overflow: ellipsis;
-
-  h1 {
-    font-size: 8vh;
-    font-weight: bolder;
-    color: white;
-  }
-  p {
-    font-size: 2vh;
-    font-weight: bolder;
-    color: white;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 10%;
-    transform: translateY(-30%);
   }
 `;
 
@@ -120,32 +95,29 @@ const InputValue = styled.input`
   text-align: center;
   font-size: 4vh;
   padding: 2vh;
-  margin-top: 2vh;
+  margin-left: 1vw;
   max-width: 10vw;
   font-weight: bold;
   color: #535353;
   outline: none;
-  margin-left: 1vh;
-  margin-right: vh;
+
   ${media.mobile} {
     max-width: none;
     border-radius: 2vh;
     width: 10vh;
     height: 2vh;
-    margin-top: 0vh;
+
     font-size: 3vh;
-    padding-left: 1vh;
-    padding-right: 1vh;
   }
 `;
 
 const AddButton = styled.div`
   display: flex;
-  width: 10vh;
+  width: 30vw;
   height: 10vh;
-  background-color: #78fc59;
+  background-color: #ffe26a;
   border-radius: 4vh;
-  margin-top: 2vh;
+
   margin-left: 2vh;
   align-items: center;
 
@@ -154,12 +126,12 @@ const AddButton = styled.div`
   p {
     font-weight: bold;
     color: white;
-    font-size: 7vh;
+    font-size: 6vh;
   }
 
   ${media.mobile} {
     border-radius: 2vh;
-    width: 6vh;
+    width: 80vw;
     height: 6vh;
     margin-top: 0vh;
 
@@ -175,7 +147,7 @@ const MinusButton = styled.div`
   height: 10vh;
   background-color: #f06449;
   border-radius: 4vh;
-  margin-top: 2vh;
+
   margin-left: 2vh;
   align-items: center;
 
@@ -251,13 +223,12 @@ const ControlHolder = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
-  height: 12vh;
-  margin-bottom: 2vh;
+  min-height: 12vh;
   align-items: center;
   justify-content: center;
 
   z-index: 0;
-  background-color: blue;
+  background-color: transparent;
   ${media.mobile} {
     height: 7vh;
     width: 100%;
@@ -267,7 +238,7 @@ const ControlHolder = styled.div`
 
 const ArrayPosHolder = styled.div`
   display: grid;
-  background-color: orange;
+  background-color: blue;
 
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr auto;
@@ -299,6 +270,20 @@ const TextInsert = styled.input`
   outline: none;
 `;
 
+const SketchHolder = styled.div`
+  min-width: 40vw;
+  max-width: 40vw;
+  min-height: 70vh;
+  max-height: 70vh;
+  background-color: transparent;
+
+  ${media.mobile} {
+    min-width: 100vw;
+    max-width: 100vw;
+    max-height: 40vh;
+    min-height: 40vh;
+  }
+`;
 function Info(props) {
   return (
     <Item style={{ backgroundColor: props.colour }}>
@@ -356,15 +341,26 @@ function BFS() {
     let nodeLinkTemp = [];
     let protection = 0;
 
+    console.log(("FRAMEH:", frameHeight + frameWidth) / 15);
+
+    let initialR;
+
+    if (window.innerWidth > 1000) {
+      initialR = 80;
+    } else {
+      initialR = 50;
+    }
+
     while (nodeLinkTemp.length < 9) {
       var Node = {
         x: Math.floor(Math.random() * (screenWidth - 100) + 50),
-        y: Math.floor(Math.random() * (screenHeight * 0.7 - 100) + 50),
-        r: 80,
+        y: Math.floor(Math.random() * (screenHeight - 100) + 50),
+        r: initialR,
         nodeID: nodeID,
         nodeValue: Math.floor(Math.random() * 99),
         isCenter: false,
-        foreground: "pink",
+        colour: "#7CED61",
+        bgColour: "#61D944",
       };
 
       //Ensures never overlaps
@@ -375,8 +371,16 @@ function BFS() {
         var b = Node.y - otherNode.y;
         var d = Math.sqrt(a * a + b * b);
 
-        if (d < (Node.r + otherNode.r) * 0.8) {
-          isOverlapping = true;
+        console.log("FRAMEW: ", frameWidth);
+
+        if (window.innerWidth > 1000) {
+          if (d < (Node.r + otherNode.r) * 0.8) {
+            isOverlapping = true;
+          }
+        } else {
+          if (d < (Node.r + otherNode.r) * 0.7) {
+            isOverlapping = true;
+          }
         }
       }
 
@@ -387,14 +391,14 @@ function BFS() {
       }
 
       protection++;
-      if (protection > 100000) {
+      if (protection > 3000) {
         console.log("too many circles");
         break;
       }
 
       setNodeLink(nodeLinkTemp);
     }
-  }, []);
+  }, [holderRef]);
 
   const setNexts = useEffect(() => {
     if (looper > 6) {
@@ -410,14 +414,28 @@ function BFS() {
 
   console.log(nodeLink);
 
-  function setup(p5, canvasParentRef) {
-    let frameWidth = holderRef.current.getBoundingClientRect().width;
-    let frameHeight = holderRef.current.getBoundingClientRect().height;
+  const [frameWidth, setFrameWidth] = useState();
+  const [frameHeight, setFrameHeight] = useState();
 
+  const [isRendered, setIsRendered] = useState(0);
+
+  const a = useEffect(() => {
+    if (holderRef.current.getBoundingClientRect().width > 0) {
+      setFrameWidth(holderRef.current.getBoundingClientRect().width);
+      setFrameHeight(holderRef.current.getBoundingClientRect().height);
+
+      for (let i = 0; i < nodeLink.length; i++) {
+        nodeLink[i].r = (frameHeight + frameWidth) / 15;
+      }
+    }
+  }, [holderRef.current, isRendered]);
+
+  function setup(p5, canvasParentRef) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 
-    p5.createCanvas(frameWidth, frameHeight * 0.8).parent(canvasParentRef);
+    p5.createCanvas(frameWidth, frameHeight).parent(canvasParentRef);
 
     p5.background("#e3dac9");
 
@@ -451,6 +469,13 @@ function BFS() {
     linkMaker(p5, 3, currentCenterIndex);
     linkMaker(p5, 2, secondLinks);
   }
+
+  let centerNodeColourer = useEffect(() => {
+    if (centerNode !== null) {
+      centerNode.colour = "#6BEBD8";
+      centerNode.bgColour = "#54CCBA";
+    }
+  }, centerNode);
 
   function linkMaker(p5, numConnections, nodeIndex) {
     console.log("Linkmaker Clay");
@@ -528,10 +553,6 @@ function BFS() {
   let draw = (p5) => {
     p5.clear();
     p5.noStroke();
-    p5.background("#e3dac9");
-
-    let frameWidth = holderRef.current.getBoundingClientRect().width;
-    let frameHeight = holderRef.current.getBoundingClientRect().height;
 
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
@@ -542,9 +563,9 @@ function BFS() {
         if (adjacencyMatrix[m][k] === 1 && adjacencyMatrix[k][m] == 1) {
           p5.strokeWeight(20);
 
-          p5.stroke("#72ff98");
+          p5.stroke("#7CED61");
           p5.line(nodeLink[m].x, nodeLink[m].y, nodeLink[k].x, nodeLink[k].y);
-          p5.stroke("#9bffb6");
+          p5.stroke("#61D944");
           p5.line(
             nodeLink[m].x + nodeLink[m].r / 6,
             nodeLink[m].y,
@@ -558,9 +579,9 @@ function BFS() {
 
     if (activeNode) {
       p5.strokeWeight(20);
-      p5.stroke("#72ff98");
+      p5.stroke("#7CED61");
       p5.line(activeNode.x, activeNode.y, currX, currY);
-      p5.stroke("#9bffb6");
+      p5.stroke("#61D944");
       p5.line(
         activeNode.x + activeNode.r / 6,
         activeNode.y,
@@ -573,7 +594,7 @@ function BFS() {
 
     for (let i = 0; i < nodeLink.length; i++) {
       //Background Circle
-      p5.fill(p5.color("red"));
+      p5.fill(p5.color(nodeLink[i].bgColour));
       p5.ellipse(
         nodeLink[i].x + nodeLink[i].r / 6,
         nodeLink[i].y,
@@ -582,11 +603,19 @@ function BFS() {
       );
 
       //Foreground Circle
-      p5.fill(p5.color(nodeLink[i].foreground));
+      p5.fill(p5.color(nodeLink[i].colour));
       p5.ellipse(nodeLink[i].x, nodeLink[i].y, nodeLink[i].r, nodeLink[i].r);
     }
 
-    p5.fill(p5.color("orange"));
+    p5.fill(p5.color(centerNode.bgColour));
+    p5.ellipse(
+      centerNode.x + centerNode.r / 6,
+      centerNode.y,
+      centerNode.r,
+      centerNode.r
+    );
+
+    p5.fill(p5.color(centerNode.colour));
     p5.ellipse(centerNode.x, centerNode.y, centerNode.r, centerNode.r);
 
     for (let i = 0; i < nodeLink.length; i++) {
@@ -599,47 +628,13 @@ function BFS() {
       p5.fill(p5.color("#72ff98"));
     }
 
+    for (let i = 0; i < nodeLink.length; i++) {
+      nodeLink[i].r = (frameHeight + frameWidth) / 15;
+    }
+
     //Creating Text
     //linkMaker(p5, 3, 1);
   };
-
-  async function addNode() {}
-
-  async function removeNode() {
-    let temp = [...nodeLink];
-    let newTemp;
-
-    console.log("nodeValue: ", nodeValue);
-    console.log("==", nodeValue == nodeLink[1].value);
-
-    for (let i = 0; i < temp.length; i++) {
-      nodeLink[i].colour = "#CB391E";
-      nodeLink[i].bgColour = "#DD4125";
-      await sleep(1000);
-      nodeLink[i].colour = "#72ff98";
-      nodeLink[i].bgColour = "#9bffb6";
-
-      if (temp[i].value == nodeValue) {
-        nodeLink[i].colour = "purple";
-        await sleep(1000);
-        if (i > 0) {
-          temp[i - 1].next = temp[i + 1];
-        }
-
-        for (let j = temp.length - 1; j > i; j--) {
-          temp[j].x = temp[j - 1].x;
-          temp[j].y = temp[j - 1].y;
-        }
-
-        temp.splice(i, 1);
-        setNodeLink(temp);
-        console.log("Index: ", i);
-        setNodeY(nodeY - globalHeight / 8);
-        //do nodex
-        break;
-      }
-    }
-  }
 
   function sleep(ms) {
     console.log(ms);
@@ -648,11 +643,14 @@ function BFS() {
 
   function mouseWheel(event) {
     console.log(event);
-    for (let m = 0; m < nodeLink.length; m++) {
-      nodeLink[m].y += event._mouseWheelDeltaY / 8;
-    }
 
-    setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
+    if (event.mouseX > 0 && event.mouseY > 0) {
+      for (let m = 0; m < nodeLink.length; m++) {
+        nodeLink[m].y += event._mouseWheelDeltaY / 8;
+      }
+
+      setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
+    }
   }
 
   function mousePressed(p5) {
@@ -741,6 +739,9 @@ function BFS() {
       if (distance < nodeLink[i].r && activeNode == null) {
         nodeLink[i].active = true;
         activeNode = nodeLink[i];
+
+        document.body.style.overflow = "hidden";
+
         currIndex = i;
       }
     }
@@ -770,9 +771,18 @@ function BFS() {
       currX = null;
       currY = null;
     }
+
+    document.body.style.overflow = "auto";
   }
 
   async function breadthFirstSearch() {
+    for (let m = 0; m < nodeLink.length; m++) {
+      if (nodeLink[m] !== centerNode) {
+        nodeLink[m].colour = "#CB391E";
+        nodeLink[m].bgColour = "#DD4125";
+      }
+    }
+
     let s = centerIndex;
 
     //Setting all visited to false
@@ -783,7 +793,6 @@ function BFS() {
 
     //Creating the queue
     let queue = [];
-    let neighbours = [];
 
     //Marking initial as visited
     visited[s] = true;
@@ -794,6 +803,7 @@ function BFS() {
     while (queue.length > 0) {
       s = queue[0];
       console.log("S:", s);
+      queue.shift();
 
       for (let j = 0; j < adjacencyMatrix[s].length; j++) {
         if (adjacencyMatrix[s][j] == 1) {
@@ -801,7 +811,8 @@ function BFS() {
             visited[j] = true;
             queue.push(j);
 
-            nodeLink[j].foreground = "green";
+            nodeLink[j].colour = "green";
+            nodeLink[j].backgroundColor = "darkgreen";
             console.log("Queue: ", queue);
 
             await sleep(500);
@@ -833,7 +844,7 @@ function BFS() {
           if (visited[i] == false) {
             stack.push(i);
             visited[i] = true;
-            nodeLink[i].foreground = "blue";
+            nodeLink[i].colour = "blue";
 
             await sleep(500);
           }
@@ -841,6 +852,18 @@ function BFS() {
       }
     }
   }
+
+  function windowResized(p5) {
+    p5.resizeCanvas(
+      holderRef.current.getBoundingClientRect().width,
+      holderRef.current.getBoundingClientRect().height
+    );
+
+    setGlobalHeight(p5.windowHeight);
+    console.log("resize");
+  }
+
+  function test() {}
 
   return (
     <AlgorithmsWrapper className="BFS">
@@ -855,7 +878,7 @@ function BFS() {
         <div style={{ position: "absolute" }}></div>
         <ItemRowDescription>
           <Info
-            colour="#F06449"
+            colour="#F76146"
             title="description"
             description="arrays are a way of storing data.
             arrays are made up of ‘elements’, which
@@ -867,7 +890,7 @@ function BFS() {
             "
           />
           <Info
-            colour="#6DD3CE"
+            colour="#40B8ED"
             title="use cases"
             description="arrays are best used in applications
             where data will often be accessed,
@@ -878,21 +901,36 @@ function BFS() {
             "
           />
         </ItemRowDescription>
-        <ItemRowContent id="IRC" ref={holderRef}>
-          <Sketch
-            setup={setup}
-            draw={draw}
-            mousePressed={mousePressed}
-            mouseDragged={mouseDragged}
-            mouseReleased={mouseReleased}
-            mouseWheel={mouseWheel}
-          />
+        <ItemRowContent>
+          <SketchHolder id="IRC" ref={holderRef}>
+            {frameWidth < 1 && (
+              <Sketch
+                setup={test}
+                draw={draw}
+                mousePressed={mousePressed}
+                mouseDragged={mouseDragged}
+                mouseReleased={mouseReleased}
+                mouseWheel={mouseWheel}
+              />
+            )}
+            {frameWidth > 1 && (
+              <Sketch
+                setup={setup}
+                draw={draw}
+                mousePressed={mousePressed}
+                mouseDragged={mouseDragged}
+                mouseReleased={mouseReleased}
+                mouseWheel={mouseWheel}
+                windowResized={windowResized}
+              />
+            )}
+          </SketchHolder>
 
           <ControlHolder>
-            <InputValue />
+            {/**  <InputValue />*/}
 
-            <AddButton onClick={() => depthFirstSearch()}>
-              <p>+</p>
+            <AddButton onClick={() => breadthFirstSearch()}>
+              <p>search</p>
             </AddButton>
           </ControlHolder>
         </ItemRowContent>

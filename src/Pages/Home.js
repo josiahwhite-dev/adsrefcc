@@ -8,7 +8,7 @@ const HomeWrapper = styled.div`
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: #61dafb;
+  background-color: transparent;
   justify-content: center;
   align-items: center;
 `;
@@ -25,35 +25,7 @@ const BodyWrapper = styled.div`
 
   ${media.mobile} {
     justify-content: flex-start;
-  }
-`;
-
-const Item = styled.div`
-  width: 35%;
-  height: 45%;
-  border-radius: 4vw;
-  min-width: 672px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-
-  p {
-    font-size: 4em;
-    font-weight: bolder;
-    color: white;
-  }
-
-  ${media.mobile} {
-    min-width: 0px;
-    width: 80%;
-    height: 25%;
-    border-radius: 8vw;
-    margin-top: 20%;
-
-    p {
-      font-size: calc(4vh + 1vw);
-    }
+    margin-top: 10vh;
   }
 `;
 
@@ -63,22 +35,61 @@ const HomeTitle = styled.h1`
   padding-left: 5%;
 `;
 
-function DataStructures() {
+const Item = styled.div`
+  min-width: 600px;
+  min-height: 250px;
+  width: 30vw;
+  height: auto;
+  margin: 1vw;
+  border-radius: 4vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: auto;
+  margin-bottom: 1vh;
+  text-decoration: none;
+  text-align: center;
+
+  h1 {
+    font-size: calc(6vh + 1vw);
+    font-weight: bolder;
+    color: white;
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
+  p {
+    font-size: 2vh;
+    font-weight: bolder;
+    color: white;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+    transform: translateY(-30%);
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  ${media.mobile} {
+    min-width: 150px;
+    min-height: 100px;
+    width: 90vw;
+    border-radius: 8vh;
+  }
+`;
+
+function DataStructures(props) {
   return (
     <Item
+      BackLink
       as={Link}
-      to="/datastructures"
-      style={{ backgroundColor: "#78FC59", textDecoration: "none" }}
+      to={props.url}
+      style={{ backgroundColor: props.colour }}
     >
-      <p style={{ paddingLeft: "10%" }}>data</p>
-      <p
-        style={{
-          alignSelf: "flex-end",
-          paddingRight: "3%",
-        }}
-      >
-        structures
-      </p>
+      <h1>{props.title}</h1>
+
+      <p>{props.description}</p>
     </Item>
   );
 }
@@ -102,8 +113,12 @@ function Home() {
         <HomeTitle>adsref.cc</HomeTitle>
       </TopWrapper>
       <BodyWrapper>
-        <DataStructures />
-        <Algorithms />
+        <DataStructures url="/algorithms" colour="#85DEDA" title="algorithms" />
+        <DataStructures
+          url="/datastructures"
+          colour="#8CE278"
+          title="data structures"
+        />
       </BodyWrapper>
     </HomeWrapper>
   );

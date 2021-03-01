@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
-import { TopWrapper, Title, media } from "../../Shared";
+import { TopWrapper, Title, media, Item } from "../../Shared";
 
 import React, { useState, useEffect, useRef } from "react";
 import Sketch from "react-p5";
@@ -87,40 +87,6 @@ const ItemRowContent = styled.div`
   }
 `;
 
-const Item = styled.div`
-  min-width: 300px;
-  width: 30vw;
-  height: auto;
-  margin: 1vw;
-  border-radius: 4vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: auto;
-  margin-bottom: 1vh;
-
-  h1 {
-    font-size: 8vh;
-    font-weight: bolder;
-    color: white;
-  }
-  p {
-    font-size: 2vh;
-    font-weight: bolder;
-    color: white;
-    margin: 2vh;
-    margin-top: 4vh;
-    transform: translateY(-30%);
-  }
-
-  ${media.mobile} {
-    width: 90vw;
-    max-width: 400px;
-    border-radius: 8vh;
-  }
-`;
-
 const InputValue = styled.input`
   border: 0;
   background-color: #e8e8e8;
@@ -149,7 +115,7 @@ const AddButton = styled.div`
   display: flex;
   width: 30vw;
   height: 10vh;
-  background-color: #78fc59;
+  background-color: #ffe26a;
   border-radius: 4vh;
 
   margin-left: 2vh;
@@ -397,8 +363,9 @@ function Dijkstra() {
         id: nodeID,
         r: (frameHeight + frameWidth) / 15,
         distance: [],
-        colour: "#72ff98",
-        bgColour: "#9bffb6",
+
+        colour: "#7CED61",
+        bgColour: "#61D944",
         active: false,
         connections: [],
       };
@@ -453,6 +420,7 @@ function Dijkstra() {
   console.log(nodeLink);
 
   function setup(p5, canvasParentRef) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setIsRendered(isRendered + 1);
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
@@ -563,7 +531,9 @@ function Dijkstra() {
     for (let m = 0; m < nodeLink.length; m++) {
       for (let w = 0; w < nodeLink[m].connections.length; w++) {
         p5.strokeWeight(frameWidth / 30);
-        p5.stroke("#72ff98");
+
+        p5.stroke(nodeLink[m].colour);
+
         p5.line(
           nodeLink[m].x,
           nodeLink[m].y,
@@ -573,6 +543,7 @@ function Dijkstra() {
 
         //Setting Distances;
         //Now the graph is weighted!
+
         nodeLink[m].distance[w] = Math.floor(
           p5.dist(
             nodeLink[m].x,
@@ -582,7 +553,7 @@ function Dijkstra() {
           )
         );
 
-        p5.stroke("#9bffb6");
+        p5.stroke(nodeLink[m].bgColour);
         p5.line(
           nodeLink[m].x + nodeLink[m].r / 6,
           nodeLink[m].y,
@@ -657,8 +628,8 @@ function Dijkstra() {
 
   async function addNode() {
     for (let m = 0; m < nodeLink.length; m++) {
-      nodeLink[m].colour = "#72ff98";
-      nodeLink[m].bgColour = "#9bffb6";
+      nodeLink[m].colour = "#7CED61";
+      nodeLink[m].bgColour = "#61D944";
     }
     //Visiting
     let visited = [];
@@ -751,11 +722,13 @@ function Dijkstra() {
 
   function mouseWheel(event) {
     console.log(event);
-    for (let m = 0; m < nodeLink.length; m++) {
-      nodeLink[m].y += event._mouseWheelDeltaY / 8;
-    }
+    if (event.mouseX > 0 && event.mouseY > 0) {
+      for (let m = 0; m < nodeLink.length; m++) {
+        nodeLink[m].y += event._mouseWheelDeltaY / 8;
+      }
 
-    setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
+      setNodeY(nodeLink[nodeLink.length - 1].y + globalHeight / 8);
+    }
   }
 
   const [mouseCurrentY, setMouseCurrentY] = useState();
@@ -778,9 +751,8 @@ function Dijkstra() {
       if (distance < nodeLink[i].r) {
         nodeLink[i].active = true;
         isMovingObject = true;
-        window.onscroll = function () {
-          document.body.style.overflow = "hidden";
-        };
+
+        document.body.style.overflow = "hidden";
       }
     }
     if (isMovingObject == true) {
@@ -796,9 +768,8 @@ function Dijkstra() {
     if (!isMovingObject) {
       if (window.innerWidth > 1000) {
         if (p5.mouseX > 0 && p5.mouseY > 0) {
-          window.onscroll = function () {
-            document.body.style.overflow = "hidden";
-          };
+          document.body.style.overflow = "hidden";
+
           for (let i = 0; i < nodeLink.length; i++) {
             if (p5.mouseY < mouseCurrentY) {
               nodeLink[i].y += p5.mouseX / 50;
@@ -809,9 +780,7 @@ function Dijkstra() {
         }
       } else {
         if (p5.mouseY < frameHeight) {
-          window.onscroll = function () {
-            window.scrollTo(0, 0);
-          };
+          document.body.style.overflow = "hidden";
           for (let i = 0; i < nodeLink.length; i++) {
             if (p5.mouseY < mouseCurrentY) {
               nodeLink[i].y += p5.mouseX / 100;
@@ -834,7 +803,7 @@ function Dijkstra() {
         nodeLink[i].active = false;
       }
     }
-    window.onscroll = function () {};
+    document.body.style.overflow = "auto";
   }
 
   return (
@@ -849,7 +818,7 @@ function Dijkstra() {
       <BodyWrapper>
         <ItemRowDescription>
           <Info
-            colour="#F06449"
+            colour="#F76146"
             title="description"
             description="arrays are a way of storing data.
             arrays are made up of ‘elements’, which
@@ -861,7 +830,7 @@ function Dijkstra() {
             "
           />
           <Info
-            colour="#6DD3CE"
+            colour="#40B8ED"
             title="use cases"
             description="arrays are best used in applications
             where data will often be accessed,
@@ -908,7 +877,7 @@ function Dijkstra() {
            />*/}
 
             <AddButton onClick={() => addNode()}>
-              <p>+</p>
+              <p>start</p>
             </AddButton>
           </ControlHolder>
         </ItemRowContent>

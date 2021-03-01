@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "./icons/BackArrow.svg";
 import styled from "styled-components";
-import { TopWrapper, Title, media } from "./Shared";
+import { TopWrapper, Title, media, Item } from "./Shared";
 
 const DataStructuresWrapper = styled.div`
   display: flex;
@@ -41,40 +41,6 @@ const ItemRow = styled.div`
   }
 `;
 
-const Item = styled.div`
-  min-width: 300px;
-  width: 30vw;
-  height: auto;
-  margin: 1vw;
-  border-radius: 4vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: auto;
-  margin-bottom: 1vh;
-  text-decoration: none;
-
-  h1 {
-    font-size: 8vh;
-    font-weight: bolder;
-    color: white;
-  }
-  p {
-    font-size: 2vh;
-    font-weight: bolder;
-    color: white;
-    margin: 2vh;
-    margin-top: 4vh;
-    transform: translateY(-30%);
-  }
-
-  ${media.mobile} {
-    width: 90vw;
-    border-radius: 8vh;
-  }
-`;
-
 const BackLink = styled.div`
   /* lets use react link */
 `;
@@ -107,7 +73,7 @@ function DataStructures() {
       <BodyWrapper>
         <ItemRow>
           <DataType
-            colour="#F06449"
+            colour="#F76146"
             title="array"
             url="/array"
             description="arrays are data structures that store data
@@ -116,7 +82,7 @@ memory, making them ideal for storing
 data you will be accessing regularly "
           />
           <DataType
-            colour="#6DD3CE"
+            colour="#40B8ED"
             title="vector"
             description="arrays are data structures that store data
 right next to each other in computer 
@@ -124,7 +90,7 @@ memory, making them ideal for storing
 data you will be accessing regularly "
           />
           <DataType
-            colour="#78FC59"
+            colour="#7CED61"
             url="/linkedlist"
             title="linked list"
             description="arrays are data structures that store data
@@ -141,7 +107,7 @@ memory, making them ideal for storing
 data you will be accessing regularly "
           />
           <DataType
-            colour="#F3D34A"
+            colour="#FFE26A"
             title="red black tree"
             description="arrays are data structures that store data
 right next to each other in computer 

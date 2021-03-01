@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
-import { TopWrapper, Title, media } from "../../Shared";
+import { TopWrapper, Title, media, Item } from "../../Shared";
 
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Sketch from "react-p5";
@@ -84,40 +84,6 @@ const ItemRowContent = styled.div`
     min-height: 47vh;
     margin-top: "30vh";
     margin: 0%;
-  }
-`;
-
-const Item = styled.div`
-  min-width: 300px;
-  width: 30vw;
-  height: auto;
-  margin: 1vw;
-  border-radius: 4vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: auto;
-  margin-bottom: 1vh;
-
-  h1 {
-    font-size: 8vh;
-    font-weight: bolder;
-    color: white;
-  }
-  p {
-    font-size: 2vh;
-    font-weight: bolder;
-    color: white;
-    margin: 2vh;
-    margin-top: 4vh;
-    transform: translateY(-30%);
-  }
-
-  ${media.mobile} {
-    width: 90vw;
-    max-width: 400px;
-    border-radius: 8vh;
   }
 `;
 
@@ -415,6 +381,7 @@ function BFS() {
   const [alreadyDone, setAlreadyDone] = useState(0);
 
   function setup(p5, canvasParentRef) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 

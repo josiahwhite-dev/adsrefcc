@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "./icons/BackArrow.svg";
 import styled from "styled-components";
-import { TopWrapper, Title, media } from "./Shared";
+import { TopWrapper, Title, media, Item } from "./Shared";
 
 const AlgorithmsWrapper = styled.div`
   display: flex;
@@ -41,40 +41,6 @@ const ItemRow = styled.div`
   }
 `;
 
-const Item = styled.div`
-  min-width: 300px;
-  width: 30vw;
-  height: auto;
-  margin: 1vw;
-  border-radius: 4vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: auto;
-  margin-bottom: 1vh;
-  text-decoration: none;
-
-  h1 {
-    font-size: 8vh;
-    font-weight: bolder;
-    color: white;
-  }
-  p {
-    font-size: 2vh;
-    font-weight: bolder;
-    color: white;
-    margin: 2vh;
-    margin-top: 4vh;
-    transform: translateY(-30%);
-  }
-
-  ${media.mobile} {
-    width: 90vw;
-    border-radius: 8vh;
-  }
-`;
-
 const BackLink = styled.div`
   /* lets use react link */
   padding-left: 2%;
@@ -109,7 +75,7 @@ function Algorithms() {
         <ItemRow>
           <DataType
             url="/binarysearch"
-            colour="#F06449"
+            colour="#7CED61"
             title="binary search"
             description="linked lists are a structure made
             up of nodes. nodes hold a data
@@ -120,7 +86,7 @@ function Algorithms() {
             that need to be updated."
           />
           <DataType
-            colour="#6DD3CE"
+            colour="#40B8ED"
             title="bubble sort"
             description="linked lists are a structure made
             up of nodes. nodes hold a data
@@ -132,7 +98,7 @@ function Algorithms() {
           />
           <DataType
             url="/quicksort"
-            colour="#78FC59"
+            colour="#D586F8"
             title="quick sort"
             description="linked lists are a structure made
             up of nodes. nodes hold a data
@@ -155,7 +121,7 @@ function Algorithms() {
           />
           <DataType
             url="/dijkstra"
-            colour="#F3D34A"
+            colour="#6BEBD8"
             title="dijkstra's algorithm"
             description="alinked lists are a structure made
             up of nodes. nodes hold a data
@@ -168,7 +134,7 @@ function Algorithms() {
           />
           <DataType
             url="/bfs"
-            colour="#F3D34A"
+            colour="#FFE26A"
             title="BFS"
             description="alinked lists are a structure made
             up of nodes. nodes hold a data
