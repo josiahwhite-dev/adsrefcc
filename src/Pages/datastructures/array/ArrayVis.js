@@ -9,14 +9,14 @@ const AlgorithmsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  height: auto;
+  /*height: auto;*/
+
   width: 100%;
   background-color: #61dafb;
   justify-content: center;
   align-items: center;
-  overflow-x: scroll;
 
-  ${media.mobile} {
+  s ${media.mobile} {
     justify-content: center;
     align-items: center;
   }
@@ -28,10 +28,8 @@ const BodyWrapper = styled.div`
   width: 100%;
   background-color: honeydew;
   flex-grow: 20;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
-  overflow-y: visible;
-  overflow-x: hidden;
 
   ${media.mobile} {
     flex-direction: column-reverse;
@@ -47,10 +45,11 @@ const ItemRowDescription = styled.div`
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+
   height: auto;
+
   margin-left: 10%;
   width: 100vw;
-  overflow: visible;
 
   justify-content: space-evenly;
   ${media.mobile} {
@@ -67,10 +66,12 @@ const ItemRowContent = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
   height: auto;
   margin-right: 10%;
   width: 100vw;
+  margin-top: 10vh;
 
   justify-content: center;
   ${media.mobile} {
@@ -174,8 +175,6 @@ const ArrayHolder = styled.div`
   padding-top: 2vh;
 
   align-items: center;
-  overflow-y: visible;
-  overflow-x: hidden;
 
   h1 {
     color: #535353;
@@ -236,6 +235,15 @@ const ArrayPosHolder = styled.div`
 const BackLink = styled.div`
   /* lets use react link */
   padding-left: 2%;
+`;
+
+const StaticPosition = styled.div`
+  position: fixed;
+  margin-top: 40vh;
+  ${media.mobile} {
+    margin-top: inherit;
+    position: relative;
+  }
 `;
 
 function Info(props) {
@@ -355,25 +363,61 @@ function ArrayVis() {
           <Info
             colour="#F06449"
             title="description"
-            description="arrays are a way of storing data.
-            arrays are made up of ‘elements’, which
-            store one piece of data each. each
-            element is stored directly next to the
-            previous one in memory (contiguity),
-            meaning access is fast, but new elements
-            cannot be added once the array has been made
-            "
+            description={
+              <div>
+                <p>
+                  arrays are a way of storing data. <br />
+                  <br />
+                  they are made up of elements, which can hold a piece of data,
+                  like a number, or even another array. <br />
+                  <br />
+                  elements are stored right next to each other in computer
+                  memory (contiguity), which means going from one element to the
+                  next is extremely fast.
+                  <br />
+                  <br />
+                  however, this also means that inserting/deleting elements
+                  cannot be done, as elements are already right next to each
+                  other.
+                </p>
+              </div>
+            }
           />
           <Info
             colour="#6DD3CE"
             title="use cases"
-            description="arrays are best used in applications
-            where data will often be accessed,
-            as accessing an element is inexpensive.
-            however, this comes at the cost of
-            a greater insertion/deletion cost than
-            something like a linked list.  
-            "
+            description={
+              <div>
+                <p>
+                  arrays are best used in applications where data will often be
+                  accessed, as accessing an element is inexpensive.
+                  <br />
+                  <br />
+                  however, this comes at the cost of a greater
+                  insertion/deletion cost than something like a linked list.
+                </p>
+              </div>
+            }
+          />
+          <Info
+            colour="#FFA5B2"
+            title="costs"
+            description={
+              <div>
+                <p>
+                  access element: O(1)
+                  <br />
+                  <br />
+                  search: O(n)
+                  <br />
+                  <br />
+                  insert data: O(n)
+                  <br />
+                  <br />
+                  delete data: O(n)
+                </p>
+              </div>
+            }
           />
         </ItemRowDescription>
         <ItemRowContent>
@@ -388,49 +432,50 @@ function ArrayVis() {
             movement={"5vw"}
           />
           <Array value={30} movement={"-5vw"} />*/}
+          <StaticPosition>
+            <ArrayHolder>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <h1>Value:</h1>
+                <ArrayPosHolder>
+                  {arrayLink.map(({ arrayValue, arrayID }) => (
+                    <React.Fragment>
+                      <ArrayElement
+                        value={arrayValue}
+                        id={arrayID}
+                        movement={arrayTransform}
+                      />
+                    </React.Fragment>
+                  ))}
+                </ArrayPosHolder>
+                <h1>Position:</h1>
+                <ArrayPosHolder>
+                  {positionLink.map(({ arrayValue, arrayID }) => (
+                    <React.Fragment>
+                      <ArrayElement
+                        value={arrayID}
+                        id={arrayID}
+                        movement={arrayTransform}
+                      />
+                    </React.Fragment>
+                  ))}
+                </ArrayPosHolder>
+              </div>
+            </ArrayHolder>
 
-          <ArrayHolder>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <h1>Value:</h1>
-              <ArrayPosHolder>
-                {arrayLink.map(({ arrayValue, arrayID }) => (
-                  <React.Fragment>
-                    <ArrayElement
-                      value={arrayValue}
-                      id={arrayID}
-                      movement={arrayTransform}
-                    />
-                  </React.Fragment>
-                ))}
-              </ArrayPosHolder>
-              <h1>Position:</h1>
-              <ArrayPosHolder>
-                {positionLink.map(({ arrayValue, arrayID }) => (
-                  <React.Fragment>
-                    <ArrayElement
-                      value={arrayID}
-                      id={arrayID}
-                      movement={arrayTransform}
-                    />
-                  </React.Fragment>
-                ))}
-              </ArrayPosHolder>
-            </div>
-          </ArrayHolder>
-
-          <ControlHolder>
-            <InputValue
-              placeholder="value"
-              onChange={(event) => setArrayValue(event.target.value)}
-            />
-            <InputValue
-              placeholder="position"
-              onChange={(event) => setArrayPosition(event.target.value)}
-            />
-            <AddButton onClick={() => handleUpdateElement()}>
-              <p>+</p>
-            </AddButton>
-          </ControlHolder>
+            <ControlHolder>
+              <InputValue
+                placeholder="value"
+                onChange={(event) => setArrayValue(event.target.value)}
+              />
+              <InputValue
+                placeholder="position"
+                onChange={(event) => setArrayPosition(event.target.value)}
+              />
+              <AddButton onClick={() => handleUpdateElement()}>
+                <p>+</p>
+              </AddButton>
+            </ControlHolder>
+          </StaticPosition>
         </ItemRowContent>
       </BodyWrapper>
     </AlgorithmsWrapper>

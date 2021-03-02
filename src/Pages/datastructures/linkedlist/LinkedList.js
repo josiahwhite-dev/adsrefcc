@@ -30,7 +30,7 @@ const BodyWrapper = styled.div`
   width: 100%;
   background-color: honeydew;
   flex-grow: 20;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
   overflow-y: visible;
   overflow-x: hidden;
@@ -69,12 +69,13 @@ const ItemRowContent = styled.div`
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
+  align-items: flex-start;
 
   margin-right: 10%;
   min-width: 40vw;
   max-width: 40vw;
-  min-height: 100%;
-  max-height: 100%;
+  min-height: 100vh;
+  max-height: 100vh;
 
   ${media.mobile} {
     justify-content: center;
@@ -282,6 +283,14 @@ const SketchHolder = styled.div`
     max-width: 100vw;
     max-height: 40vh;
     min-height: 40vh;
+  }
+`;
+
+const StaticPosition = styled.div`
+  position: fixed;
+  ${media.mobile} {
+    margin-top: inherit;
+    position: relative;
   }
 `;
 
@@ -661,68 +670,109 @@ function BFS() {
           <Info
             colour="#F06449"
             title="description"
-            description="arrays are a way of storing data.
-            arrays are made up of ‘elements’, which
-            store one piece of data each. each
-            element is stored directly next to the
-            previous one in memory (contiguity),
-            meaning access is fast, but new elements
-            cannot be added once the array has been made
-            "
+            description={
+              <div>
+                <p>
+                  linked lists are made up of nodes, which contain data and an
+                  address. the address 'points' to where the next node in the
+                  sequence is in memory. these addresses can be easily changed,
+                  making reording simple.
+                  <br />
+                  <br />
+                  however, this comes at the cost of a greater access cost than
+                  something like an array, as nodes are rarely right next to
+                  each other in memory.
+                </p>
+              </div>
+            }
           />
           <Info
             colour="#6DD3CE"
             title="use cases"
-            description="arrays are best used in applications
-            where data will often be accessed,
-            as accessing an element is inexpensive.
-            however, this comes at the cost of
-            a greater insertion/deletion cost than
-            something like a linked list.  
-            "
+            description={
+              <div>
+                <p>
+                  linked lists are best used in applications where data will
+                  often be inserted or removed, as changing the order of
+                  elements is inexpensive.
+                  <br />
+                  <br />
+                  some web browsers store browser history with a linked list.
+                  this makes sense, as every time a website is visited, new data
+                  would need to be added, or when history is removed, data
+                  removed.
+                  <br />
+                  <br />
+                  essentially, linked lists are useful when storing data is done
+                  more frequently than accessing data
+                </p>
+              </div>
+            }
+          />
+          <Info
+            colour="#FFA5B2"
+            title="costs"
+            description={
+              <div>
+                <p>
+                  access element: O(n)
+                  <br />
+                  <br />
+                  search: O(n)
+                  <br />
+                  <br />
+                  insert data: O(1)
+                  <br />
+                  <br />
+                  delete data: O(1)
+                </p>
+              </div>
+            }
           />
         </ItemRowDescription>
         <ItemRowContent>
-          <SketchHolder id="IRC" ref={holderRef}>
-            {
-              // This fixes the issue of the render paradox
-              //Width of is not known until render, but conditional statement
-              //Forces rerender and fixes issue
-              frameWidth < 1 && (
+          <StaticPosition>
+            <SketchHolder id="IRC" ref={holderRef}>
+              {
+                // This fixes the issue of the render paradox
+                //Width of is not known until render, but conditional statement
+                //Forces rerender and fixes issue
+                frameWidth < 1 && (
+                  <Sketch
+                    setup={test}
+                    draw={draw}
+                    windowResized={windowResized}
+                    mouseWheel={mouseWheel}
+                  />
+                )
+              }
+              {frameWidth > 1 && (
                 <Sketch
-                  setup={test}
+                  setup={setup}
                   draw={draw}
                   windowResized={windowResized}
                   mouseWheel={mouseWheel}
+                  mouseDragged={mouseDragged}
+                  mousePressed={mousePressed}
+                  mouseReleased={mouseReleased}
                 />
-              )
-            }
-            {frameWidth > 1 && (
-              <Sketch
-                setup={setup}
-                draw={draw}
-                windowResized={windowResized}
-                mouseWheel={mouseWheel}
-                mouseDragged={mouseDragged}
-                mousePressed={mousePressed}
-                mouseReleased={mouseReleased}
+              )}
+            </SketchHolder>
+
+            <ControlHolder>
+              <InputValue
+                placeholder="value"
+                onChange={(event) => setNodeValue(event.target.value)}
               />
-            )}
-          </SketchHolder>
 
-          <ControlHolder>
-            <InputValue
-              placeholder="value"
-              onChange={(event) => setNodeValue(event.target.value)}
-            />
-
-            <AddButton onClick={() => addNode()}>
-              <p>+</p>
-            </AddButton>
-            <MinusButton onClick={() => removeNode()}>
-              <p>-</p>
-            </MinusButton>
-          </ControlHolder>
+              <AddButton onClick={() => addNode()}>
+                <p>+</p>
+              </AddButton>
+              <MinusButton onClick={() => removeNode()}>
+                <p>-</p>
+              </MinusButton>
+            </ControlHolder>
+          </StaticPosition>
         </ItemRowContent>
       </BodyWrapper>
     </AlgorithmsWrapper>

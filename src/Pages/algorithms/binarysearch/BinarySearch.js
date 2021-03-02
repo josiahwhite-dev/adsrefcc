@@ -28,7 +28,7 @@ const BodyWrapper = styled.div`
   width: 100%;
   background-color: honeydew;
   flex-grow: 20;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
   overflow-y: visible;
   overflow-x: hidden;
@@ -262,6 +262,15 @@ const TextInsert = styled.input`
   outline: none;
 `;
 
+const StaticPosition = styled.div`
+  position: fixed;
+  margin-top: 60vh;
+  ${media.mobile} {
+    margin-top: inherit;
+    position: relative;
+  }
+`;
+
 function Info(props) {
   return (
     <Item style={{ backgroundColor: props.colour }}>
@@ -471,27 +480,61 @@ function BinarySearch() {
       <BodyWrapper>
         <ItemRowDescription>
           <Info
-            colour="#F76146"
+            colour="#F06449"
             title="description"
-            description="arrays are a way of storing data.
-            arrays are made up of ‘elements’, which
-            store one piece of data each. each
-            element is stored directly next to the
-            previous one in memory (contiguity),
-            meaning access is fast, but new elements
-            cannot be added once the array has been made
-            "
+            description={
+              <div>
+                <p>
+                  binary search is a simple search algorithm for sorted arrays{" "}
+                  <br />
+                  <br />
+                  it works by first checking the value at the middle of the
+                  array. if this value is greater than the value that it is
+                  searching for, this must mean that the target value is in the
+                  first half of the array. if it is smaller than the value it is
+                  searching for, then the target value must be in the second
+                  half of the array.
+                  <br />
+                  <br />
+                  then, the value at the middle element of whichever side the
+                  target value must be in is found, and the process is repeated.
+                </p>
+              </div>
+            }
           />
           <Info
-            colour="#40B8ED"
+            colour="#6DD3CE"
             title="use cases"
-            description="arrays are best used in applications
-            where data will often be accessed,
-            as accessing an element is inexpensive.
-            however, this comes at the cost of
-            a greater insertion/deletion cost than
-            something like a linked list.  
-            "
+            description={
+              <div>
+                <p>
+                  while this search algorithm is relatively easy to understand
+                  and implement, it only works if the array is sorted.
+                  otherwise, it will not know which half of the array to look
+                  in.
+                  <br />
+                  <br />
+                  therefore, it should only be used applications where data is
+                  sorted. this could be in something like a library catalogue
+                  where books are sorted in id or name order.
+                </p>
+              </div>
+            }
+          />
+          <Info
+            colour="#FFA5B2"
+            title="cost"
+            description={
+              <div>
+                <p>
+                  binary search: O(log n)
+                  <br />
+                  <br />
+                  why? every iteration, the number of elements being looked at
+                  is halved.
+                </p>
+              </div>
+            }
           />
         </ItemRowDescription>
         <ItemRowContent>
@@ -506,58 +549,64 @@ function BinarySearch() {
             movement={"5vw"}
           />
           <Array value={30} movement={"-5vw"} />*/}
+          <StaticPosition>
+            <ArrayHolder>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <h1>status: {found}</h1>
 
-          <ArrayHolder>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <h1>status: {found}</h1>
+                <ArrayPosHolder>
+                  {arrayLink.map(
+                    ({
+                      arrayValue,
+                      arrayID,
+                      foreground,
+                      background,
+                      elementState,
+                      elementTextColour,
+                    }) => (
+                      <React.Fragment>
+                        <ArrayElement
+                          value={arrayValue}
+                          id={arrayID}
+                          movement={arrayTransform}
+                          foreground={foreground}
+                          background={background}
+                          elementState={elementState}
+                          textColour={elementTextColour}
+                          textInsert={
+                            <TextInsert
+                              placeholder={arrayValue}
+                              onChange={(event) =>
+                                changeArrayFromInput(
+                                  event.target.value,
+                                  arrayID
+                                )
+                              }
+                            ></TextInsert>
+                          }
+                        />
+                      </React.Fragment>
+                    )
+                  )}
+                </ArrayPosHolder>
+              </div>
+            </ArrayHolder>
 
-              <ArrayPosHolder>
-                {arrayLink.map(
-                  ({
-                    arrayValue,
-                    arrayID,
-                    foreground,
-                    background,
-                    elementState,
-                    elementTextColour,
-                  }) => (
-                    <React.Fragment>
-                      <ArrayElement
-                        value={arrayValue}
-                        id={arrayID}
-                        movement={arrayTransform}
-                        foreground={foreground}
-                        background={background}
-                        elementState={elementState}
-                        textColour={elementTextColour}
-                        textInsert={
-                          <TextInsert
-                            placeholder={arrayValue}
-                            onChange={(event) =>
-                              changeArrayFromInput(event.target.value, arrayID)
-                            }
-                          ></TextInsert>
-                        }
-                      />
-                    </React.Fragment>
-                  )
-                )}
-              </ArrayPosHolder>
-            </div>
-          </ArrayHolder>
+            <ControlHolder>
+              <InputValue
+                placeholder="find"
+                onChange={(event) => setArrayValue(event.target.value)}
+              />
 
-          <ControlHolder>
-            <InputValue
-              placeholder="find"
-              onChange={(event) => setArrayValue(event.target.value)}
-            />
-
-            <AddButton
-              onClick={() => binarySearchFunction(arrayLink, 0, 9, arrayValue)}
-            >
-              <p>+</p>
-            </AddButton>
-          </ControlHolder>
+              <AddButton
+                onClick={() =>
+                  binarySearchFunction(arrayLink, 0, 9, arrayValue)
+                }
+              >
+                <p>+</p>
+              </AddButton>
+            </ControlHolder>
+          </StaticPosition>
         </ItemRowContent>
       </BodyWrapper>
     </AlgorithmsWrapper>

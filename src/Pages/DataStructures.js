@@ -51,7 +51,7 @@ function DataType(props) {
       BackLink
       as={Link}
       to={props.url}
-      style={{ backgroundColor: props.colour }}
+      style={{ backgroundColor: props.colour, opacity: props.opacity }}
     >
       <h1>{props.title}</h1>
 
@@ -76,43 +76,59 @@ function DataStructures() {
             colour="#F76146"
             title="array"
             url="/array"
-            description="arrays are data structures that store data
-right next to each other in computer 
-memory, making them ideal for storing 
-data you will be accessing regularly "
+            description={
+              <div>
+                <p>
+                  "arrays store elements containing data right next to each
+                  other (contiguously) in computer memory, making them ideal for
+                  storing data you will be accessing regularly "
+                </p>
+              </div>
+            }
           />
           <DataType
             colour="#40B8ED"
+            opacity="0.3"
             title="vector"
-            description="arrays are data structures that store data
-right next to each other in computer 
-memory, making them ideal for storing 
-data you will be accessing regularly "
+            description={
+              <div>
+                <p>"coming soon... "</p>
+              </div>
+            }
           />
           <DataType
             colour="#7CED61"
             url="/linkedlist"
             title="linked list"
-            description="arrays are data structures that store data
-right next to each other in computer 
-memory, making them ideal for storing 
-data you will be accessing regularly "
+            description={
+              <div>
+                <p>
+                  "linked lists store data in nodes that are allocated random
+                  addresses in memory. this means inserting/removing data is
+                  fast, but accessing is slow"
+                </p>
+              </div>
+            }
           />
           <DataType
             colour="#FFA5B2"
-            title="bst"
-            description="arrays are data structures that store data
-right next to each other in computer 
-memory, making them ideal for storing 
-data you will be accessing regularly "
+            title="binary tree"
+            opacity="0.5"
+            description={
+              <div>
+                <p>"coming soon... "</p>
+              </div>
+            }
           />
           <DataType
             colour="#FFE26A"
+            opacity="0.5"
             title="red black tree"
-            description="arrays are data structures that store data
-right next to each other in computer 
-memory, making them ideal for storing 
-data you will be accessing regularly "
+            description={
+              <div>
+                <p>"coming soon... "</p>
+              </div>
+            }
           />
         </ItemRow>
       </BodyWrapper>

@@ -30,7 +30,7 @@ const BodyWrapper = styled.div`
   width: 100%;
   background-color: honeydew;
   flex-grow: 20;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
   overflow-y: visible;
   overflow-x: hidden;
@@ -285,6 +285,14 @@ const SketchHolder = styled.div`
   }
 `;
 
+const StaticPosition = styled.div`
+  position: fixed;
+  ${media.mobile} {
+    margin-top: inherit;
+    position: relative;
+  }
+`;
+
 function Info(props) {
   return (
     <Item style={{ backgroundColor: props.colour }}>
@@ -318,6 +326,10 @@ function Dijkstra() {
   const [frameHeight, setFrameHeight] = useState();
 
   const [isRendered, setIsRendered] = useState(0);
+
+  // for animation
+  let aniX;
+  let aniY;
 
   const a = useEffect(() => {
     if (holderRef.current.getBoundingClientRect().width > 0) {
@@ -465,6 +477,9 @@ function Dijkstra() {
 
     p5.background("#e3dac9");
     console.log(matrixLoaded);
+    setIsRendered(1);
+
+    //For the initial animation
   }
 
   function windowResized(p5) {
@@ -491,10 +506,9 @@ function Dijkstra() {
     setGlobalHeight(frameHeight);
     setNodesSet(true);
 
-    let currX = frameWidth / 10;
-    let currY = (frameHeight * 0.8) / 2;
-
-    if (!nodesSet) {
+    if (isRendered == 1) {
+      let currX = frameWidth / 10;
+      let currY = (frameHeight * 0.8) / 2;
       for (let i = 0; i < nodeLink.length; i++) {
         console.log(i);
 
@@ -524,7 +538,8 @@ function Dijkstra() {
         nodeLink[i].x = currX;
         nodeLink[i].y = currY;
       }
-      setNodesSet(true);
+
+      setIsRendered(2);
     }
 
     //Creating Lines
@@ -619,6 +634,59 @@ function Dijkstra() {
             nodeLink[m].r / 6,
           (nodeLink[m].y + nodeLink[m].connections[w].y) / 2 + nodeLink[m].r / 6
         );
+      }
+    }
+
+    //intro animation
+    if (isRendered == 2) {
+      aniX = nodeLink[2].x;
+      aniY = nodeLink[2].y;
+
+      p5.fill(p5.color("#F58696"));
+
+      p5.triangle(
+        nodeLink[2].x,
+        nodeLink[2].y + nodeLink[2].r / 5,
+        nodeLink[2].x + nodeLink[2].r / 6 + nodeLink[2].r / 8,
+        nodeLink[2].y + nodeLink[2].r * 0.8,
+        nodeLink[2].x - nodeLink[2].r / 6,
+        nodeLink[2].y + nodeLink[2].r * 1
+      );
+
+      p5.fill(p5.color("#FFA5B2"));
+      p5.triangle(
+        nodeLink[2].x,
+        nodeLink[2].y + nodeLink[2].r / 5,
+        nodeLink[2].x + nodeLink[2].r / 6,
+        nodeLink[2].y + nodeLink[2].r * 0.8,
+        nodeLink[2].x - nodeLink[2].r / 6,
+        nodeLink[2].y + nodeLink[2].r * 1
+      );
+
+      p5.fill(p5.color("#FFA5B2"));
+      p5.triangle(
+        nodeLink[2].x,
+        nodeLink[2].y + nodeLink[2].r / 5,
+        nodeLink[2].x + nodeLink[2].r / 6,
+        nodeLink[2].y + nodeLink[2].r * 0.8,
+        nodeLink[2].x - nodeLink[2].r / 6,
+        nodeLink[2].y + nodeLink[2].r * 1
+      );
+
+      /* p5.ellipse(
+        nodeLink[2].x + nodeLink[2].r / 6,
+        nodeLink[2].y,
+        nodeLink[2].r,
+        nodeLink[2].r
+      );*/
+
+      if (nodeLink[2].x > frameWidth / 12) {
+        nodeLink[2].x--;
+      }
+      if (nodeLink[2].y < frameHeight * 0.8) {
+        nodeLink[2].y++;
+      } else {
+        setIsRendered(3);
       }
     }
   };
@@ -818,56 +886,126 @@ function Dijkstra() {
       <BodyWrapper>
         <ItemRowDescription>
           <Info
-            colour="#F76146"
+            colour="#F06449"
             title="description"
-            description="arrays are a way of storing data.
-            arrays are made up of ‘elements’, which
-            store one piece of data each. each
-            element is stored directly next to the
-            previous one in memory (contiguity),
-            meaning access is fast, but new elements
-            cannot be added once the array has been made
-            "
+            description={
+              <div>
+                <p>
+                  dijkstra's algorithm (also called dijkstra's shortest path) is
+                  an efficient algorithm for finding the shortest path between
+                  two nodes in a weighted graph.
+                  <br />
+                  <br />
+                  this means that it requires both a set of nodes, and an cost
+                  matrix. the cost matrix is a 2d array, with the entries being
+                  the distance between two nodes.
+                  <br />
+                  <br />
+                  for example, if node 1 and node 2 were 300 units apart, the
+                  entries at costMatrix[1][2], and costMatrix[2,1] would both be
+                  300.
+                  <br />
+                  <br />
+                  1. three arrays are initialised. one to keep track of the
+                  visited nodes, one to keep track of each node's 'parent', and
+                  one to keep track of each node's distance from the start.
+                  <br />
+                  <br /> each array contains as many elements as there are nodes
+                  in the graph. the 'visited' array has all of its values
+                  initialised to false, as nothing has been visited yet.
+                  <br />
+                  <br />
+                  the parent array is left blank, or has all of it elements
+                  initialised to null.
+                  <br />
+                  <br />
+                  and the distance from start array is initialised to
+                  'infinity', as the distance between the first node and the
+                  other nodes is not yet known. most of the time, infinity is
+                  treated as a large number such as 999999. the starting node
+                  (in this case 0) has no parent, so its parent is set to -1.
+                  similarly its distance is set to 0.
+                  <br />
+                  <br />
+                  2. a loop is then begun, which will run through each node.
+                  <br />
+                  <br />
+                  3. first, an inner loop runs through every node to determine
+                  what the next closest node from the start is. if it has not
+                  been visited yet, this will be the next node to be looked at.
+                  this will do nothing on the first loop, as the distances have
+                  not yet been found.
+                  <br />
+                  <br />
+                  4. next, once the first loop has finished, another loop will
+                  begin. this
+                </p>
+              </div>
+            }
           />
           <Info
-            colour="#40B8ED"
+            colour="#6DD3CE"
             title="use cases"
-            description="arrays are best used in applications
-            where data will often be accessed,
-            as accessing an element is inexpensive.
-            however, this comes at the cost of
-            a greater insertion/deletion cost than
-            something like a linked list.  
-            "
+            description={
+              <div>
+                <p>
+                  while this search algorithm is relatively easy to understand
+                  and implement, it only works if the array is sorted.
+                  otherwise, it will not know which half of the array to look
+                  in.
+                  <br />
+                  <br />
+                  therefore, it should only be used applications where data is
+                  sorted. this could be in something like a library catalogue
+                  where books are sorted in id or name order.
+                </p>
+              </div>
+            }
+          />
+          <Info
+            colour="#FFA5B2"
+            title="cost"
+            description={
+              <div>
+                <p>
+                  binary search: O(log n)
+                  <br />
+                  <br />
+                  why? every iteration, the number of elements being looked at
+                  is halved.
+                </p>
+              </div>
+            }
           />
         </ItemRowDescription>
         <ItemRowContent>
-          <SketchHolder id="IRC" ref={holderRef}>
-            {frameWidth < 1 && (
-              <Sketch
-                setup={test}
-                draw={draw}
-                windowResized={windowResized}
-                mouseWheel={mouseWheel}
-                mousePressed={mousePressed}
-                mouseDragged={mouseDragged}
-                mouseReleased={mouseReleased}
-              />
-            )}
-            {frameWidth > 1 && (
-              <Sketch
-                setup={setup}
-                draw={draw}
-                windowResized={windowResized}
-                mouseWheel={mouseWheel}
-                mousePressed={mousePressed}
-                mouseDragged={mouseDragged}
-                mouseReleased={mouseReleased}
-              />
-            )}
-          </SketchHolder>
-          <ControlHolder>
-            {/* <InputValue
+          <StaticPosition>
+            <SketchHolder id="IRC" ref={holderRef}>
+              {frameWidth < 1 && (
+                <Sketch
+                  setup={test}
+                  draw={draw}
+                  windowResized={windowResized}
+                  mouseWheel={mouseWheel}
+                  mousePressed={mousePressed}
+                  mouseDragged={mouseDragged}
+                  mouseReleased={mouseReleased}
+                />
+              )}
+              {frameWidth > 1 && (
+                <Sketch
+                  setup={setup}
+                  draw={draw}
+                  windowResized={windowResized}
+                  mouseWheel={mouseWheel}
+                  mousePressed={mousePressed}
+                  mouseDragged={mouseDragged}
+                  mouseReleased={mouseReleased}
+                />
+              )}
+            </SketchHolder>
+            <ControlHolder>
+              {/* <InputValue
               placeholder="start"
               onChange={(event) => setStartValue(event.target.value)}
             />
@@ -876,10 +1014,11 @@ function Dijkstra() {
               onChange={(event) => setEndValue(event.target.value)}
            />*/}
 
-            <AddButton onClick={() => addNode()}>
-              <p>start</p>
-            </AddButton>
-          </ControlHolder>
+              <AddButton onClick={() => addNode()}>
+                <p>start</p>
+              </AddButton>
+            </ControlHolder>
+          </StaticPosition>
         </ItemRowContent>
       </BodyWrapper>
     </AlgorithmsWrapper>

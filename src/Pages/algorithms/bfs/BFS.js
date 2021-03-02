@@ -30,7 +30,7 @@ const BodyWrapper = styled.div`
   width: 100%;
   background-color: honeydew;
   flex-grow: 20;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
   overflow-y: visible;
   overflow-x: hidden;
@@ -284,6 +284,15 @@ const SketchHolder = styled.div`
     min-height: 40vh;
   }
 `;
+
+const StaticPosition = styled.div`
+  position: fixed;
+  ${media.mobile} {
+    margin-top: inherit;
+    position: relative;
+  }
+`;
+
 function Info(props) {
   return (
     <Item style={{ backgroundColor: props.colour }}>
@@ -563,9 +572,14 @@ function BFS() {
         if (adjacencyMatrix[m][k] === 1 && adjacencyMatrix[k][m] == 1) {
           p5.strokeWeight(20);
 
-          p5.stroke("#7CED61");
+          if (nodeLink[k] !== centerNode) {
+            p5.stroke(nodeLink[k].colour);
+          }
+
           p5.line(nodeLink[m].x, nodeLink[m].y, nodeLink[k].x, nodeLink[k].y);
-          p5.stroke("#61D944");
+          if (nodeLink[k] !== centerNode) {
+            p5.stroke(nodeLink[k].bgColour);
+          }
           p5.line(
             nodeLink[m].x + nodeLink[m].r / 6,
             nodeLink[m].y,
@@ -778,8 +792,8 @@ function BFS() {
   async function breadthFirstSearch() {
     for (let m = 0; m < nodeLink.length; m++) {
       if (nodeLink[m] !== centerNode) {
-        nodeLink[m].colour = "#CB391E";
-        nodeLink[m].bgColour = "#DD4125";
+        nodeLink[m].colour = "#7CED61";
+        nodeLink[m].bgColour = "#61D944";
       }
     }
 
@@ -811,8 +825,8 @@ function BFS() {
             visited[j] = true;
             queue.push(j);
 
-            nodeLink[j].colour = "green";
-            nodeLink[j].backgroundColor = "darkgreen";
+            nodeLink[j].colour = "#FFA5B2";
+            nodeLink[j].bgColour = "#F58696";
             console.log("Queue: ", queue);
 
             await sleep(500);
@@ -878,61 +892,90 @@ function BFS() {
         <div style={{ position: "absolute" }}></div>
         <ItemRowDescription>
           <Info
-            colour="#F76146"
+            colour="#F06449"
             title="description"
-            description="arrays are a way of storing data.
-            arrays are made up of ‘elements’, which
-            store one piece of data each. each
-            element is stored directly next to the
-            previous one in memory (contiguity),
-            meaning access is fast, but new elements
-            cannot be added once the array has been made
-            "
+            description={
+              <div>
+                <p>
+                  dijkstra's algorithm (also called dijkstra's shortest path) is
+                  an efficient algorithm for finding the shortest path between
+                  two nodes in a weighted graph.
+                </p>
+              </div>
+            }
           />
           <Info
-            colour="#40B8ED"
+            colour="#6DD3CE"
             title="use cases"
-            description="arrays are best used in applications
-            where data will often be accessed,
-            as accessing an element is inexpensive.
-            however, this comes at the cost of
-            a greater insertion/deletion cost than
-            something like a linked list.  
-            "
+            description={
+              <div>
+                <p>
+                  while this search algorithm is relatively easy to understand
+                  and implement, it only works if the array is sorted.
+                  otherwise, it will not know which half of the array to look
+                  in.
+                  <br />
+                  <br />
+                  therefore, it should only be used applications where data is
+                  sorted. this could be in something like a library catalogue
+                  where books are sorted in id or name order.
+                </p>
+              </div>
+            }
+          />
+          <Info
+            colour="#FFA5B2"
+            title="cost"
+            description={
+              <div>
+                <p>
+                  binary search: O(log n)
+                  <br />
+                  <br />
+                  why? every iteration, the number of elements being looked at
+                  is halved.
+                </p>
+              </div>
+            }
           />
         </ItemRowDescription>
         <ItemRowContent>
-          <SketchHolder id="IRC" ref={holderRef}>
-            {frameWidth < 1 && (
-              <Sketch
-                setup={test}
-                draw={draw}
-                mousePressed={mousePressed}
-                mouseDragged={mouseDragged}
-                mouseReleased={mouseReleased}
-                mouseWheel={mouseWheel}
-              />
-            )}
-            {frameWidth > 1 && (
-              <Sketch
-                setup={setup}
-                draw={draw}
-                mousePressed={mousePressed}
-                mouseDragged={mouseDragged}
-                mouseReleased={mouseReleased}
-                mouseWheel={mouseWheel}
-                windowResized={windowResized}
-              />
-            )}
-          </SketchHolder>
+          <StaticPosition>
+            {/*<h2 style={{ position: "absolute" }}>
+              drag between nodes to form a link
+          </h2>*/}
+            <SketchHolder id="IRC" ref={holderRef}>
+              {frameWidth < 1 && (
+                <Sketch
+                  setup={test}
+                  draw={draw}
+                  mousePressed={mousePressed}
+                  mouseDragged={mouseDragged}
+                  mouseReleased={mouseReleased}
+                  mouseWheel={mouseWheel}
+                />
+              )}
+              {frameWidth > 1 && (
+                <Sketch
+                  setup={setup}
+                  draw={draw}
+                  mousePressed={mousePressed}
+                  mouseDragged={mouseDragged}
+                  mouseReleased={mouseReleased}
+                  mouseWheel={mouseWheel}
+                  windowResized={windowResized}
+                />
+              )}
+            </SketchHolder>
 
-          <ControlHolder>
-            {/**  <InputValue />*/}
+            <ControlHolder>
+              {/**  <InputValue />*/}
 
-            <AddButton onClick={() => breadthFirstSearch()}>
-              <p>search</p>
-            </AddButton>
-          </ControlHolder>
+              <AddButton onClick={() => breadthFirstSearch()}>
+                <p>search</p>
+              </AddButton>
+            </ControlHolder>
+          </StaticPosition>
         </ItemRowContent>
       </BodyWrapper>
     </AlgorithmsWrapper>

@@ -52,7 +52,7 @@ function DataType(props) {
       BackLink
       as={Link}
       to={props.url}
-      style={{ backgroundColor: props.colour }}
+      style={{ backgroundColor: props.colour, opacity: props.opacity }}
     >
       <h1>{props.title}</h1>
 
@@ -77,72 +77,74 @@ function Algorithms() {
             url="/binarysearch"
             colour="#7CED61"
             title="binary search"
-            description="linked lists are a structure made
-            up of nodes. nodes hold a data
-            value, and know where the next
-            node is by storing a pointer to it.
-            this means insertions can easily
-            be made, as it is only the pointers
-            that need to be updated."
+            description={
+              <div>
+                <p>
+                  a simple searching algorithm for arrays to find a given
+                  element
+                </p>
+              </div>
+            }
           />
-          <DataType
-            colour="#40B8ED"
-            title="bubble sort"
-            description="linked lists are a structure made
-            up of nodes. nodes hold a data
-            value, and know where the next
-            node is by storing a pointer to it.
-            this means insertions can easily
-            be made, as it is only the pointers
-            that need to be updated."
-          />
+
           <DataType
             url="/quicksort"
             colour="#D586F8"
             title="quick sort"
-            description="linked lists are a structure made
-            up of nodes. nodes hold a data
-            value, and know where the next
-            node is by storing a pointer to it.
-            this means insertions can easily
-            be made, as it is only the pointers
-            that need to be updated."
-          />
-          <DataType
-            colour="#FFA5B2"
-            title="bucket sort"
-            description="linked lists are a structure made
-            up of nodes. nodes hold a data
-            value, and know where the next
-            node is by storing a pointer to it.
-            this means insertions can easily
-            be made, as it is only the pointers
-            that need to be updated."
+            description={
+              <div>
+                <p>
+                  an efficient sorting algorithm for arrays to order elements
+                  from low to high
+                </p>
+              </div>
+            }
           />
           <DataType
             url="/dijkstra"
             colour="#6BEBD8"
             title="dijkstra's algorithm"
-            description="alinked lists are a structure made
-            up of nodes. nodes hold a data
-            value, and know where the next
-            node is by storing a pointer to it.
-            this means insertions can easily
-            be made, as it is only the pointers
-            that need t
-            o be updated."
+            description={
+              <div>
+                <p>
+                  an efficient algorithm for finding the shortest path between
+                  nodes when the distances between them are known
+                </p>
+              </div>
+            }
           />
           <DataType
             url="/bfs"
             colour="#FFE26A"
             title="BFS"
-            description="alinked lists are a structure made
-            up of nodes. nodes hold a data
-            value, and know where the next
-            node is by storing a pointer to it.
-            this means insertions can easily
-            be made, as it is only the pointers
-            that need to be updated."
+            description={
+              <div>
+                <p>
+                  an efficient algorithm for finding the shortest path between
+                  nodes when the distances between them aren't specified
+                </p>
+              </div>
+            }
+          />
+          <DataType
+            colour="#40B8ED"
+            title="bubble sort"
+            opacity="0.3"
+            description={
+              <div>
+                <p>coming soon... </p>
+              </div>
+            }
+          />
+          <DataType
+            colour="#FFA5B2"
+            title="bucket sort"
+            opacity="0.5"
+            description={
+              <div>
+                <p>coming soon... </p>
+              </div>
+            }
           />
         </ItemRow>
       </BodyWrapper>

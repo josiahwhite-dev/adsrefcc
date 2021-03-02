@@ -25,6 +25,7 @@ export const Title = styled.h1`
 
 export const Item = styled.div`
   min-width: 300px;
+
   width: 30vw;
   height: auto;
   margin: 1vw;
@@ -46,16 +47,19 @@ export const Item = styled.div`
     margin-right: 2vw;
   }
   p {
-    font-size: 2vh;
+    font-size: calc(1vh+1vw);
     font-weight: bolder;
     color: white;
-    margin-left: 3vw;
-    margin-right: 3vw;
-    margin-bottom: 2vh;
-    margin-top: 2vh;
-    transform: translateY(-30%);
-    text-align: justify;
+
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-bottom: 5vh;
+
+    text-align: left;
+    line-height: 1.5;
     text-justify: inter-word;
+    ${media.mobile} {
+    }
   }
 
   ${media.mobile} {

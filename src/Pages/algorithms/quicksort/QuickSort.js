@@ -28,7 +28,8 @@ const BodyWrapper = styled.div`
   width: 100%;
   background-color: honeydew;
   flex-grow: 20;
-  align-items: center;
+  align-items: flex-start;
+
   justify-content: space-evenly;
   overflow-y: visible;
   overflow-x: hidden;
@@ -68,6 +69,7 @@ const ItemRowContent = styled.div`
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+
   height: auto;
   margin-right: 10%;
   width: 100vw;
@@ -263,6 +265,15 @@ const TextInsert = styled.input`
   outline: none;
 `;
 
+const StaticPosition = styled.div`
+  position: fixed;
+  margin-top: 60vh;
+  ${media.mobile} {
+    margin-top: inherit;
+    position: relative;
+  }
+`;
+
 function Info(props) {
   return (
     <Item style={{ backgroundColor: props.colour }}>
@@ -338,22 +349,22 @@ function QuickSort() {
     for (j = low; j <= high - 1; j++) {
       updateColours(i, j, high);
       // If current element is smaller than the pivot
-      setFound("j is not greater than " + pivot.arrayValue);
+      setFound("j is not smaller than " + pivot.arrayValue);
 
       if (arrayLink[j].arrayValue < pivot.arrayValue) {
         console.log("called!");
         i++; // increment index of smaller element
-        setFound("j is greater than " + pivot.arrayValue);
+        setFound("j is smaller than " + pivot.arrayValue);
         updateColours(i, j, high);
 
         setFound("i and j will swap ");
         //Maybe need to swap here instead for colours
         await swap(i, j);
       }
-      await sleep(1000);
+      await sleep(1500);
     }
 
-    await sleep(2000);
+    await sleep(2500);
     setFound("pivot will swap with i + 1 ");
     await swap(i + 1, high);
     return Promise.resolve(i + 1);
@@ -409,7 +420,7 @@ function QuickSort() {
   }
 
   async function swap(i, j) {
-    await sleep(1000);
+    await sleep(1500);
     let highlightColours = [...arrayLink];
     highlightColours[i].foreground =
       "linear-gradient(to  right, #D059FC, #D059FC)";
@@ -422,7 +433,7 @@ function QuickSort() {
 
     setArrayLink(highlightColours);
 
-    await sleep(1000);
+    await sleep(1500);
 
     let temp = arrayLink[i].arrayValue;
     let newArrayLink = [...arrayLink];
@@ -431,7 +442,7 @@ function QuickSort() {
     newArrayLink[j].arrayValue = temp;
 
     setArrayLink(newArrayLink);
-    await sleep(1000);
+    await sleep(1500);
   }
 
   function sleep(ms) {
@@ -465,9 +476,6 @@ function QuickSort() {
   }, [changer]);
 
   const run10times = useEffect(() => {
-    if (changer == 0) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
     if (changer < 9) {
       setChanger(changer + 1);
       setArrayValue(Math.floor(Math.random() * 99) + 1);
@@ -486,27 +494,113 @@ function QuickSort() {
       <BodyWrapper>
         <ItemRowDescription>
           <Info
-            colour="#F76146"
+            colour="#F06449"
             title="description"
-            description="arrays are a way of storing data.
-            arrays are made up of ‘elements’, which
-            store one piece of data each. each
-            element is stored directly next to the
-            previous one in memory (contiguity),
-            meaning access is fast, but new elements
-            cannot be added once the array has been made
-            "
+            description={
+              <div>
+                <p>
+                  quick sort is an efficient sorting algorithm for arrays.
+                  <br />
+                  <br />
+                  it works by breaking the array into smaller and smaller sub
+                  arrays, and sorting these smaller arrays, then putting
+                  everything back together at the end.
+                  <br />
+                  <br />
+                  <h2>quick sort (low, high)</h2>
+                  if low is less than high, run partition.
+                  <br />
+                  <br />
+                  <div style={{ paddingLeft: "2vw" }}>
+                    <h2>partition (low, high)</h2>
+                    1. a pivot value is picked. in theory, this can be any
+                    element in the array. here, it is always the last, or
+                    'high'.
+                    <br />
+                    <br />
+                    2. two 'pointer' values, i and j, are given. here, i is
+                    given the value -1, and j is given the value 0.
+                    <br />
+                    <br />
+                    3. the value at position j is checked against the value at
+                    the pivot.
+                    <br />
+                    <br />
+                    if it is smaller than the value at the pivot, and j is
+                    incremented by 1, and nothing else happens
+                    <br />
+                    <br />
+                    if it is bigger than the value at the pivot, then i
+                    increments, and the values at i and j swap. then, j is
+                    incremented and the process continues
+                    <br />
+                    <br />
+                    4. once j reaches the element just before the pivot, then
+                    the value at the pivot and the i+1th element swap, and the
+                    i+1th element is returned.
+                    <br />
+                    <br />
+                  </div>
+                  <h2>quick sort pt. 2</h2>
+                  quick sort is recursively called twice. <br /> once, with low
+                  being the first element and high being i+1, where i+1 will
+                  keep getting lower with every call to partition
+                  <br />
+                  <br />
+                  quicksort(low, i+1)
+                  <br />
+                  <br />
+                  then with low being i+1 and high being the last element, where
+                  i+1 will keep getting higher with every call to partition
+                  <br />
+                  <br />
+                  quicksort(i+1, high)
+                  <br />
+                  <br />
+                  eventually, i+1, low, and high will all have the same value.
+                  the process will stop, as the array will be sorted!
+                </p>
+              </div>
+            }
           />
           <Info
-            colour="#40B8ED"
+            colour="#6DD3CE"
             title="use cases"
-            description="arrays are best used in applications
-            where data will often be accessed,
-            as accessing an element is inexpensive.
-            however, this comes at the cost of
-            a greater insertion/deletion cost than
-            something like a linked list.  
-            "
+            description={
+              <div>
+                <p style={{ textAlign: "center" }}>
+                  quick sort can be used any time data needs to be sorted. if
+                  the rough locations of where the different values of data
+                  might be are known, it can also be optimised through good
+                  choices of pivots.
+                  <br />
+                </p>
+              </div>
+            }
+          />
+          <Info
+            colour="#FFA5B2"
+            title="cost"
+            description={
+              <div>
+                <p style={{ textAlign: "center" }}>
+                  best case O(n)
+                  <br />
+                  <br />
+                  happens when the pivot value is the value closest to the
+                  average of the dataset
+                  <br />
+                  <br />
+                  worst case O(n^2)
+                  <br />
+                  <br />
+                  happens when pivot value is the max / min of the dataset
+                  <br />
+                  <br />
+                  stable: no
+                </p>
+              </div>
+            }
           />
         </ItemRowDescription>
         <ItemRowContent>
@@ -521,52 +615,56 @@ function QuickSort() {
             movement={"5vw"}
           />
           <Array value={30} movement={"-5vw"} />*/}
-
-          <ArrayHolder>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <h1 style={{ minHeight: "5vh", maxHeight: "5vh" }}>
-                status: {found}
-              </h1>
-              <ArrayPosHolder>
-                {arrayLink.map(
-                  ({
-                    arrayValue,
-                    arrayID,
-                    foreground,
-                    background,
-                    elementState,
-                    elementTextColour,
-                  }) => (
-                    <React.Fragment>
-                      <ArrayElement
-                        value={arrayValue}
-                        id={arrayID}
-                        movement={arrayTransform}
-                        foreground={foreground}
-                        background={background}
-                        elementState={elementState}
-                        textColour={elementTextColour}
-                        textInsert={
-                          <TextInsert
-                            placeholder={arrayValue}
-                            onChange={(event) =>
-                              changeArrayFromInput(event.target.value, arrayID)
-                            }
-                          ></TextInsert>
-                        }
-                      />
-                    </React.Fragment>
-                  )
-                )}
-              </ArrayPosHolder>
-            </div>
-          </ArrayHolder>
-
-          <ControlHolder>
-            <AddButton onClick={() => quickSortFunction(0, 9)}>
-              <p>sort</p>
-            </AddButton>
-          </ControlHolder>
+          <StaticPosition>
+            {" "}
+            <ArrayHolder>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <h1 style={{ minHeight: "5vh", maxHeight: "5vh" }}>
+                  status: {found}
+                </h1>
+                <ArrayPosHolder>
+                  {arrayLink.map(
+                    ({
+                      arrayValue,
+                      arrayID,
+                      foreground,
+                      background,
+                      elementState,
+                      elementTextColour,
+                    }) => (
+                      <React.Fragment>
+                        <ArrayElement
+                          value={arrayValue}
+                          id={arrayID}
+                          movement={arrayTransform}
+                          foreground={foreground}
+                          background={background}
+                          elementState={elementState}
+                          textColour={elementTextColour}
+                          textInsert={
+                            <TextInsert
+                              placeholder={arrayValue}
+                              onChange={(event) =>
+                                changeArrayFromInput(
+                                  event.target.value,
+                                  arrayID
+                                )
+                              }
+                            ></TextInsert>
+                          }
+                        />
+                      </React.Fragment>
+                    )
+                  )}
+                </ArrayPosHolder>
+              </div>
+            </ArrayHolder>
+            <ControlHolder>
+              <AddButton onClick={() => quickSortFunction(0, 9)}>
+                <p>sort</p>
+              </AddButton>
+            </ControlHolder>
+          </StaticPosition>
         </ItemRowContent>
       </BodyWrapper>
     </AlgorithmsWrapper>
