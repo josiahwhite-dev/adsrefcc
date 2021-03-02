@@ -340,13 +340,17 @@ function BinarySearch() {
       }
 
       if (array[mid].arrayValue > target) {
-        setFound(array[mid].arrayValue + " is greater than " + target);
+        setFound(
+          array[mid].arrayValue + " > " + target + " must be in first half"
+        );
         await sleep(4000);
         return binarySearchFunction(array, low, mid - 1, target);
       }
 
+      setFound(
+        array[mid].arrayValue + " < " + target + ", must be in second half"
+      );
       await sleep(4000);
-      setFound(array[mid].arrayValue + "is less than" + target);
       return binarySearchFunction(array, mid + 1, high, target);
     }
     setFound("not found");
@@ -491,13 +495,16 @@ function BinarySearch() {
                   it works by first checking the value at the middle of the
                   array. if this value is greater than the value that it is
                   searching for, this must mean that the target value is in the
-                  first half of the array. if it is smaller than the value it is
-                  searching for, then the target value must be in the second
-                  half of the array.
+                  first half of the array.
                   <br />
                   <br />
-                  then, the value at the middle element of whichever side the
-                  target value must be in is found, and the process is repeated.
+                  if it is smaller than the value it is searching for, then the
+                  target value must be in the second half of the array.
+                  <br />
+                  <br />
+                  then, the process is repeated for whichever half of the array
+                  is chosen, and the array continues being split in half until
+                  the value is found.
                 </p>
               </div>
             }

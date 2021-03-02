@@ -293,6 +293,29 @@ const StaticPosition = styled.div`
   }
 `;
 
+const Instruction = styled.h2`
+  position: absolute;
+
+  animation: bobandfade 8s ease;
+  animation-fill-mode: forwards;
+
+  @keyframes bobandfade {
+    0% {
+      transform: translate(0vh, 0vh);
+    }
+    50% {
+      transform: translate(0vh, -2vh);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(0vh, 0vh);
+      opacity: 0;
+    }
+  }
+`;
+
 function Info(props) {
   return (
     <Item style={{ backgroundColor: props.colour }}>
@@ -380,8 +403,6 @@ function BFS() {
         var b = Node.y - otherNode.y;
         var d = Math.sqrt(a * a + b * b);
 
-        console.log("FRAMEW: ", frameWidth);
-
         if (window.innerWidth > 1000) {
           if (d < (Node.r + otherNode.r) * 0.8) {
             isOverlapping = true;
@@ -443,6 +464,7 @@ function BFS() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
+    setIsRendered(1);
 
     p5.createCanvas(frameWidth, frameHeight).parent(canvasParentRef);
 
@@ -558,6 +580,8 @@ function BFS() {
       holderRef.current.getBoundingClientRect().height * 0.8
     );
   }
+
+  const [aniX, setAniX] = useState(0);
 
   let draw = (p5) => {
     p5.clear();
@@ -941,9 +965,7 @@ function BFS() {
         </ItemRowDescription>
         <ItemRowContent>
           <StaticPosition>
-            {/*<h2 style={{ position: "absolute" }}>
-              drag between nodes to form a link
-          </h2>*/}
+            <Instruction>drag between nodes to form a link</Instruction>
             <SketchHolder id="IRC" ref={holderRef}>
               {frameWidth < 1 && (
                 <Sketch
@@ -967,7 +989,6 @@ function BFS() {
                 />
               )}
             </SketchHolder>
-
             <ControlHolder>
               {/**  <InputValue />*/}
 
