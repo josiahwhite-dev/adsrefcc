@@ -820,6 +820,9 @@ function BFS() {
       if (nodeLink[m] !== centerNode) {
         nodeLink[m].colour = "#7CED61";
         nodeLink[m].bgColour = "#61D944";
+      } else {
+        nodeLink[m].colour = "#6BEBD8";
+        nodeLink[m].bgColour = "#54CCBA";
       }
     }
 
