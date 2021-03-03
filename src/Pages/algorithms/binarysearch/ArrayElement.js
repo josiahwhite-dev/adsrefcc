@@ -80,6 +80,17 @@ const Container = styled.div`
     margin: 0px;
   }
 
+  h4 {
+    color: white;
+    font-size: 3vh;
+    font-weight: bold;
+    padding: 0px;
+    margin: 0px;
+    ${media.mobile} {
+      font-size: calc(2vh + 1vw);
+    }
+  }
+
   @keyframes bob {
     0% {
       transform: translate(0vh, 0vh);
@@ -98,10 +109,11 @@ export default function ArrayElement(props) {
   return (
     <Container>
       <p>{props.id}</p>
-      <p style={{ color: props.textColour, marginLeft: "1vh" }}>
-        {" "}
+
+      <h4 style={{ color: props.textColour, marginLeft: "1vh" }}>
         {props.elementState}
-      </p>
+      </h4>
+
       <ElementWrapper style={{ backgroundImage: props.foreground }}>
         {props.textInsert}
       </ElementWrapper>

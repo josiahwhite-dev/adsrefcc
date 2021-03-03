@@ -328,8 +328,7 @@ function Dijkstra() {
   const [isRendered, setIsRendered] = useState(0);
 
   // for animation
-  let aniX;
-  let aniY;
+  let animationTimer = 0;
 
   const a = useEffect(() => {
     if (holderRef.current.getBoundingClientRect().width > 0) {
@@ -637,11 +636,9 @@ function Dijkstra() {
       }
     }
 
+    animationTimer++;
     //intro animation
-    if (isRendered == 2) {
-      aniX = nodeLink[2].x;
-      aniY = nodeLink[2].y;
-
+    if (isRendered == 2 && animationTimer > 200) {
       p5.fill(p5.color("#F58696"));
 
       p5.triangle(
@@ -902,43 +899,92 @@ function Dijkstra() {
                   <br />
                   <br />
                   for example, if node 1 and node 2 were 300 units apart, the
-                  entries at costMatrix[1][2], and costMatrix[2,1] would both be
-                  300.
+                  entries at costMatrix[1][2], and costMatrix[2][1] would both
+                  be 300. if two nodes are not connected, their cost should be
+                  an unreasonable number, such as -1.
+                  <br />
+                  <br />
                   <br />
                   <br />
                   1. three arrays are initialised. one to keep track of the
                   visited nodes, one to keep track of each node's 'parent', and
-                  one to keep track of each node's distance from the start.
+                  one to keep track of each node's distance from the starting
+                  node. each array contains as many elements as there are nodes
+                  in the graph. <br />
                   <br />
-                  <br /> each array contains as many elements as there are nodes
-                  in the graph. the 'visited' array has all of its values
-                  initialised to false, as nothing has been visited yet.
+                  the 'visited' array has all of its values initialised to
+                  false, as nothing has been visited yet.
                   <br />
                   <br />
                   the parent array is left blank, or has all of it elements
                   initialised to null.
                   <br />
                   <br />
-                  and the distance from start array is initialised to
-                  'infinity', as the distance between the first node and the
-                  other nodes is not yet known. most of the time, infinity is
-                  treated as a large number such as 999999. the starting node
-                  (in this case 0) has no parent, so its parent is set to -1.
-                  similarly its distance is set to 0.
+                  the distance from start array is initialised to 'infinity', as
+                  the distance between the first node and the other nodes is not
+                  yet known. most of the time, infinity is treated as a large
+                  number such as 999999.
+                  <br />
+                  <br /> the starting node (in this case 0) has no parent, so
+                  its parent is set to -1. similarly its distance is set to 0.
                   <br />
                   <br />
-                  2. a loop is then begun, which will run through each node.
+                  2. a loop is then begun, which will run through each node. we
+                  will call the index here i.
                   <br />
                   <br />
-                  3. first, an inner loop runs through every node to determine
-                  what the next closest node from the start is. if it has not
-                  been visited yet, this will be the next node to be looked at.
-                  this will do nothing on the first loop, as the distances have
-                  not yet been found.
-                  <br />
-                  <br />
-                  4. next, once the first loop has finished, another loop will
-                  begin. this
+                  <div style={{ paddingLeft: "2vw" }}>
+                    a) first, an inner loop runs through every node to determine
+                    what the next closest node from the start is. if it has not
+                    been visited yet, this will be the next node to be looked
+                    at. this will do nothing on the first loop, as the distances
+                    have not yet been found.
+                    <br />
+                    <br />
+                    b) next, once the first loop has finished, another loop will
+                    begin. we will call the index here adj, for adjacent. this
+                    loop again runs through every node.
+                    <br />
+                    <br />
+                    it first checks if visited[adj] is true. if it is not, i.e.
+                    it hasn't been visited, it then checks if
+                    <br />
+                    <br />
+                    <div style={{ textAlign: "center" }}>
+                      costMatrix[currentNode][adj] <br /> + <br />
+                      distanceFromStart[currentNode]
+                    </div>
+                    <br />
+                    <br />
+                    is smaller than 'infinity'. finally, it checks if the two
+                    nodes are actually connected, i.e. the cost at
+                    costMatrix[currentNode][adj] isn't -1.
+                    <br />
+                    <br />
+                    c) if these three conditions are met, it sets the
+                    distanceFromStart[adj] to:
+                    <br />
+                    <br />
+                    <div style={{ textAlign: "center" }}>
+                      distFromStart[currentNode] <br /> + <br />
+                      costMatrix[currentNode][adj]
+                    </div>
+                    <br />
+                    <br />
+                    so whatever the current distance from the start is, plus the
+                    new cost going from the current node to whatever 'adj' is.
+                    <br />
+                    <br />
+                    d) it then sets the parent of 'adj' to currentNode, as to
+                    get to 'adj', at least through the shortest path, you need
+                    to go to currentNode first.
+                    <br />
+                    <br />
+                  </div>
+                  thats it! the process is repeated, except instead of nothing
+                  happening in the first loop, it will find whatever the
+                  smallest, unvisited node in distanceFromStart is and make that
+                  the current node.
                 </p>
               </div>
             }
@@ -949,15 +995,15 @@ function Dijkstra() {
             description={
               <div>
                 <p>
-                  while this search algorithm is relatively easy to understand
-                  and implement, it only works if the array is sorted.
-                  otherwise, it will not know which half of the array to look
-                  in.
+                  dijkstra's algorithm is incredibly useful for any time the
+                  shortest path needs to be found when the distances between
+                  nodes are known.
                   <br />
                   <br />
-                  therefore, it should only be used applications where data is
-                  sorted. this could be in something like a library catalogue
-                  where books are sorted in id or name order.
+                  the most obvious real-world example is google maps: every
+                  location is a node, and the distances between them are real
+                  distances, like miles or kilometers. finding the shortest path
+                  between two places can be done using this algorithm.
                 </p>
               </div>
             }
@@ -968,11 +1014,20 @@ function Dijkstra() {
             description={
               <div>
                 <p>
-                  binary search: O(log n)
+                  dijkstra's algorithm: O(V^2)
                   <br />
                   <br />
-                  why? every iteration, the number of elements being looked at
-                  is halved.
+                  where V is the number of vertices, or nodes. this is because
+                  every node needs to be looked at (V), and then all of its
+                  connections needs to be looked at (V), leaving (V*V).
+                  different optimisations, such as using a min-heap as a
+                  priority queue can reduce this to:
+                  <br />
+                  <br />
+                  dijkstra's algorithm (min-heap): O((V+E) log V)
+                  <br />
+                  <br />
+                  where E is the amount of edges, or connections between nodes.
                 </p>
               </div>
             }

@@ -365,7 +365,7 @@ function BinarySearch() {
       "linear-gradient(to  right, #44BAB5, #44BAB5)";
     newArrayLink[low].background =
       "linear-gradient(to  right, #2D9D98, #2D9D98)";
-    newArrayLink[low].elementState = " ";
+    newArrayLink[low].elementState = "low ";
     newArrayLink[low].elementTextColour = "#2D9D98";
 
     //Mid
@@ -373,7 +373,7 @@ function BinarySearch() {
       "linear-gradient(to  right, #5ECC44, #5ECC44)";
     newArrayLink[mid].background =
       "linear-gradient(to  right, #4AA734, #4AA734)";
-    newArrayLink[mid].elementState = " ";
+    newArrayLink[mid].elementState = "mid ";
     newArrayLink[mid].elementTextColour = "#4AA734";
 
     //High
@@ -381,13 +381,14 @@ function BinarySearch() {
       "linear-gradient(to  right, #FF3F1A, #FF3F1A)";
     newArrayLink[high].background =
       "linear-gradient(to  right, #CB391E, #CB391E)";
-    newArrayLink[high].elementState = " ";
+    newArrayLink[high].elementState = "high ";
     newArrayLink[high].elementTextColour = "#CB391E";
 
     if (low === mid) {
       newArrayLink[mid].foreground =
-        "linear-gradient(to right, blue 0%,blue 50%,#000000 50%,green 50%,green 100%)";
-      newArrayLink[high].elementState = " ";
+        "linear-gradient(to right, #44BAB5 0%,#44BAB5 50%,#000000 50%,#5ECC44 50%,#5ECC44 100%)";
+      newArrayLink[low].elementState = " ";
+      newArrayLink[mid].elementState = " ";
       newArrayLink[high].elementTextColour = "white";
     }
 
@@ -395,6 +396,7 @@ function BinarySearch() {
       newArrayLink[mid].foreground =
         "linear-gradient(to right, green 0%,green 50%,#000000 50%,red 50%,red 100%)";
       newArrayLink[high].elementState = " ";
+      newArrayLink[mid].elementState = " ";
       newArrayLink[high].elementTextColour = "white";
     }
 
@@ -402,6 +404,7 @@ function BinarySearch() {
       newArrayLink[low].foreground =
         "linear-gradient(to right, blue 0%,blue 50%,#000000 50%,red 50%,red 100%)";
       newArrayLink[high].elementState = " ";
+      newArrayLink[low].elementState = " ";
       newArrayLink[high].elementTextColour = "white";
     }
 
@@ -409,6 +412,8 @@ function BinarySearch() {
       newArrayLink[mid].foreground =
         "linear-gradient(to right, #44BAB5 0%,#44BAB5 33%,#000000 33%,#5ECC44 33%,#5ECC44 66%, #000000 66%, #FF3F1A 66%,#FF3F1A 100%)";
       newArrayLink[high].elementState = "";
+      newArrayLink[low].elementState = "";
+      newArrayLink[mid].elementState = "";
       newArrayLink[high].elementTextColour = "gold";
     }
 
@@ -559,7 +564,7 @@ function BinarySearch() {
           <StaticPosition>
             <ArrayHolder>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <h1>status: {found}</h1>
+                <h1>{found}</h1>
 
                 <ArrayPosHolder>
                   {arrayLink.map(

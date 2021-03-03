@@ -357,7 +357,18 @@ function QuickSort() {
         setFound("j is smaller than " + pivot.arrayValue);
         updateColours(i, j, high);
 
-        setFound("i and j will swap ");
+        if (i == j) {
+          setFound(
+            " j is smaller than " +
+              pivot.arrayValue +
+              ", i and j will swap," +
+              " \n\nbut i = j so nothing happens "
+          );
+        } else {
+          setFound(
+            "j is smaller than " + pivot.arrayValue + ", i and j will swap"
+          );
+        }
         //Maybe need to swap here instead for colours
         await swap(i, j);
       }
@@ -619,9 +630,7 @@ function QuickSort() {
             {" "}
             <ArrayHolder>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <h1 style={{ minHeight: "5vh", maxHeight: "5vh" }}>
-                  status: {found}
-                </h1>
+                <h1 style={{ minHeight: "8vh", maxHeight: "8vh" }}>{found}</h1>
                 <ArrayPosHolder>
                   {arrayLink.map(
                     ({

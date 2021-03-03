@@ -921,9 +921,71 @@ function BFS() {
             description={
               <div>
                 <p>
-                  dijkstra's algorithm (also called dijkstra's shortest path) is
-                  an efficient algorithm for finding the shortest path between
-                  two nodes in a weighted graph.
+                  breadth first search (BFS) is an efficient seaching algorithm
+                  for finding the shortest path between nodes in an unweighted
+                  (distances between nodes are not known) graph.
+                  <br />
+                  <br />
+                  in this case, the shortest path from start to finish is the
+                  one that needs to go through the least nodes.
+                  <br />
+                  <br />
+                  it works by starting at one node, and checking all of its
+                  neighbors or connections. once all of these have been checked,
+                  then the connection's connections are checked. you can think
+                  of it in layers: starting with immediate siblings, then
+                  cousins e.t.c
+                  <br />
+                  <br />
+                  before this algorithm can be run, an adjacency matrix is
+                  needed. this is a 2d array that keeps track of whether or not
+                  two nodes are connected. if nodes 1 and 2 are connected,
+                  <br />
+                  <br />
+                  adjacencyMatrix[1][2] would be 1, and <br />
+                  <br />
+                  adjacencyMatrix[2][1] would also be 1.
+                  <br />
+                  <br />
+                  if two nodes are not connected, the value would instead be 0.
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  1. first, a starting node is picked. this can be any node.
+                  like dijkstra's algorithm, a 'visited' array is made, and
+                  every entry except for the starting node is made to be false,
+                  as no other nodes have been explored yet.
+                  <br />
+                  <br />
+                  similarly, a queue is made, which will track which node should
+                  be visited next.
+                  <br />
+                  <br />
+                  2. the starting node is then pushed on to the queue, and a
+                  while loop is begun:
+                  <br />
+                  <br />
+                  <div style={{ paddingLeft: "2vw" }}>
+                    while the queue is not empty, let the node to be
+                    investigated next be the first node in the queue. i.e
+                    queue[0]. remove this element from the queue.
+                    <br />
+                    <br />
+                    an inner for loop is started, and runs for every node. we
+                    will call the iterator here j:
+                    <br />
+                    <br />
+                    <div style={{ paddingLeft: "4vw" }}>
+                      if adjacencyMatrix[currentNode][j] is equal to 1, and
+                      visited[j] is false, then add it to the queue and make
+                      visited[j] true.
+                      <br />
+                      <br />
+                    </div>
+                  </div>
+                  thats it! when this process is finished, every node will have
+                  been searched.
                 </p>
               </div>
             }
@@ -934,15 +996,14 @@ function BFS() {
             description={
               <div>
                 <p>
-                  while this search algorithm is relatively easy to understand
-                  and implement, it only works if the array is sorted.
-                  otherwise, it will not know which half of the array to look
-                  in.
+                  as BFS does not need to know the distance between nodes, it is
+                  great in networking applications
                   <br />
                   <br />
-                  therefore, it should only be used applications where data is
-                  sorted. this could be in something like a library catalogue
-                  where books are sorted in id or name order.
+                  for example, facebook implements BFS to find the shortest link
+                  between two people, treating friends as nodes connected to the
+                  start point, and friends of friends as the connection's
+                  connections.
                 </p>
               </div>
             }
@@ -953,11 +1014,16 @@ function BFS() {
             description={
               <div>
                 <p>
-                  binary search: O(log n)
+                  breadth first search: O(E + V)
                   <br />
                   <br />
-                  why? every iteration, the number of elements being looked at
-                  is halved.
+                  where E is the number of edges (connections) and V is the
+                  number of vertexes (nodes).
+                  <br />
+                  <br />
+                  why? because every node needs to be scanned through (O(V)),
+                  and only the edges that have not yet been visited yet need to
+                  be scanned (O(E)), so we get O(E + V).
                 </p>
               </div>
             }
