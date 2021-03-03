@@ -398,8 +398,6 @@ function BFS() {
 
     //Finding node closest to center;
     setIsRendered(1);
-
-    p5.background("#FFFFFF");
   }
 
   const fixPositions = useEffect(() => {}, [isRendered]);
@@ -548,7 +546,8 @@ function BFS() {
       nodeLink[i].bgColour = "#9bffb6";
 
       if (temp[i].value == nodeValue) {
-        nodeLink[i].colour = "purple";
+        nodeLink[i].colour = "#BE57FF";
+        nodeLink[i].bgColour = "#AD2CFF";
         await sleep(1000);
         if (i > 0) {
           temp[i - 1].next = temp[i + 1];

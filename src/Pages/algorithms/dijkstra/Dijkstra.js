@@ -474,7 +474,6 @@ function Dijkstra() {
 
     //Finding node closest to center;
 
-    p5.background("#e3dac9");
     console.log(matrixLoaded);
     setIsRendered(1);
 
