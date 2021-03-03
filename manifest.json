@@ -1,9 +1,9 @@
 {
-  "short_name": "Josiah White Portfolio",
-  "name": "Josiah White Portfolio",
+  "short_name": "adsref.cc",
+  "name": "adsref.cc",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "newlogosvg.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
