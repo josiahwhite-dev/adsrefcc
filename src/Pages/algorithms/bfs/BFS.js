@@ -131,7 +131,7 @@ const AddButton = styled.div`
 
   ${media.mobile} {
     border-radius: 2vh;
-    width: 80vw;
+    width: 60vw;
     height: 6vh;
     margin-top: 0vh;
 
@@ -813,6 +813,8 @@ function BFS() {
     document.body.style.overflow = "auto";
   }
 
+  const [toFind, setToFind] = useState(0);
+
   async function breadthFirstSearch() {
     for (let m = 0; m < nodeLink.length; m++) {
       if (nodeLink[m] !== centerNode) {
@@ -832,6 +834,12 @@ function BFS() {
     //Creating the queue
     let queue = [];
 
+    //creating parent
+    let parent = [];
+    for (let i = 0; i < nodeLink.length; i++) {
+      parent[i] = i;
+    }
+
     //Marking initial as visited
     visited[s] = true;
 
@@ -847,7 +855,13 @@ function BFS() {
         if (adjacencyMatrix[s][j] == 1) {
           if (visited[j] == false) {
             visited[j] = true;
+            parent[j] = s;
             queue.push(j);
+
+            console.log("id", +nodeLink[j].nodeID);
+            if (nodeLink[j].nodeID == toFind) {
+              console.log("found at: ", s);
+            }
 
             nodeLink[j].colour = "#FFA5B2";
             nodeLink[j].bgColour = "#F58696";
@@ -857,6 +871,33 @@ function BFS() {
           }
         }
       }
+    }
+    let order = [];
+
+    let n = toFind;
+    let traversals = 0;
+    while (parent[n] != 999) {
+      order.push(n);
+      if (parent[n] == n) {
+        break;
+      }
+      n = parent[n];
+    }
+
+    order.reverse();
+    await sleep(500);
+
+    if (parent[toFind] != toFind) {
+      findParent(order);
+    }
+  }
+
+  async function findParent(order) {
+    for (let i = 0; i < order.length; i++) {
+      nodeLink[order[i]].colour = "#BE57FF";
+      nodeLink[order[i]].bgColour = "#AD2CFF";
+
+      await sleep(500);
     }
   }
 
@@ -1056,7 +1097,10 @@ function BFS() {
               )}
             </SketchHolder>
             <ControlHolder>
-              {/**  <InputValue />*/}
+              <InputValue
+                placeholder="find"
+                onChange={(event) => setToFind(event.target.value)}
+              />
 
               <AddButton onClick={() => breadthFirstSearch()}>
                 <p>search</p>

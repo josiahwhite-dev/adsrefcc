@@ -504,8 +504,11 @@ function Dijkstra() {
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
     setNodesSet(true);
-
     if (isRendered == 1) {
+      setIsRendered(2);
+    }
+
+    if (isRendered == 2) {
       let currX = frameWidth / 10;
       let currY = (frameHeight * 0.8) / 2;
       for (let i = 0; i < nodeLink.length; i++) {
@@ -538,7 +541,7 @@ function Dijkstra() {
         nodeLink[i].y = currY;
       }
 
-      setIsRendered(2);
+      setIsRendered(3);
     }
 
     //Creating Lines
@@ -637,8 +640,9 @@ function Dijkstra() {
     }
 
     animationTimer++;
+    console.log("IR: ", isRendered);
     //intro animation
-    if (isRendered == 2 && animationTimer > 200) {
+    if (isRendered == 3 && animationTimer > 200) {
       p5.fill(p5.color("#F58696"));
 
       p5.triangle(
@@ -683,7 +687,7 @@ function Dijkstra() {
       if (nodeLink[2].y < frameHeight * 0.8) {
         nodeLink[2].y++;
       } else {
-        setIsRendered(3);
+        setIsRendered(4);
       }
     }
   };
@@ -691,7 +695,7 @@ function Dijkstra() {
   const [startValue, setStartValue] = useState(0);
   const [endValue, setEndValue] = useState(6);
 
-  async function addNode() {
+  async function dijkstras() {
     for (let m = 0; m < nodeLink.length; m++) {
       nodeLink[m].colour = "#7CED61";
       nodeLink[m].bgColour = "#61D944";
@@ -1069,7 +1073,7 @@ function Dijkstra() {
               onChange={(event) => setEndValue(event.target.value)}
            />*/}
 
-              <AddButton onClick={() => addNode()}>
+              <AddButton onClick={() => dijkstras()}>
                 <p>start</p>
               </AddButton>
             </ControlHolder>
