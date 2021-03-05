@@ -2,6 +2,10 @@ import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { TopWrapper, media } from "./Shared";
 
+import { ReactComponent as Plus } from "./homeimages/plus.svg";
+import { ReactComponent as QS } from "./homeimages/qs.svg";
+import { ReactComponent as Dijkstra } from "./homeimages/dijkstra.svg";
+
 const HomeWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -18,7 +22,7 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: honeydew;
+  background-color: white;
   flex-grow: 20;
   align-items: center;
   justify-content: space-evenly;
@@ -79,6 +83,28 @@ const Item = styled.div`
   }
 `;
 
+const IconHolder = styled.div`
+  position: absolute;
+
+  animation: bob 3s infinite ease;
+
+  @keyframes bob {
+    0% {
+      transform: translate(0vh, 0vh);
+    }
+    50% {
+      transform: translate(0vh, -2vh);
+    }
+    100% {
+      transform: translate(0vh, 0vh);
+    }
+  }
+
+  ${media.mobile} {
+    display: none;
+  }
+`;
+
 function DataStructures(props) {
   return (
     <Item
@@ -111,6 +137,13 @@ function Home() {
     <HomeWrapper>
       <TopWrapper>
         <HomeTitle>adsref.cc</HomeTitle>
+        <IconHolder>
+          <Plus style={{ position: "absolute", top: "60vh", left: "10vw" }} />
+          <QS style={{ position: "absolute", top: "10vh", left: "10vw" }} />
+          <Dijkstra
+            style={{ position: "absolute", top: "20vh", left: "68vw" }}
+          />
+        </IconHolder>
       </TopWrapper>
       <BodyWrapper>
         <DataStructures url="/algorithms" colour="#85DEDA" title="algorithms" />

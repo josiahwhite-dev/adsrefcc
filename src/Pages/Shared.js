@@ -8,7 +8,7 @@ export const TopWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-grow: 0.1;
-  background-color: peachpuff;
+  background-color: white; /*previously peachpuff*/
   align-items: center;
   justify-content: flex-start;
 
@@ -18,9 +18,11 @@ export const TopWrapper = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 6vh;
+  font-size: calc(5vh + 1vw);
   color: black;
-  padding-left: 1%;
+  padding-left: 5%;
+  ${media.mobile} {
+  }
 `;
 
 export const Item = styled.div`
