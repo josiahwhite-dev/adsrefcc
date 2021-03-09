@@ -206,6 +206,27 @@ const SketchHolder = styled.div`
   }
 `;
 
+const ControlHolder = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 1fr;
+  position: relative;
+  height: 12vh;
+  margin-bottom: 2vh;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 0;
+  margin-top: 2vh;
+  background-color: transparent;
+  border-radius: 2vh;
+  ${media.mobile} {
+    height: 7vh;
+    width: 100%;
+    margin-bottom: 0vh;
+  }
+`;
+
 const StaticPosition = styled.div`
   position: fixed;
   ${media.mobile} {
