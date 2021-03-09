@@ -15,6 +15,7 @@ const HomeWrapper = styled.div`
   background-color: transparent;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 `;
 
 const BodyWrapper = styled.div`
@@ -138,10 +139,29 @@ function Home() {
       <TopWrapper>
         <HomeTitle>adsref.cc</HomeTitle>
         <IconHolder>
-          <Plus style={{ position: "absolute", top: "60vh", left: "10vw" }} />
-          <QS style={{ position: "absolute", top: "10vh", left: "10vw" }} />
+          <Plus
+            style={{
+              position: "absolute",
+              top: "60vh",
+              left: "10vw",
+              width: "15vw",
+            }}
+          />
+          <QS
+            style={{
+              position: "absolute",
+              top: "10vh",
+              left: "9vw",
+              width: "18vw",
+            }}
+          />
           <Dijkstra
-            style={{ position: "absolute", top: "20vh", left: "68vw" }}
+            style={{
+              position: "absolute",
+              top: "20vh",
+              left: "72vw",
+              width: "28vw",
+            }}
           />
         </IconHolder>
       </TopWrapper>
