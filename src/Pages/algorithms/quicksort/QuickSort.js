@@ -86,30 +86,6 @@ const ItemRowContent = styled.div`
   }
 `;
 
-const InputValue = styled.input`
-  border: 0;
-  background-color: #e8e8e8;
-
-  border-radius: 4vh;
-  text-align: center;
-  font-size: 4vh;
-  padding: 2vh;
-  margin-left: 1vw;
-  max-width: 10vw;
-  font-weight: bold;
-  color: #535353;
-  outline: none;
-
-  ${media.mobile} {
-    max-width: none;
-    border-radius: 2vh;
-    width: 10vh;
-    height: 2vh;
-
-    font-size: 3vh;
-  }
-`;
-
 const AddButton = styled.div`
   display: flex;
   width: auto;
@@ -132,35 +108,6 @@ const AddButton = styled.div`
   ${media.mobile} {
     height: 6vh;
 
-    p {
-      font-size: 5vh;
-    }
-  }
-`;
-
-const MinusButton = styled.div`
-  display: flex;
-  width: 10vh;
-  height: 10vh;
-  background-color: #f06449;
-  border-radius: 4vh;
-  margin-top: 2vh;
-  margin-left: 2vh;
-  align-items: center;
-
-  justify-content: center;
-
-  p {
-    font-weight: bold;
-    color: white;
-    font-size: 7vh;
-  }
-
-  ${media.mobile} {
-    border-radius: 2vh;
-    width: 6vh;
-    height: 6vh;
-    margin-top: 0vh;
     p {
       font-size: 5vh;
     }

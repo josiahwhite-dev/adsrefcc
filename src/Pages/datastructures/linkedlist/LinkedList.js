@@ -1,11 +1,9 @@
-import { Link, useHistory } from "react-router-dom";
-import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
-import styled from "styled-components";
-import { TopWrapper, Title, media, Item } from "../../Shared";
-
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sketch from "react-p5";
-import p5 from "p5";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
+import { Item, media, Title, TopWrapper } from "../../Shared";
 
 const AlgorithmsWrapper = styled.div`
   display: flex;
@@ -171,84 +169,6 @@ const MinusButton = styled.div`
   }
 `;
 
-const BFSHolder = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-
-  background-color: red;
-  height: 45vh;
-  width: 38vw;
-  padding-top: 2vh;
-
-  overflow-y: visible;
-  overflow-x: hidden;
-
-  h1 {
-    color: #535353;
-    font-size: 4vh;
-    font-weight: bold;
-    animation: bob 3s infinite ease;
-  }
-
-  @keyframes bob {
-    0% {
-      transform: translate(0vh, 0vh);
-    }
-    50% {
-      transform: translate(0vh, -2vh);
-    }
-    100% {
-      transform: translate(0vh, 0vh);
-    }
-  }
-
-  ${media.mobile} {
-    justify-content: flex-start;
-    align-items: center;
-    width: 100vw;
-    margin: 0%;
-    height: 49vh;
-    margin-top: "30vh";
-  }
-`;
-
-const BFSRow = styled.div`
-  display: grid;
-
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-`;
-
-const ControlHolder = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  min-height: 12vh;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 0;
-  background-color: transparent;
-  ${media.mobile} {
-    height: 7vh;
-    width: 100%;
-    margin-bottom: 0vh;
-  }
-`;
-
-const ArrayPosHolder = styled.div`
-  display: grid;
-  background-color: blue;
-
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr auto;
-
-  ${media.mobile} {
-    width: 100vw;
-  }
-`;
-
 const BackLink = styled.div`
   /* lets use react link */
   padding-left: 2%;
@@ -386,8 +306,6 @@ function BFS() {
   }, [looper]);
 
   console.log(nodeLink);
-
-  const [alreadyDone, setAlreadyDone] = useState(0);
 
   function setup(p5, canvasParentRef) {
     window.scrollTo({ top: 0, behavior: "smooth" });

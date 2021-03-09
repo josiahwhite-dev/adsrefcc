@@ -141,84 +141,6 @@ const AddButton = styled.div`
   }
 `;
 
-const MinusButton = styled.div`
-  display: flex;
-  width: 10vh;
-  height: 10vh;
-  background-color: #f06449;
-  border-radius: 4vh;
-
-  margin-left: 2vh;
-  align-items: center;
-
-  justify-content: center;
-
-  p {
-    font-weight: bold;
-    color: white;
-    font-size: 7vh;
-  }
-
-  ${media.mobile} {
-    border-radius: 2vh;
-    width: 6vh;
-    height: 6vh;
-    margin-top: 0vh;
-    p {
-      font-size: 5vh;
-    }
-  }
-`;
-
-const BFSHolder = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-
-  background-color: red;
-  height: 45vh;
-  width: 38vw;
-  padding-top: 2vh;
-
-  overflow-y: visible;
-  overflow-x: hidden;
-
-  h1 {
-    color: #535353;
-    font-size: 4vh;
-    font-weight: bold;
-    animation: bob 3s infinite ease;
-  }
-
-  @keyframes bob {
-    0% {
-      transform: translate(0vh, 0vh);
-    }
-    50% {
-      transform: translate(0vh, -2vh);
-    }
-    100% {
-      transform: translate(0vh, 0vh);
-    }
-  }
-
-  ${media.mobile} {
-    justify-content: flex-start;
-    align-items: center;
-    width: 100vw;
-    margin: 0%;
-    height: 49vh;
-    margin-top: "30vh";
-  }
-`;
-
-const BFSRow = styled.div`
-  display: grid;
-
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-`;
-
 const ControlHolder = styled.div`
   display: flex;
   flex-direction: row;
@@ -236,38 +158,9 @@ const ControlHolder = styled.div`
   }
 `;
 
-const ArrayPosHolder = styled.div`
-  display: grid;
-  background-color: blue;
-
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr auto;
-
-  ${media.mobile} {
-    width: 100vw;
-  }
-`;
-
 const BackLink = styled.div`
   /* lets use react link */
   padding-left: 2%;
-`;
-
-const TextInsert = styled.input`
-  font-size: 5vh;
-  width: 8vh;
-
-  text-align: center;
-  font-weight: bolder;
-  background: none;
-  border: none;
-
-  color: #ffffff;
-  ::placeholder {
-    color: white;
-  }
-
-  outline: none;
 `;
 
 const SketchHolder = styled.div`
