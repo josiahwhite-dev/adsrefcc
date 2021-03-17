@@ -188,6 +188,12 @@ const StaticPosition = styled.div`
 
 const Instruction = styled.h2`
   position: absolute;
+  border-radius: 10vh;
+  text-align: center;
+  background-color: white;
+  padding: 1vw;
+  overflow: visible;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
 
   animation: bobandfade 8s ease;
   animation-fill-mode: forwards;
@@ -968,7 +974,10 @@ function BFS() {
         </ItemRowDescription>
         <ItemRowContent>
           <StaticPosition>
-            <Instruction>drag between nodes to form a link</Instruction>
+            <Instruction>
+              drag between nodes to form a link <br /> tap to break a link
+            </Instruction>
+
             <SketchHolder id="IRC" ref={holderRef}>
               {frameWidth < 1 && (
                 <Sketch
