@@ -80,9 +80,10 @@ const ItemRowContent = styled.div`
     align-items: center;
     width: 100%;
 
-    height: 60vh;
-    margin-top: "30vh";
+    height: 40vh;
+
     margin: 0%;
+    margin-bottom: 10vh;
   }
 `;
 
@@ -215,7 +216,11 @@ const TextInsert = styled.input`
 const StaticPosition = styled.div`
   position: fixed;
   margin-top: 60vh;
+
   ${media.mobile} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: inherit;
     position: relative;
   }
@@ -231,6 +236,32 @@ function Info(props) {
   );
 }
 
+function MainInfo(props) {
+  var screenSize;
+  var itemPadding;
+  if (window.innerWidth < 1024) {
+    screenSize = "50vh";
+    itemPadding = "2vh";
+  } else {
+    screenSize = "30vh";
+    itemPadding = "0vh";
+  }
+
+  return (
+    <Item
+      id="mainInfo"
+      style={{
+        backgroundColor: props.colour,
+        minHeight: screenSize,
+        margin: itemPadding,
+      }}
+    >
+      <h1>{props.title}</h1>
+
+      <p>{props.description}</p>
+    </Item>
+  );
+}
 function QuickSort() {
   const [arrayLink, setArrayLink] = useState([]);
   const [positionLink, setPositionLink] = useState([]);
@@ -257,7 +288,7 @@ function QuickSort() {
     /* "translate(6vh, -4vh) rotate(-20deg)",
     "translate(5vh, -4vh) rotate(200deg)",*/
   ];
-
+  let highlightInstruction = document.getElementById("mainInfo");
   //1 and 3 are the same
   const arrayMovementMap = ["translate(5vh, 0vh) ", " translate(-5vh, 0vh) "];
 
@@ -281,8 +312,7 @@ function QuickSort() {
       quickSortFunction(pi + 1, high);
       await sleep(2000);
     }
-
-    console.log("finished!");
+    await sleep(2500);
   }
 
   async function partition(low, high) {
@@ -295,41 +325,159 @@ function QuickSort() {
 
     for (j = low; j <= high - 1; j++) {
       updateColours(i, j, high);
-      // If current element is smaller than the pivot
-      setFound("j is not smaller than " + pivot.arrayValue);
+
+      if (arrayLink[j].arrayValue >= pivot.arrayValue) {
+        // If current element is smaller than the pivot
+        // setFound("j is not smaller than " + pivot.arrayValue);
+        highlightInstruction.style.transition = "background-color 1000ms ease";
+        highlightInstruction.style.backgroundColor = "#5ECC44";
+        document.getElementById("taskDescription").style.transition =
+          "font-size 1000ms ease";
+        document.getElementById("taskDescription").style.fontSize = "120%";
+        document.getElementById("taskDescription").innerHTML =
+          "j is not smaller than " + pivot.arrayValue;
+        await sleep(1000);
+        highlightInstruction.style.backgroundColor = "#F06449";
+        document.getElementById("taskDescription").style.fontSize = "100%";
+      }
 
       if (arrayLink[j].arrayValue < pivot.arrayValue) {
         console.log("called!");
         i++; // increment index of smaller element
-        setFound("j is smaller than " + pivot.arrayValue);
+        // setFound("j is smaller than " + pivot.arrayValue);
+        highlightInstruction.style.transition = "background-color 1000ms ease";
+        highlightInstruction.style.backgroundColor = "#D059FC";
+        document.getElementById("taskDescription").style.transition =
+          "font-size 1000ms ease";
+        document.getElementById("taskDescription").style.fontSize = "120%";
+        document.getElementById("taskDescription").innerHTML =
+          "j is smaller than " + pivot.arrayValue;
+        await sleep(1000);
+        highlightInstruction.style.backgroundColor = "#F06449";
+        document.getElementById("taskDescription").style.fontSize = "100%";
+
         updateColours(i, j, high);
 
         if (i == j) {
-          setFound(
+          /*setFound(
             " j is smaller than " +
               pivot.arrayValue +
               ", i and j will swap," +
               " \n\nbut i = j so nothing happens "
-          );
+          );*/
+
+          highlightInstruction.style.transition =
+            "background-color 1000ms ease";
+          highlightInstruction.style.backgroundColor = "#D059FC";
+          document.getElementById("taskDescription").style.transition =
+            "font-size 1000ms ease";
+          document.getElementById("taskDescription").style.fontSize = "120%";
+          document.getElementById("taskDescription").innerHTML =
+            " j is smaller than " + pivot.arrayValue;
+
+          await sleep(1000);
+
+          document.getElementById("taskDescription").style.fontSize = "100%";
+          await sleep(1000);
+          document.getElementById("taskDescription").innerHTML =
+            "so i moves up 1 ";
+          document.getElementById("taskDescription").style.fontSize = "120%";
+          await sleep(2500);
+
+          document.getElementById("taskDescription").style.fontSize = "100%";
+          await sleep(1000);
+          document.getElementById("taskDescription").innerHTML =
+            "but now i = j so nothing happens ";
+          document.getElementById("taskDescription").style.fontSize = "120%";
+          await sleep(1000);
+          //Maybe need to swap here instead for colours
+          await swap(i, j);
+          highlightInstruction.style.backgroundColor = "#F06449";
+          document.getElementById("taskDescription").style.fontSize = "100%";
+
+          document.getElementById("taskDescription").style.fontSize = "100%";
         } else {
-          setFound(
-            "j is smaller than " + pivot.arrayValue + ", i and j will swap"
-          );
+          //setFound(
+          //  "j is smaller than " + pivot.arrayValue + ", i and j will swap"
+          //);
+          document.getElementById("taskDescription").style.fontSize = "100%";
+          await sleep(1000);
+          document.getElementById("taskDescription").innerHTML =
+            "i moves up 1 ";
+          document.getElementById("taskDescription").style.fontSize = "120%";
+          await sleep(1500);
+          highlightInstruction.style.transition =
+            "background-color 1000ms ease";
+          highlightInstruction.style.backgroundColor = "#D059FC";
+          document.getElementById("taskDescription").style.transition =
+            "font-size 1000ms ease";
+          document.getElementById("taskDescription").style.fontSize = "120%";
+          document.getElementById("taskDescription").innerHTML =
+            "i and j will swap their values";
+          await sleep(1500);
+          //Maybe need to swap here instead for colours
+          await swap(i, j);
+          highlightInstruction.style.backgroundColor = "#F06449";
+          document.getElementById("taskDescription").style.fontSize = "100%";
+
+          highlightInstruction.style.backgroundColor = "#D059FC";
         }
-        //Maybe need to swap here instead for colours
-        await swap(i, j);
       }
       await sleep(1500);
     }
 
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#44BAB5";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").innerHTML =
+      "j has reached the end";
     await sleep(2500);
-    setFound("pivot will swap with i + 1 ");
+
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
+
+    await sleep(2500);
+    // setFound("pivot will swap with i + 1 ");
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#44BAB5";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").innerHTML =
+      "pivot will now swap with i + 1 ";
+    await sleep(2500);
+
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
     await swap(i + 1, high);
     return Promise.resolve(i + 1);
   }
 
   async function updateColours(i, j, high) {
     let newArrayLink = [...arrayLink];
+
+    let c;
+    for (c = 0; c < 10; c++) {
+      if (c !== i && c !== j && c !== high) {
+        if (c > i && c < high) {
+          newArrayLink[c].foreground =
+            "linear-gradient(to  right, #B492BE, #B492BE)";
+          newArrayLink[c].background =
+            "linear-gradient(to  right, #897390, #897390)";
+          newArrayLink[c].elementState = "";
+          newArrayLink[c].elementTextColour = "";
+        } else {
+          newArrayLink[c].foreground =
+            "linear-gradient(to  right, #d1d1d1, #d1d1d1)";
+          newArrayLink[c].background =
+            "linear-gradient(to  right, #ebebeb, #ebebeb)";
+          newArrayLink[c].elementState = "";
+          newArrayLink[c].elementTextColour = "";
+        }
+      }
+    }
 
     console.log("j: " + j);
     newArrayLink[j].foreground = "linear-gradient(to  right, #5ECC44, #5ECC44)";
@@ -351,27 +499,6 @@ function QuickSort() {
       "linear-gradient(to  right, #CB391E, #CB391E)";
     newArrayLink[high].elementState = "pivot ";
     newArrayLink[high].elementTextColour = "#CB391E";
-
-    let c;
-    for (c = 0; c < 10; c++) {
-      if (c !== i && c !== j && c !== high) {
-        if (c > i && c < high) {
-          newArrayLink[c].foreground =
-            "linear-gradient(to  right, #B492BE, #B492BE)";
-          newArrayLink[c].background =
-            "linear-gradient(to  right, #897390, #897390)";
-          newArrayLink[c].elementState = "";
-          newArrayLink[c].elementTextColour = "";
-        } else {
-          newArrayLink[c].foreground =
-            "linear-gradient(to  right, #7c7c7c, #7c7c7c)";
-          newArrayLink[c].background =
-            "linear-gradient(to  right, #a8a8a8, #a8a8a8)";
-          newArrayLink[c].elementState = "";
-          newArrayLink[c].elementTextColour = "";
-        }
-      }
-    }
 
     setArrayLink(newArrayLink);
     await sleep(2000);
@@ -451,76 +578,38 @@ function QuickSort() {
       </TopWrapper>
       <BodyWrapper>
         <ItemRowDescription>
-          <Info
+          <MainInfo
             colour="#F06449"
-            title="description"
+            title="quick sort"
             description={
               <div>
-                <p>
-                  quick sort is an efficient sorting algorithm for arrays.
-                  <br />
-                  <br />
-                  it works by breaking the array into smaller and smaller sub
-                  arrays, and sorting these smaller arrays, then putting
-                  everything back together at the end.
-                  <br />
-                  <br />
-                  <h2>quick sort (low, high)</h2>
-                  if low is less than high, run partition.
-                  <br />
-                  <br />
-                  <div style={{ paddingLeft: "2vw" }}>
-                    <h2>partition (low, high)</h2>
-                    1. a pivot value is picked. in theory, this can be any
-                    element in the array. here, it is always the last, or
-                    'high'.
-                    <br />
-                    <br />
-                    2. two 'pointer' values, i and j, are given. here, i is
-                    given the value -1, and j is given the value 0.
-                    <br />
-                    <br />
-                    3. the value at position j is checked against the value at
-                    the pivot.
-                    <br />
-                    <br />
-                    if it is smaller than the value at the pivot, and j is
-                    incremented by 1, and nothing else happens
-                    <br />
-                    <br />
-                    if it is bigger than the value at the pivot, then i
-                    increments, and the values at i and j swap. then, j is
-                    incremented and the process continues
-                    <br />
-                    <br />
-                    4. once j reaches the element just before the pivot, then
-                    the value at the pivot and the i+1th element swap, and the
-                    i+1th element is returned.
-                    <br />
-                    <br />
-                  </div>
-                  <h2>quick sort pt. 2</h2>
-                  quick sort is recursively called twice. <br /> once, with low
-                  being the first element and high being i+1, where i+1 will
-                  keep getting lower with every call to partition
-                  <br />
-                  <br />
-                  quicksort(low, i+1)
-                  <br />
-                  <br />
-                  then with low being i+1 and high being the last element, where
-                  i+1 will keep getting higher with every call to partition
-                  <br />
-                  <br />
-                  quicksort(i+1, high)
-                  <br />
-                  <br />
-                  eventually, i+1, low, and high will all have the same value.
-                  the process will stop, as the array will be sorted!
+                <p
+                  id="taskDescription"
+                  style={{
+                    textAlign: "center",
+                    fontSize: "18px",
+                    minHeight: "5vh",
+                    maxHeight: "5vh",
+                  }}
+                >
+                  an efficient sorting algorithm for arrays that works by
+                  breaking the array into smaller sub arrays, sorting them, then
+                  putting them back together
                 </p>
+                <p
+                  id="queue"
+                  style={{
+                    margin: "0px",
+                    marginTop: "1vh",
+                    padding: "0px",
+                    textAlign: "center",
+                    fontSize: "120%",
+                  }}
+                ></p>
               </div>
             }
           />
+
           <Info
             colour="#6DD3CE"
             title="use cases"

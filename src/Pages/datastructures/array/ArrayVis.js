@@ -362,7 +362,7 @@ function ArrayVis() {
         <ItemRowDescription>
           <Info
             colour="#F06449"
-            title="description"
+            title="array"
             description={
               <div>
                 <p>

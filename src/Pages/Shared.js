@@ -47,6 +47,7 @@ export const Item = styled.div`
     color: white;
     margin-left: 2vw;
     margin-right: 2vw;
+    margin-bottom: 0;
   }
   p {
     font-size: calc(1vh+1vw);
@@ -66,6 +67,7 @@ export const Item = styled.div`
 
   ${media.mobile} {
     width: 90vw;
+    min-height: 50vh;
     border-radius: 8vh;
   }
 `;

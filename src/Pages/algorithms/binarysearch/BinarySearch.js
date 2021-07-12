@@ -78,9 +78,11 @@ const ItemRowContent = styled.div`
     align-items: center;
     width: 100%;
 
-    height: 60vh;
+    height: 40vh;
     margin-top: "30vh";
+
     margin: 0%;
+    margin-bottom: 10vh;
   }
 `;
 
@@ -281,6 +283,33 @@ function Info(props) {
   );
 }
 
+function MainInfo(props) {
+  var screenSize;
+  var itemPadding;
+  if (window.innerWidth < 1024) {
+    screenSize = "50vh";
+    itemPadding = "2vh";
+  } else {
+    screenSize = "30vh";
+    itemPadding = "0vh";
+  }
+
+  return (
+    <Item
+      id="mainInfo"
+      style={{
+        backgroundColor: props.colour,
+        minHeight: screenSize,
+        margin: itemPadding,
+      }}
+    >
+      <h1>{props.title}</h1>
+
+      <p>{props.description}</p>
+    </Item>
+  );
+}
+
 function BinarySearch() {
   const [arrayLink, setArrayLink] = useState([]);
   const [positionLink, setPositionLink] = useState([]);
@@ -328,6 +357,7 @@ function BinarySearch() {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
+  let highlightInstruction = document.getElementById("mainInfo");
   async function binarySearchFunction(array, low, high, target) {
     if (high >= low) {
       let mid = Math.floor(low + (high - low) / 2);
@@ -335,25 +365,74 @@ function BinarySearch() {
       updateColours(low, mid, high);
 
       if (array[mid].arrayValue == target) {
-        setFound("found at index " + mid);
+        //setFound("found at index " + mid);
+        highlightInstruction.style.transition = "background-color 1000ms ease";
+        highlightInstruction.style.backgroundColor = "#5ECC44";
+        document.getElementById("taskDescription").style.transition =
+          "font-size 1000ms ease";
+        document.getElementById("taskDescription").style.fontSize = "120%";
+        document.getElementById("taskDescription").innerHTML =
+          "found at index " + mid;
+        await sleep(2500);
+        highlightInstruction.style.backgroundColor = "#F06449";
+        document.getElementById("taskDescription").style.fontSize = "100%";
+
         return;
       }
 
       if (array[mid].arrayValue > target) {
-        setFound(
-          array[mid].arrayValue + " > " + target + " must be in first half"
-        );
+        // setFound(
+        // array[mid].arrayValue + " > " + target + " must be in first half"
+        //);
+        highlightInstruction.style.transition = "background-color 1000ms ease";
+        highlightInstruction.style.backgroundColor = "#44BAB5";
+        document.getElementById("taskDescription").style.transition =
+          "font-size 1000ms ease";
+        document.getElementById("taskDescription").style.fontSize = "120%";
+        document.getElementById("taskDescription").innerHTML =
+          "mid (" +
+          array[mid].arrayValue +
+          ") > " +
+          target +
+          " must be in first half";
+        await sleep(2500);
+        highlightInstruction.style.backgroundColor = "#F06449";
+        document.getElementById("taskDescription").style.fontSize = "100%";
         await sleep(4000);
         return binarySearchFunction(array, low, mid - 1, target);
       }
 
-      setFound(
-        array[mid].arrayValue + " < " + target + ", must be in second half"
-      );
+      //setFound(
+      //  array[mid].arrayValue + " < " + target + ", must be in second half"
+      //);
+
+      highlightInstruction.style.transition = "background-color 1000ms ease";
+      highlightInstruction.style.backgroundColor = "#FF3F1A";
+      document.getElementById("taskDescription").style.transition =
+        "font-size 1000ms ease";
+      document.getElementById("taskDescription").style.fontSize = "120%";
+      document.getElementById("taskDescription").innerHTML =
+        "mid (" +
+        array[mid].arrayValue +
+        ") < " +
+        target +
+        " must be in second half";
+      await sleep(2500);
+      highlightInstruction.style.backgroundColor = "#F06449";
+      document.getElementById("taskDescription").style.fontSize = "100%";
       await sleep(4000);
       return binarySearchFunction(array, mid + 1, high, target);
     }
-    setFound("not found");
+    //setFound("not found");
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#44BAB5";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").innerHTML = "not found";
+    await sleep(2500);
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
     return;
   }
 
@@ -429,9 +508,9 @@ function BinarySearch() {
           newArrayLink[i].elementTextColour = "";
         } else {
           newArrayLink[i].foreground =
-            "linear-gradient(to  right, #7c7c7c, #7c7c7c)";
+            "linear-gradient(to  right, #d1d1d1, #d1d1d1)";
           newArrayLink[i].background =
-            "linear-gradient(to  right, #a8a8a8, #a8a8a8)";
+            "linear-gradient(to  right, #ebebeb, #ebebeb)";
           newArrayLink[i].elementState = "";
           newArrayLink[i].elementTextColour = "";
         }
@@ -488,29 +567,34 @@ function BinarySearch() {
       </TopWrapper>
       <BodyWrapper>
         <ItemRowDescription>
-          <Info
+          <MainInfo
             colour="#F06449"
-            title="description"
+            title="binary search"
             description={
               <div>
-                <p>
-                  binary search is a simple search algorithm for sorted arrays{" "}
+                <p
+                  id="taskDescription"
+                  style={{
+                    textAlign: "center",
+                    fontSize: "18px",
+                    minHeight: "5vh",
+                    maxHeight: "5vh",
+                  }}
+                >
+                  a simple search algorithm for sorted arrays
                   <br />
-                  <br />
-                  it works by first checking the value at the middle of the
-                  array. if this value is greater than the value that it is
-                  searching for, this must mean that the target value is in the
-                  first half of the array.
-                  <br />
-                  <br />
-                  if it is smaller than the value it is searching for, then the
-                  target value must be in the second half of the array.
-                  <br />
-                  <br />
-                  then, the process is repeated for whichever half of the array
-                  is chosen, and the array continues being split in half until
-                  the value is found.
+                  <br /> type your own numbers in <br /> on each box
                 </p>
+                <p
+                  id="queue"
+                  style={{
+                    margin: "0px",
+                    marginTop: "1vh",
+                    padding: "0px",
+                    textAlign: "center",
+                    fontSize: "120%",
+                  }}
+                ></p>
               </div>
             }
           />

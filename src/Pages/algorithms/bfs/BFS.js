@@ -225,11 +225,128 @@ function Info(props) {
   );
 }
 
+function MainInfo(props) {
+  var screenSize;
+  var itemPadding;
+  if (window.innerWidth < 1024) {
+    screenSize = "50vh";
+    itemPadding = "2vh";
+  } else {
+    screenSize = "30vh";
+    itemPadding = "0vh";
+  }
+
+  return (
+    <Item
+      id="mainInfo"
+      style={{
+        backgroundColor: props.colour,
+        minHeight: screenSize,
+        margin: itemPadding,
+      }}
+    >
+      <h1>{props.title}</h1>
+
+      <p>{props.description}</p>
+    </Item>
+  );
+}
+
+function ArrayVisParents(props) {
+  return (
+    /////AWDAWDAWD ADD PARENT ID
+    <Item
+      id="visParents"
+      style={{ backgroundColor: props.colour, minHeight: "15vh" }}
+    >
+      <h2 style={{ color: "white" }}>{props.title}</h2>
+
+      <table style={{ width: "80%", borderCollapse: "collapse" }}>
+        <thead
+          style={{
+            color: "white",
+            fontSize: "150%",
+            fontWeight: "bolder",
+          }}
+        >
+          <th>0</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+          <th>8</th>
+        </thead>
+        <tr style={{ fontSize: "150%" }}>
+          <td id="D0"></td>
+          <td id="D1"></td>
+          <td id="D2"></td>
+          <td id="D3"></td>
+          <td id="D4"></td>
+          <td id="D5"></td>
+          <td id="D6"></td>
+          <td id="D7"></td>
+          <td id="D8"></td>
+        </tr>
+      </table>
+    </Item>
+  );
+}
+
+function ArrayVisVisited(props) {
+  return (
+    <Item
+      id="visVisited"
+      style={{ backgroundColor: props.colour, minHeight: "15vh" }}
+    >
+      <h2 style={{ color: "white" }}>{props.title}</h2>
+
+      <table style={{ width: "80%", borderCollapse: "collapse" }}>
+        <thead
+          style={{
+            color: "white",
+            fontSize: "150%",
+            fontWeight: "bolder",
+          }}
+        >
+          <th id="H0">0</th>
+          <th id="H1">1</th>
+          <th id="H2">2</th>
+          <th id="H3">3</th>
+          <th id="H4">4</th>
+          <th id="H5">5</th>
+          <th id="H6">6</th>
+          <th id="H7">7</th>
+          <th id="H8">8</th>
+        </thead>
+        <tr style={{ fontSize: "150%" }}>
+          <td id="V0"></td>
+          <td id="V1"></td>
+          <td id="V2"></td>
+          <td id="V3"></td>
+          <td id="V4"></td>
+          <td id="V5"></td>
+          <td id="V6"></td>
+          <td id="V7"></td>
+          <td id="V8"></td>
+        </tr>
+      </table>
+    </Item>
+  );
+}
+
 function BFS() {
   const holderRef = useRef();
   //Frame
   const [globalWidth, setGlobalWidth] = useState(0);
   const [globalHeight, setGlobalHeight] = useState(0);
+
+  const [dimensions, setDimensions] = React.useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
 
   //Nodes
   const [nodeLink, setNodeLink] = useState([]);
@@ -284,8 +401,8 @@ function BFS() {
 
     while (nodeLinkTemp.length < 9) {
       var Node = {
-        x: Math.floor(Math.random() * (screenWidth - 100) + 50),
-        y: Math.floor(Math.random() * (screenHeight - 100) + 50),
+        x: Math.floor(Math.random() * (screenWidth - 150) + 50),
+        y: Math.floor(Math.random() * (screenHeight - 150) + 50),
         r: initialR,
         nodeID: nodeID,
         nodeValue: Math.floor(Math.random() * 99),
@@ -402,8 +519,8 @@ function BFS() {
 
   let centerNodeColourer = useEffect(() => {
     if (centerNode !== null) {
-      centerNode.colour = "#6BEBD8";
-      centerNode.bgColour = "#54CCBA";
+      centerNode.colour = "#f2be3a";
+      centerNode.bgColour = "#c99b24";
     }
   }, centerNode);
 
@@ -419,7 +536,6 @@ function BFS() {
     let prevDist = [];
     let doneBefore = false;
 
-    let extraConnect;
     //trying dist;
 
     for (let w = 0; w < numConnections; w++) {
@@ -714,80 +830,270 @@ function BFS() {
 
   const [toFind, setToFind] = useState(0);
 
+  /*ACTUAL BFS*/
+
   async function breadthFirstSearch() {
+    if (toFind > nodeLink.length || toFind < 0) {
+      document.getElementById("taskDescription").innerHTML =
+        "please input a valid node to find!";
+
+      return;
+    }
+    document.getElementById("taskDescription").innerHTML = "initialising BFS";
+
+    //for highlight
+    let highlightParents = document.getElementById("visParents");
+    let highlightVisited = document.getElementById("visVisited");
+
+    let highlightInstruction = document.getElementById("mainInfo");
+
     for (let m = 0; m < nodeLink.length; m++) {
       if (nodeLink[m] !== centerNode) {
         nodeLink[m].colour = "#7CED61";
         nodeLink[m].bgColour = "#61D944";
       } else {
-        nodeLink[m].colour = "#6BEBD8";
-        nodeLink[m].bgColour = "#54CCBA";
+        // nodeLink[m].colour = "#6BEBD8";
+        // nodeLink[m].bgColour = "#54CCBA";
       }
     }
 
     let s = centerIndex;
 
-    //Setting all visited to false
-    let visited = [];
-    for (let i = 0; i < nodeLink.length; i++) {
-      visited[i] = false;
-    }
-
     //Creating the queue
     let queue = [];
+    document.getElementById("queue").innerHTML = "queue: [" + queue + "]";
 
     //creating parent
     let parent = [];
     for (let i = 0; i < nodeLink.length; i++) {
       parent[i] = i;
+      if (i == centerNode.nodeID) {
+        document.getElementById("D" + i).innerHTML = "-1";
+      } else {
+        document.getElementById("D" + i).innerHTML = i;
+      }
+      await sleep(500);
+    }
+
+    //Setting all visited to false
+    let visited = [];
+    for (let i = 0; i < nodeLink.length; i++) {
+      visited[i] = false;
+      if (i == centerNode.nodeID) {
+        document.getElementById("V" + s).innerHTML = "yes";
+      } else {
+        document.getElementById("V" + i).innerHTML = "no";
+      }
+      await sleep(300);
     }
 
     //Marking initial as visited
     visited[s] = true;
 
+    await sleep(500);
+
     queue.push(s);
+    await sleep(300);
     console.log(queue[0]);
 
     while (queue.length > 0) {
       s = queue[0];
       console.log("S:", s);
+
+      highlightParents.style.transition = "background-color 1000ms ease";
+      highlightInstruction.style.backgroundColor = "#f2be3a";
+      document.getElementById("taskDescription").style.fontSize = "120%";
+      document.getElementById("taskDescription").style.transition =
+        "font-size 1000ms ease";
+      document.getElementById("taskDescription").innerHTML =
+        "current node: " +
+        '<p style="font-size:30px; text-align: center; padding: 0px; margin: 0px">' +
+        s +
+        "</p>";
+
+      nodeLink[s].colour = "#f2be3a";
+      nodeLink[s].bgColour = "#c99b24";
+      await sleep(2000);
+
+      highlightInstruction.style.transition = "background-color 1000ms ease";
+      highlightInstruction.style.backgroundColor = "#7d34eb";
+      document.getElementById("taskDescription").style.fontSize = "120%";
+
+      await sleep(2500);
+      highlightInstruction.style.backgroundColor = "#F06449";
+      document.getElementById("taskDescription").style.fontSize = "100%";
+
       queue.shift();
+
+      if (s == toFind) {
+        document.getElementById("taskDescription").innerHTML =
+          '<p style="font-size:30px; text-align: center; padding: 0px; margin: 0px">' +
+          "target node found!" +
+          "</p>";
+        await sleep(3000);
+        break;
+      }
 
       for (let j = 0; j < adjacencyMatrix[s].length; j++) {
         if (adjacencyMatrix[s][j] == 1) {
           if (visited[j] == false) {
-            visited[j] = true;
+            //Adding to queue
+
+            document.getElementById("taskDescription").style.fontSize = "120%";
+            document.getElementById("taskDescription").style.transition =
+              "font-size 1000ms ease";
+            document.getElementById("taskDescription").innerHTML =
+              "adding to queue: " +
+              '<p style="font-size:30px; text-align: center; padding: 0px; margin: 0px">' +
+              j +
+              "</p>";
+            highlightInstruction.style.transition =
+              "background-color 1000ms ease";
+            highlightInstruction.style.backgroundColor = "#7d34eb";
+            document.getElementById("queue").innerHTML =
+              "queue: [" + queue + "]";
+            await sleep(1500);
+            nodeLink[j].colour = "#7d34eb";
+            nodeLink[j].bgColour = "#5e1dbf";
+            await sleep(1500);
+
+            highlightInstruction.style.backgroundColor = "#F06449";
+            document.getElementById("taskDescription").style.fontSize = "100%";
+
+            await sleep(1000);
+
+            //highlighting the parents
             parent[j] = s;
+            document.getElementById("D" + j).innerHTML = parent[j];
+
+            document.getElementById("D" + j).style.fontSize = "200%";
+            document.getElementById("D" + j).style.transition =
+              "font-size 1000ms ease";
+            highlightParents.style.transition = "background-color 1000ms ease";
+            highlightParents.style.backgroundColor = "#7d34eb";
+            await sleep(1500);
+            highlightParents.style.backgroundColor = "#F06449";
+            document.getElementById("D" + j).style.fontSize = "100%";
+
+            await sleep(500);
+            //Highligthing the visited
+
+            visited[j] = true;
+            document.getElementById("V" + j).innerHTML = "yes";
+
+            document.getElementById("V" + j).style.fontSize = "200%";
+            document.getElementById("V" + j).style.transition =
+              "font-size 1000ms ease";
+            highlightVisited.style.transition = "background-color 1000ms ease";
+            highlightVisited.style.backgroundColor = "#7d34eb";
+            await sleep(1500);
+            highlightVisited.style.backgroundColor = "#F06449";
+            document.getElementById("V" + j).style.fontSize = "100%";
+            await sleep(1500);
+
+            //Pushing to the queue
+
             queue.push(j);
+            document.getElementById("queue").innerHTML =
+              "queue: [" + queue + "]";
+            await sleep(500);
 
             console.log("id", +nodeLink[j].nodeID);
             if (nodeLink[j].nodeID == toFind) {
               console.log("found at: ", s);
             }
 
-            nodeLink[j].colour = "#FFA5B2";
-            nodeLink[j].bgColour = "#F58696";
             console.log("Queue: ", queue);
 
             await sleep(500);
           }
         }
       }
+
+      //End of connections
+      document.getElementById("taskDescription").style.fontSize = "120%";
+      document.getElementById("taskDescription").style.transition =
+        "font-size 1000ms ease";
+      document.getElementById("taskDescription").innerHTML =
+        "all connections exhausted <br/> moving to next node in queue ";
+      await sleep(3000);
+
+      highlightInstruction.style.transition = "background-color 1000ms ease";
+      highlightInstruction.style.backgroundColor = "#7d34eb";
+
+      await sleep(2500);
+      highlightInstruction.style.backgroundColor = "#F06449";
+      document.getElementById("taskDescription").style.fontSize = "100%";
+
+      //updating colour
+
+      nodeLink[s].colour = "#737894";
+      nodeLink[s].bgColour = "#50525e";
     }
     let order = [];
+
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").innerHTML =
+      "starting at the target node, we <br/> run back along the parents <br/> to find the final shortest path";
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#f2be3a";
+    await sleep(1500);
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(2500);
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
 
     let n = toFind;
     let traversals = 0;
     while (parent[n] != 999) {
       order.push(n);
+      document.getElementById("queue").innerHTML = "order: [" + order + "]";
+      document.getElementById("H" + n).style.transition =
+        "font-size 1000ms ease";
+      document.getElementById("H" + n).style.fontSize = "200%";
+
+      await sleep(1500);
+      document.getElementById("H" + parent[n]).style.fontSize = "100%";
+      await sleep(1000);
       if (parent[n] == n) {
         break;
       }
       n = parent[n];
     }
 
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").innerHTML =
+      "the order is reversed so we start <br/> at the right place";
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#f2be3a";
+    await sleep(1500);
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(1500);
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
+
     order.reverse();
     await sleep(500);
+
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(1500);
+
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").innerHTML =
+      "now, we simply run through <br/> the order";
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#f2be3a";
+    await sleep(1500);
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(1500);
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
 
     if (parent[toFind] != toFind) {
       findParent(order);
@@ -796,8 +1102,15 @@ function BFS() {
 
   async function findParent(order) {
     for (let i = 0; i < order.length; i++) {
-      nodeLink[order[i]].colour = "#BE57FF";
-      nodeLink[order[i]].bgColour = "#AD2CFF";
+      nodeLink[order[i]].colour = "#F52F2F";
+      nodeLink[order[i]].bgColour = "#F66161";
+
+      document.getElementById("H" + order[i]).style.transition =
+        "font-size 1000ms ease";
+      document.getElementById("H" + order[i]).style.fontSize = "200%";
+
+      await sleep(1500);
+      document.getElementById("H" + order[i]).style.fontSize = "100%";
 
       await sleep(500);
     }
@@ -845,6 +1158,150 @@ function BFS() {
   }
 
   function test() {}
+
+  return (
+    <AlgorithmsWrapper className="BFS">
+      <TopWrapper>
+        <BackLink as={Link} to="/algorithms">
+          <BackArrow />
+        </BackLink>
+
+        <Title>breadth first search</Title>
+      </TopWrapper>
+      <BodyWrapper>
+        <ItemRowDescription>
+          <MainInfo
+            colour="#F06449"
+            title="bfs"
+            description={
+              <div>
+                <p
+                  id="taskDescription"
+                  style={{
+                    textAlign: "center",
+                    fontSize: "18px",
+                    minHeight: "5vh",
+                    maxHeight: "5vh",
+                  }}
+                >
+                  Finds the shortest path between nodes <br /> in an unweighted
+                  (distances are unknown) graph.
+                </p>
+                <p
+                  id="queue"
+                  style={{
+                    margin: "0px",
+                    marginTop: "1vh",
+                    padding: "0px",
+                    textAlign: "center",
+                    fontSize: "120%",
+                  }}
+                ></p>
+              </div>
+            }
+          />
+          <ArrayVisParents
+            colour="#F06449"
+            title="parents "
+            description={
+              <div>0 &emsp; 1 &emsp; 2 &emsp; 3 &emsp; 4 &emsp; 5 &emsp; 6</div>
+            }
+          />
+          <ArrayVisVisited
+            colour="#F06449"
+            title="visited"
+            description={<div></div>}
+          />
+          <Info
+            colour="#6DD3CE"
+            title="use cases"
+            description={
+              <div>
+                <p>
+                  as BFS does not need to know the distance between nodes, it is
+                  great in networking applications
+                  <br />
+                  <br />
+                  for example, facebook implements BFS to find the shortest link
+                  between two people, treating friends as nodes connected to the
+                  start point, and friends of friends as the connection's
+                  connections.
+                </p>
+              </div>
+            }
+          />
+          <Info
+            colour="#FFA5B2"
+            title="cost"
+            description={
+              <div>
+                <p>
+                  breadth first search: O(E + V)
+                  <br />
+                  <br />
+                  where E is the number of edges (connections) and V is the
+                  number of vertexes (nodes).
+                  <br />
+                  <br />
+                  why? because every node needs to be scanned through (O(V)),
+                  and only the edges that have not yet been visited yet need to
+                  be scanned (O(E)), so we get O(E + V).
+                </p>
+              </div>
+            }
+          />
+        </ItemRowDescription>
+        <ItemRowContent>
+          <StaticPosition>
+            <SketchHolder id="IRC" ref={holderRef}>
+              {frameWidth < 1 && (
+                <Sketch
+                  setup={test}
+                  draw={draw}
+                  windowResized={windowResized}
+                  mouseWheel={mouseWheel}
+                  mousePressed={mousePressed}
+                  mouseDragged={mouseDragged}
+                  mouseReleased={mouseReleased}
+                  purple={dimensions}
+                />
+              )}
+              {frameWidth > 1 && (
+                <Sketch
+                  setup={setup}
+                  draw={draw}
+                  windowResized={windowResized}
+                  mouseWheel={mouseWheel}
+                  mousePressed={mousePressed}
+                  mouseDragged={mouseDragged}
+                  mouseReleased={mouseReleased}
+                />
+              )}
+            </SketchHolder>
+            <ControlHolder>
+              {/* <InputValue
+              placeholder="start"
+              onChange={(event) => setStartValue(event.target.value)}
+            />
+            <InputValue
+              placeholder="end"
+              onChange={(event) => setEndValue(event.target.value)}
+           />*/}
+
+              <InputValue
+                placeholder="find"
+                onChange={(event) => setToFind(event.target.value)}
+              />
+
+              <AddButton onClick={() => breadthFirstSearch()}>
+                <p>start</p>
+              </AddButton>
+            </ControlHolder>
+          </StaticPosition>
+        </ItemRowContent>
+      </BodyWrapper>
+    </AlgorithmsWrapper>
+  );
 
   return (
     <AlgorithmsWrapper className="BFS">

@@ -47,7 +47,9 @@ const ItemRowDescription = styled.div`
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+  align-content: center;
   height: auto;
+
   margin-left: 10%;
   width: 100vw;
   overflow: visible;
@@ -193,8 +195,8 @@ const BackLink = styled.div`
 const SketchHolder = styled.div`
   min-width: 40vw;
   max-width: 40vw;
-  min-height: 70vh;
-  max-height: 70vh;
+  min-height: 60vh;
+  max-height: 60vh;
   background-color: transparent;
 
   ${media.mobile} {
@@ -215,7 +217,12 @@ const StaticPosition = styled.div`
 
 function Info(props) {
   return (
-    <Item style={{ backgroundColor: props.colour }}>
+    <Item
+      style={{
+        backgroundColor: props.colour,
+        minHeight: "30vh",
+      }}
+    >
       <h1>{props.title}</h1>
 
       <p>{props.description}</p>
@@ -223,7 +230,123 @@ function Info(props) {
   );
 }
 
+function MainInfo(props) {
+  var screenSize;
+  var itemPadding;
+  if (window.innerWidth < 1024) {
+    screenSize = "50vh";
+    itemPadding = "2vh";
+  } else {
+    screenSize = "30vh";
+    itemPadding = "0vh";
+  }
+
+  return (
+    <Item
+      id="mainInfo"
+      style={{
+        backgroundColor: props.colour,
+        minHeight: screenSize,
+        margin: itemPadding,
+      }}
+    >
+      <h1>{props.title}</h1>
+
+      <p>{props.description}</p>
+    </Item>
+  );
+}
+
+function ArrayVisDistance(props) {
+  return (
+    /////AWDAWDAWD ADD PARENT ID
+    <Item
+      id="visDistance"
+      style={{ backgroundColor: props.colour, minHeight: "15vh" }}
+    >
+      <h2 style={{ color: "white" }}>{props.title}</h2>
+
+      <table style={{ width: "80%", borderCollapse: "collapse" }}>
+        <thead
+          style={{
+            color: "white",
+            fontSize: "150%",
+            fontWeight: "bolder",
+          }}
+        >
+          <th>0</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+        </thead>
+        <tr style={{ fontSize: "150%" }}>
+          <td id="D0"></td>
+          <td id="D1"></td>
+          <td id="D2"></td>
+          <td id="D3"></td>
+          <td id="D4"></td>
+          <td id="D5"></td>
+          <td id="D6"></td>
+        </tr>
+      </table>
+    </Item>
+  );
+}
+
+function ArrayVisParents(props) {
+  return (
+    <Item
+      id="visParents"
+      style={{ backgroundColor: props.colour, minHeight: "15vh" }}
+    >
+      <h2 style={{ color: "white" }}>{props.title}</h2>
+
+      <table style={{ width: "80%", borderCollapse: "collapse" }}>
+        <thead
+          style={{
+            color: "white",
+            fontSize: "150%",
+            fontWeight: "bolder",
+          }}
+        >
+          <th id="H0">0</th>
+          <th id="H1">1</th>
+          <th id="H2">2</th>
+          <th id="H3">3</th>
+          <th id="H4">4</th>
+          <th id="H5">5</th>
+          <th id="H6">6</th>
+        </thead>
+        <tr style={{ fontSize: "150%" }}>
+          <td id="V0"></td>
+          <td id="V1"></td>
+          <td id="V2"></td>
+          <td id="V3"></td>
+          <td id="V4"></td>
+          <td id="V5"></td>
+          <td id="V6"></td>
+        </tr>
+      </table>
+    </Item>
+  );
+}
+
 function Dijkstra() {
+  const [startNode, setStartNode] = useState(0);
+
+  //For refreshing screen details
+  const [dimensions, setDimensions] = React.useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+
+  //For Start/End
+
+  const [endNode, setEndNode] = useState(6);
+
   const holderRef = useRef();
   //Frame
   const [globalWidth, setGlobalWidth] = useState(0);
@@ -260,10 +383,6 @@ function Dijkstra() {
       }
     }
   }, [holderRef.current, isRendered]);
-
-  window.addEventListener("resize", function () {
-    // your custom logic
-  });
 
   const [adjacencyMatrix, setAdjacencyMatrix] = useState([
     [0, 1, 1, 0, 0, 0, 0],
@@ -314,9 +433,9 @@ function Dijkstra() {
           }
         }
 
-        for (let j = 0; j < nodeLink.length; j++) {
+        /*for (let j = 0; j < nodeLink.length; j++) {
           console.log("Number", j, ": ", nodeLink[j].connections);
-        }
+        }*/
       }
       setMatrixLoaded(true);
     }
@@ -348,15 +467,13 @@ function Dijkstra() {
     }
   }, [looper]);
 
-  console.log(nodeLink);
-
   function setup(p5, canvasParentRef) {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setIsRendered(isRendered + 1);
     setGlobalWidth(frameWidth);
     setGlobalHeight(frameHeight);
 
-    p5.createCanvas(frameWidth, frameHeight).parent(canvasParentRef);
+    p5.createCanvas(frameWidth, window.innerHeight).parent(canvasParentRef);
 
     /* let newXY = [...nodeLink];
     let currX = frameWidth / 10;
@@ -412,6 +529,10 @@ function Dijkstra() {
 
     setGlobalHeight(p5.windowHeight);
     console.log("resize");
+    setDimensions({
+      height: window.innerHeight,
+      width: window.innerWidth,
+    });
   }
 
   function test() {}
@@ -559,8 +680,8 @@ function Dijkstra() {
     }
 
     animationTimer++;
-    console.log("IR: ", isRendered);
-    //intro animation
+
+    /*//intro animation
     if (isRendered == 3 && animationTimer > 200) {
       p5.fill(p5.color("#F58696"));
 
@@ -593,12 +714,12 @@ function Dijkstra() {
         nodeLink[2].y + nodeLink[2].r * 1
       );
 
-      /* p5.ellipse(
-        nodeLink[2].x + nodeLink[2].r / 6,
-        nodeLink[2].y,
-        nodeLink[2].r,
-        nodeLink[2].r
-      );*/
+      // p5.ellipse(
+      //  nodeLink[2].x + nodeLink[2].r / 6,
+      //  nodeLink[2].y,
+      //  nodeLink[2].r,
+      //  nodeLink[2].r
+      //);
 
       if (nodeLink[2].x > frameWidth / 12) {
         nodeLink[2].x--;
@@ -608,13 +729,20 @@ function Dijkstra() {
       } else {
         setIsRendered(4);
       }
-    }
+    }*/
   };
 
   const [startValue, setStartValue] = useState(0);
   const [endValue, setEndValue] = useState(6);
 
   async function dijkstras() {
+    if (startNode > 6 || startNode < 0 || endNode > 6 || endNode < 0) {
+      document.getElementById("taskDescription").innerHTML =
+        "please input a valid node to find!";
+
+      return;
+    }
+
     for (let m = 0; m < nodeLink.length; m++) {
       nodeLink[m].colour = "#7CED61";
       nodeLink[m].bgColour = "#61D944";
@@ -626,7 +754,7 @@ function Dijkstra() {
     //Distance
     let infinity = 99999;
     let distFromStart = [];
-    let nearestNode = startValue;
+    let nearestNode = startNode; //startValue;
 
     //For finding nearest
     let minValue = 99999;
@@ -634,27 +762,215 @@ function Dijkstra() {
 
     for (let m = 0; m < nodeLink.length; m++) {
       //Will change this to a variable to change the input
-      if (m == 0) {
+      if (m == nearestNode) {
         distFromStart.push(0);
-        parent[0] = -1;
+        parent[nearestNode] = -1;
+        document.getElementById("D" + m).innerHTML = "0";
+        document.getElementById("V" + m).innerHTML = "-1";
       } else {
         distFromStart.push(infinity);
+        document.getElementById("D" + m).innerHTML = "∞";
+        parent[m] = m;
+        document.getElementById("V" + m).innerHTML = "?";
       }
 
       //Sets everything to unvisited
       visited[m] = false;
 
       //sets all parents to themselves
-      parent[m] = m;
+
+      await sleep(500);
+    }
+
+    let highlightDistance = document.getElementById("visDistance");
+    let highlightParents = document.getElementById("visParents");
+
+    let highlightInstruction = document.getElementById("mainInfo");
+
+    let Q = [];
+
+    //Adding initial node
+    Q.push(nearestNode);
+
+    //Priority queue for Dijkstra
+    while (Q.length > 0) {
+      //Take node with least distance
+      let e = Q.shift();
+      document.getElementById("queue").innerHTML = "queue: [" + Q + "]";
+      sleep(500);
+      visited[e] = true;
+      nodeLink[e].colour = "#f2be3a";
+      nodeLink[e].bgColour = "#c99b24";
+      sleep(2000);
+
+      if (e == endNode) {
+        document.getElementById("taskDescription").innerHTML =
+          '<p style="font-size:30px; text-align: center; padding: 0px; margin: 0px">' +
+          "target node found!" +
+          "</p>";
+        await sleep(3000);
+        break;
+      }
+
+      console.log("active: ", e);
+      console.log("queue: ", Q);
+
+      for (let i = 0; i < adjacencyMatrix.length; i++) {
+        //if connected
+        if (adjacencyMatrix[e][i] == 1) {
+          //if not visited
+          if (visited[i] == false && !Q.includes(i)) {
+            //add to queue
+            Q.push(i);
+
+            //Animaiton
+            await sleep(1000);
+            //increasing font size and turning purple with instruction
+            document.getElementById("taskDescription").style.fontSize = "120%";
+            document.getElementById("taskDescription").style.transition =
+              "font-size 1000ms ease";
+            document.getElementById("taskDescription").innerHTML =
+              "adding to queue: " +
+              '<p style="font-size:30px; text-align: center; padding: 0px; margin: 0px">' +
+              i +
+              "</p>";
+            highlightInstruction.style.transition =
+              "background-color 1000ms ease";
+            highlightInstruction.style.backgroundColor = "#7d34eb";
+            await sleep(1500);
+            Q.sort((a, b) => (distFromStart[a] >= distFromStart[b] ? 1 : -1));
+            document.getElementById("queue").innerHTML = "queue: [" + Q + "]";
+            nodeLink[i].colour = "#7d34eb";
+            nodeLink[i].bgColour = "#5e1dbf";
+            await sleep(2500);
+            highlightInstruction.style.backgroundColor = "#F06449";
+            document.getElementById("taskDescription").style.fontSize = "100%";
+
+            //check the distance
+            let testDistance = distFromStart[e] + costMatrix[i][e];
+            //If it is better than before, update
+            if (testDistance < distFromStart[i]) {
+              parent[i] = e;
+              distFromStart[i] = testDistance;
+
+              //Updating distance animation
+              document.getElementById("D" + i).innerHTML = distFromStart[i];
+
+              document.getElementById("D" + i).style.fontSize = "200%";
+              document.getElementById("D" + i).style.transition =
+                "font-size 1000ms ease";
+              highlightDistance.style.transition =
+                "background-color 1000ms ease";
+              highlightDistance.style.backgroundColor = "#7d34eb";
+              await sleep(1500);
+              highlightDistance.style.backgroundColor = "#F06449";
+              document.getElementById("D" + i).style.fontSize = "100%";
+
+              //Updating parent animationprom
+
+              document.getElementById("V" + i).innerHTML = parent[i];
+
+              document.getElementById("V" + i).style.fontSize = "200%";
+              document.getElementById("V" + i).style.transition =
+                "font-size 1000ms ease";
+              highlightParents.style.transition =
+                "background-color 1000ms ease";
+              highlightParents.style.backgroundColor = "#7d34eb";
+              await sleep(1500);
+              highlightParents.style.backgroundColor = "#F06449";
+              document.getElementById("V" + i).style.fontSize = "100%";
+              await sleep(1500);
+            }
+          }
+        }
+      }
+
+      //out of adjacencies
+      document.getElementById("taskDescription").style.fontSize = "120%";
+      document.getElementById("taskDescription").style.transition =
+        "font-size 1000ms ease";
+      document.getElementById("taskDescription").innerHTML =
+        "there are no more connections <br/> to explore for node " +
+        '<p style="font-size:30px; text-align: center; padding: 0px; margin: 0px">' +
+        e +
+        "</p>";
+      highlightInstruction.style.transition = "background-color 1000ms ease";
+      highlightInstruction.style.backgroundColor = "#f2be3a";
+      await sleep(4500);
+
+      if (Q.length > 0) {
+        document.getElementById("taskDescription").style.fontSize = "120%";
+        document.getElementById("taskDescription").style.transition =
+          "font-size 1000ms ease";
+        document.getElementById("taskDescription").innerHTML =
+          "node with shortest distance from start: " +
+          '<p style="font-size:30px; text-align: center; padding: 0px; margin: 0px">' +
+          Q[0] +
+          "</p>";
+
+        highlightInstruction.style.transition = "background-color 1000ms ease";
+        highlightInstruction.style.backgroundColor = "#f2be3a";
+        await sleep(2500);
+        //nodeLink[Q[0]].colour = "#344feb";
+        //nodeLink[Q[0]].bgColour = "#243cc7";
+        await sleep(2500);
+        nodeLink[e].colour = "#737894";
+        nodeLink[e].bgColour = "#50525e";
+      }
     }
 
     for (let i = 0; i < nodeLink.length; i++) {
+      /*
       //Getting the nearest node:
+
+      //increasing font size and turning purple with instruction
+      document.getElementById("taskDescription").style.fontSize = "120%";
+      document.getElementById("taskDescription").style.transition =
+        "font-size 1000ms ease";
+      document.getElementById("taskDescription").innerHTML =
+        "found smallest distance from start: " +
+        '<p style="font-size:30px; text-align: center; padding: 0px; margin: 0px">' +
+        i +
+        "</p>";
+      highlightInstruction.style.transition = "background-color 1000ms ease";
+      highlightInstruction.style.backgroundColor = "#7d34eb";
+      await sleep(1500);
+      nodeLink[i].colour = "#7d34eb";
+      nodeLink[i].bgColour = "#5e1dbf";
+      await sleep(3500);
+      highlightInstruction.style.backgroundColor = "#F06449";
+      document.getElementById("taskDescription").style.fontSize = "100%";
 
       for (let j = 0; j < nodeLink.length; j++) {
         if (!visited[j] && distFromStart[j] < minValue) {
           minValue = distFromStart[j];
           minNode = j;
+          //nodeLink[j].colour = "orange";
+          //document.getElementById("taskDescription").innerHTML =
+          //  "updating: current distance is better <br/> than previous distance";
+
+          document.getElementById("D" + minNode).innerHTML = minValue;
+
+          document.getElementById("D" + minNode).style.fontSize = "200%";
+          document.getElementById("D" + minNode).style.transition =
+            "font-size 1000ms ease";
+          highlightDistance.style.transition = "background-color 1000ms ease";
+          highlightDistance.style.backgroundColor = "#7d34eb";
+          await sleep(3000);
+          highlightDistance.style.backgroundColor = "#F06449";
+          document.getElementById("D" + minNode).style.fontSize = "100%";
+          if (minNode != 0) {
+            document.getElementById("V" + minNode).innerHTML = parent[minNode];
+          }
+          document.getElementById("V" + minNode).style.fontSize = "200%";
+          document.getElementById("V" + minNode).style.transition =
+            "font-size 1000ms ease";
+          highlightParents.style.transition = "background-color 1000ms ease";
+          highlightParents.style.backgroundColor = "#7d34eb";
+          await sleep(3500);
+          highlightParents.style.backgroundColor = "#F06449";
+          document.getElementById("V" + minNode).style.fontSize = "100%";
+          await sleep(2500);
         }
       }
 
@@ -664,6 +980,7 @@ function Dijkstra() {
       for (let adj = 0; adj < nodeLink.length; adj++) {
         //Checks if the previous distance is already smaller than the new distance
         //Which is the distance to reach nearest PLUS cost of going from nearest to adjacent
+
         if (
           !visited[adj] &&
           distFromStart[minNode] + costMatrix[minNode][adj] <
@@ -677,34 +994,114 @@ function Dijkstra() {
 
           parent[adj] = minNode;
 
+          document.getElementById("taskDescription").style.fontSize = "120%";
+          document.getElementById("taskDescription").style.transition =
+            "font-size 1000ms ease";
+          document.getElementById("taskDescription").innerHTML =
+            "exploring connections of most recently <br/>visited node (" +
+            minNode +
+            ") to find the smallest <br/>distance from the start";
+          highlightInstruction.style.transition =
+            "background-color 1000ms ease";
+          highlightInstruction.style.backgroundColor = "#344feb";
+          await sleep(4500);
+          nodeLink[adj].colour = "#344feb";
+          nodeLink[adj].bgColour = "#243cc7";
+          await sleep(2500);
+
+          highlightInstruction.style.backgroundColor = "#F06449";
+          document.getElementById("taskDescription").style.fontSize = "100%";
+
+          document.getElementById("D" + minNode).innerHTML = minValue;
+          await sleep(1000);
+
           console.log(minNode);
         }
       }
 
       minValue = 99999;
       minNode = 0;
+      */
     }
 
     let order = [];
 
-    let n = nodeLink.length - 1;
-    while (n > 0) {
+    /*     Describing Order      */
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").innerHTML =
+      "starting at the target node, we <br/> run back along the parents <br/> to find the final shortest path";
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#f2be3a";
+    await sleep(1500);
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(2500);
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
+
+    let n = endNode; //nodeLink.length - 1;
+    while (n != startNode) {
       order.push(n);
       n = parent[n];
+      document.getElementById("queue").innerHTML = "order: [" + order + "]";
+      await sleep(1000);
     }
-    order.push(0);
+    order.push(nearestNode);
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(1000);
+
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").innerHTML =
+      "the order is reversed so we start <br/> at the right place";
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#f2be3a";
+    await sleep(1500);
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(1500);
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
+
     order.reverse();
     console.log(order);
+
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(1500);
+
+    document.getElementById("taskDescription").style.fontSize = "120%";
+    document.getElementById("taskDescription").style.transition =
+      "font-size 1000ms ease";
+    document.getElementById("taskDescription").innerHTML =
+      "now, we simply run through <br/> the order";
+    highlightInstruction.style.transition = "background-color 1000ms ease";
+    highlightInstruction.style.backgroundColor = "#f2be3a";
+    await sleep(1500);
+    document.getElementById("queue").innerHTML = "order: [" + order + "]";
+    await sleep(1500);
+    highlightInstruction.style.backgroundColor = "#F06449";
+    document.getElementById("taskDescription").style.fontSize = "100%";
 
     for (let f = 0; f < order.length; f++) {
       nodeLink[order[f]].colour = "#F52F2F";
       nodeLink[order[f]].bgColour = "#F66161";
-      await sleep(1000);
+      document.getElementById("H" + order[f]).style.transition =
+        "font-size 1000ms ease";
+      document.getElementById("H" + order[f]).style.fontSize = "200%";
+
+      await sleep(1500);
+      document.getElementById("H" + order[f]).style.fontSize = "100%";
+
+      await sleep(1500);
     }
+
+    console.log("DFS: ", distFromStart);
+    console.log("VIS: ", visited);
+    console.log("PAR", parent);
   }
 
   function sleep(ms) {
-    console.log(ms);
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
@@ -805,112 +1202,50 @@ function Dijkstra() {
       </TopWrapper>
       <BodyWrapper>
         <ItemRowDescription>
-          <Info
+          <MainInfo
             colour="#F06449"
-            title="description"
+            title="dijkstra's"
             description={
               <div>
-                <p>
-                  dijkstra's algorithm (also called dijkstra's shortest path) is
-                  an efficient algorithm for finding the shortest path between
-                  two nodes in a weighted graph.
+                <p
+                  id="taskDescription"
+                  style={{
+                    textAlign: "center",
+                    fontSize: "18px",
+                    minHeight: "5vh",
+                    maxHeight: "5vh",
+                  }}
+                >
+                  finds the shortest path from <br />
+                  one point to another.
                   <br />
                   <br />
-                  this means that it requires both a set of nodes, and an cost
-                  matrix. the cost matrix is a 2d array, with the entries being
-                  the distance between two nodes.
-                  <br />
-                  <br />
-                  for example, if node 1 and node 2 were 300 units apart, the
-                  entries at costMatrix[1][2], and costMatrix[2][1] would both
-                  be 300. if two nodes are not connected, their cost should be
-                  an unreasonable number, such as -1.
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  1. three arrays are initialised. one to keep track of the
-                  visited nodes, one to keep track of each node's 'parent', and
-                  one to keep track of each node's distance from the starting
-                  node. each array contains as many elements as there are nodes
-                  in the graph. <br />
-                  <br />
-                  the 'visited' array has all of its values initialised to
-                  false, as nothing has been visited yet.
-                  <br />
-                  <br />
-                  the parent array is left blank, or has all of it elements
-                  initialised to null.
-                  <br />
-                  <br />
-                  the distance from start array is initialised to 'infinity', as
-                  the distance between the first node and the other nodes is not
-                  yet known. most of the time, infinity is treated as a large
-                  number such as 999999.
-                  <br />
-                  <br /> the starting node (in this case 0) has no parent, so
-                  its parent is set to -1. similarly its distance is set to 0.
-                  <br />
-                  <br />
-                  2. a loop is then begun, which will run through each node. we
-                  will call the index here i.
-                  <br />
-                  <br />
-                  <div style={{ paddingLeft: "2vw" }}>
-                    a) first, an inner loop runs through every node to determine
-                    what the next closest node from the start is. if it has not
-                    been visited yet, this will be the next node to be looked
-                    at. this will do nothing on the first loop, as the distances
-                    have not yet been found.
-                    <br />
-                    <br />
-                    b) next, once the first loop has finished, another loop will
-                    begin. we will call the index here adj, for adjacent. this
-                    loop again runs through every node.
-                    <br />
-                    <br />
-                    it first checks if visited[adj] is true. if it is not, i.e.
-                    it hasn't been visited, it then checks if
-                    <br />
-                    <br />
-                    <div style={{ textAlign: "center" }}>
-                      costMatrix[currentNode][adj] <br /> + <br />
-                      distanceFromStart[currentNode]
-                    </div>
-                    <br />
-                    <br />
-                    is smaller than 'infinity'. finally, it checks if the two
-                    nodes are actually connected, i.e. the cost at
-                    costMatrix[currentNode][adj] isn't -1.
-                    <br />
-                    <br />
-                    c) if these three conditions are met, it sets the
-                    distanceFromStart[adj] to:
-                    <br />
-                    <br />
-                    <div style={{ textAlign: "center" }}>
-                      distFromStart[currentNode] <br /> + <br />
-                      costMatrix[currentNode][adj]
-                    </div>
-                    <br />
-                    <br />
-                    so whatever the current distance from the start is, plus the
-                    new cost going from the current node to whatever 'adj' is.
-                    <br />
-                    <br />
-                    d) it then sets the parent of 'adj' to currentNode, as to
-                    get to 'adj', at least through the shortest path, you need
-                    to go to currentNode first.
-                    <br />
-                    <br />
-                  </div>
-                  thats it! the process is repeated, except instead of nothing
-                  happening in the first loop, it will find whatever the
-                  smallest, unvisited node in distanceFromStart is and make that
-                  the current node.
+                  drag nodes to change their location.
                 </p>
+                <p
+                  id="queue"
+                  style={{
+                    margin: "0px",
+                    marginTop: "1vh",
+                    padding: "0px",
+                    textAlign: "center",
+                    fontSize: "120%",
+                  }}
+                ></p>
               </div>
             }
+          />
+          <ArrayVisDistance
+            colour="#F06449"
+            title="distance from start"
+            description={
+              <div>0 &emsp; 1 &emsp; 2 &emsp; 3 &emsp; 4 &emsp; 5 &emsp; 6</div>
+            }
+          />
+          <ArrayVisParents
+            colour="#F06449"
+            title="parents array"
+            description={<div></div>}
           />
           <Info
             colour="#6DD3CE"
@@ -968,6 +1303,7 @@ function Dijkstra() {
                   mousePressed={mousePressed}
                   mouseDragged={mouseDragged}
                   mouseReleased={mouseReleased}
+                  purple={dimensions}
                 />
               )}
               {frameWidth > 1 && (
@@ -991,10 +1327,34 @@ function Dijkstra() {
               placeholder="end"
               onChange={(event) => setEndValue(event.target.value)}
            />*/}
-
-              <AddButton onClick={() => dijkstras()}>
-                <p>start</p>
-              </AddButton>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  paddingBottom: "2vh",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    paddingBottom: "2vh",
+                  }}
+                >
+                  <InputValue
+                    placeholder="from"
+                    onChange={(event) => setStartNode(event.target.value)}
+                  />
+                  <InputValue
+                    placeholder="to"
+                    onChange={(event) => setEndNode(event.target.value)}
+                  />
+                </div>
+                <AddButton onClick={() => dijkstras()}>
+                  <p>start</p>
+                </AddButton>
+              </div>
             </ControlHolder>
           </StaticPosition>
         </ItemRowContent>

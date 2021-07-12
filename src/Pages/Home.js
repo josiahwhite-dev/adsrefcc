@@ -26,7 +26,7 @@ const BodyWrapper = styled.div`
   background-color: white;
   flex-grow: 20;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 
   ${media.mobile} {
     justify-content: flex-start;
@@ -45,7 +45,8 @@ const Item = styled.div`
   min-height: 250px;
   width: 30vw;
   height: auto;
-  margin: 1vw;
+  min-height: 30vh;
+  margin: 1vh;
   border-radius: 4vw;
   display: flex;
   flex-direction: column;
@@ -55,6 +56,7 @@ const Item = styled.div`
   margin-bottom: 1vh;
   text-decoration: none;
   text-align: center;
+  margin-top: 8vh;
 
   h1 {
     font-size: calc(6vh + 1vw);
@@ -81,6 +83,7 @@ const Item = styled.div`
     min-height: 100px;
     width: 90vw;
     border-radius: 8vh;
+    margin-top: 2vh;
   }
 `;
 
@@ -101,6 +104,30 @@ const IconHolder = styled.div`
     }
   }
 
+  #plus {
+    position: absolute;
+    top: 60vh;
+    left: 10vw;
+    width: 15vw;
+  }
+  #dijkstra {
+    position: absolute;
+    top: 20vh;
+    left: 72vw;
+    width: 28vw;
+  }
+  #qs {
+    position: absolute;
+    top: 10vh;
+    left: 9vw;
+    width: 18vw;
+
+    ${media.mobile} {
+      top: -5vh;
+      left: 2vw;
+      width: 30vw;
+    }
+  }
   ${media.mobile} {
     display: none;
   }
@@ -139,30 +166,9 @@ function Home() {
       <TopWrapper>
         <HomeTitle>adsref.cc</HomeTitle>
         <IconHolder>
-          <Plus
-            style={{
-              position: "absolute",
-              top: "60vh",
-              left: "10vw",
-              width: "15vw",
-            }}
-          />
-          <QS
-            style={{
-              position: "absolute",
-              top: "10vh",
-              left: "9vw",
-              width: "18vw",
-            }}
-          />
-          <Dijkstra
-            style={{
-              position: "absolute",
-              top: "20vh",
-              left: "72vw",
-              width: "28vw",
-            }}
-          />
+          <Plus id="plus" />
+          <QS id="qs" />
+          <Dijkstra id="dijkstra" />
         </IconHolder>
       </TopWrapper>
       <BodyWrapper>

@@ -94,8 +94,8 @@ const InputValue = styled.input`
   text-align: center;
   font-size: 4vh;
   padding: 2vh;
-  margin-left: 1vw;
-  max-width: 10vw;
+  min-width: 15vw;
+  max-width: 15vw;
   font-weight: bold;
   color: #535353;
   outline: none;
@@ -116,10 +116,7 @@ const AddButton = styled.div`
   height: 10vh;
   background-color: #78fc59;
   border-radius: 4vh;
-
-  margin-left: 2vh;
   align-items: center;
-
   justify-content: center;
 
   p {
@@ -146,8 +143,7 @@ const MinusButton = styled.div`
   height: 10vh;
   background-color: #f06449;
   border-radius: 4vh;
-
-  margin-left: 2vh;
+  align-self: center;
   align-items: center;
 
   justify-content: center;
@@ -194,8 +190,8 @@ const TextInsert = styled.input`
 const SketchHolder = styled.div`
   min-width: 40vw;
   max-width: 40vw;
-  min-height: 70vh;
-  max-height: 70vh;
+  min-height: 60vh;
+  max-height: 60vh;
   background-color: transparent;
 
   ${media.mobile} {
@@ -208,13 +204,14 @@ const SketchHolder = styled.div`
 
 const ControlHolder = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 3fr 1fr 1fr;
   grid-auto-rows: 1fr;
   position: relative;
   height: 12vh;
   margin-bottom: 2vh;
   align-items: center;
   justify-content: center;
+  justify-items: center;
 
   z-index: 0;
   margin-top: 2vh;
@@ -302,7 +299,9 @@ function BFS() {
   }, [looper]);
 
   const updateValues = useEffect(() => {
-    setNodeValue(Math.floor(Math.random() * 99));
+    if (nodeLink.length <= 3) {
+      setNodeValue(Math.floor(Math.random() * 99));
+    }
     if (looper % 2 != 0) {
       setNodeX(nodeX + globalWidth / 10);
     } else {
@@ -455,6 +454,7 @@ function BFS() {
   };
 
   function addNode() {
+    console.log(nodeLink.length);
     var Node = {
       x: nodeX,
       y: nodeY,
@@ -607,10 +607,10 @@ function BFS() {
         <ItemRowDescription>
           <Info
             colour="#F06449"
-            title="description"
+            title="linked list"
             description={
               <div>
-                <p>
+                <p style={{ textAlign: "center" }}>
                   linked lists are made up of nodes, which contain data and an
                   address. the address 'points' to where the next node in the
                   sequence is in memory. these addresses can be easily changed,
@@ -629,7 +629,7 @@ function BFS() {
             title="use cases"
             description={
               <div>
-                <p>
+                <p style={{ textAlign: "center" }}>
                   linked lists are best used in applications where data will
                   often be inserted or removed, as changing the order of
                   elements is inexpensive.
@@ -652,7 +652,7 @@ function BFS() {
             title="costs"
             description={
               <div>
-                <p>
+                <p style={{ textAlign: "center" }}>
                   access element: O(n)
                   <br />
                   <br />
