@@ -121,7 +121,7 @@ const ArrayHolder = styled.div`
   justify-content: space-evenly;
   background-color: transparent;
   height: auto;
-  width: 38vw;
+  min-width: 38vw;
   padding-top: 2vh;
 
   align-items: center;
