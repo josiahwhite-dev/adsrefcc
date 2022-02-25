@@ -2,7 +2,7 @@ import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
 import { TopWrapper, Title, media, Item } from "../../Shared";
-import ArrayElement from "./ArrayElement";
+import ArrayElement from "../common/ArrayElement";
 import React, { useState, useEffect, useRef } from "react";
 import Sketch from "react-p5";
 import p5 from "p5";

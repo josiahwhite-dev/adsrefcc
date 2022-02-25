@@ -853,6 +853,8 @@ function Dijkstra() {
               parent[i] = e;
               distFromStart[i] = testDistance;
 
+              
+
               //Updating distance animation
               document.getElementById("D" + i).innerHTML = distFromStart[i];
 

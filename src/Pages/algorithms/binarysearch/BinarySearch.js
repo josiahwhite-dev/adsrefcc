@@ -2,7 +2,7 @@ import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
 import { TopWrapper, Title, media, Item } from "../../Shared";
-import ArrayElement from "./ArrayElement";
+import ArrayElement from "../common/ArrayElement";
 import React, { useState, useEffect } from "react";
 
 const AlgorithmsWrapper = styled.div`
@@ -22,13 +22,15 @@ const AlgorithmsWrapper = styled.div`
   }
 `;
 
+
 const BodyWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 100vw;
   background-color: white;
   flex-grow: 20;
   align-items: flex-start;
+
   justify-content: space-evenly;
   overflow-y: visible;
   overflow-x: hidden;
@@ -36,12 +38,12 @@ const BodyWrapper = styled.div`
   ${media.mobile} {
     flex-direction: column-reverse;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-start
   }
 `;
 
 const ItemRowDescription = styled.div`
-  width: 66%;
+  min-width: 40%;
   background-color: transparent;
   display: grid;
   flex-wrap: wrap;
@@ -58,31 +60,31 @@ const ItemRowDescription = styled.div`
     align-items: center;
     width: 100%;
     margin: 0%;
+    padding-top: 2vh;
   }
 `;
 
 const ItemRowContent = styled.div`
-  width: 66%;
+  max-width: 30vw;
+  padding-left: 10vw;
   background-color: transparent;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+
   height: auto;
   margin-right: 10%;
   width: 100vw;
 
   justify-content: center;
   ${media.mobile} {
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    width: 100%;
-
+    min-width: 100vw
     height: 40vh;
-    margin-top: "30vh";
-
+    padding-left: 0vw;
     margin: 0%;
-    margin-bottom: 10vh;
   }
 `;
 
@@ -95,7 +97,7 @@ const InputValue = styled.input`
   font-size: 4vh;
   padding: 2vh;
   margin-left: 1vw;
-  max-width: 10vw;
+  width: 15vw;
   font-weight: bold;
   color: #535353;
   outline: none;
@@ -103,16 +105,16 @@ const InputValue = styled.input`
   ${media.mobile} {
     max-width: none;
     border-radius: 2vh;
-    width: 10vh;
+    width: 30vw;
     height: 2vh;
-
+    
     font-size: 3vh;
   }
 `;
 
 const AddButton = styled.div`
   display: flex;
-  width: auto;
+  width: 8vw;
   height: 10vh;
   background-color: #78fc59;
   border-radius: 4vw;
@@ -130,6 +132,7 @@ const AddButton = styled.div`
 
   ${media.mobile} {
     height: 6vh;
+    width: 30vw;
     border-radius: 2vh;
 
     p {
@@ -173,7 +176,6 @@ const ArrayHolder = styled.div`
   justify-content: space-evenly;
   background-color: transparent;
   height: auto;
-  width: 38vw;
   padding-top: 2vh;
 
   align-items: center;
@@ -202,18 +204,14 @@ const ArrayHolder = styled.div`
   ${media.mobile} {
     justify-content: flex-start;
     align-items: center;
-    width: 100vw;
     margin: 0%;
     height: 49vh;
-    margin-top: "30vh";
+    margin-left: 3vw;
   }
 `;
 
 const ControlHolder = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 1fr;
-  position: relative;
+  display: flex;
   height: 12vh;
   margin-bottom: 2vh;
   align-items: center;
@@ -225,8 +223,9 @@ const ControlHolder = styled.div`
   border-radius: 2vh;
   ${media.mobile} {
     height: 7vh;
-    width: 100%;
+    width: 50vw
     margin-bottom: 0vh;
+    
   }
 `;
 
@@ -577,13 +576,13 @@ function BinarySearch() {
                   style={{
                     textAlign: "center",
                     fontSize: "18px",
-                    minHeight: "5vh",
-                    maxHeight: "5vh",
+                    height: "10vh",
+                    overflow: "visible",
                   }}
                 >
                   a simple search algorithm for sorted arrays
                   <br />
-                  <br /> type your own numbers in <br /> on each box
+                  <br /> type your own numbers in <br />  each box
                 </p>
                 <p
                   id="queue"
@@ -593,6 +592,7 @@ function BinarySearch() {
                     padding: "0px",
                     textAlign: "center",
                     fontSize: "120%",
+
                   }}
                 ></p>
               </div>

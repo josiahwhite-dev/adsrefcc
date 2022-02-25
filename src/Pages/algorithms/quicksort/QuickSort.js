@@ -2,7 +2,7 @@ import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
 import { TopWrapper, Title, media, Item } from "../../Shared";
-import ArrayElement from "./ArrayElement";
+import ArrayElement from "../common/ArrayElement";
 import React, { useState, useEffect } from "react";
 
 const AlgorithmsWrapper = styled.div`
@@ -25,7 +25,7 @@ const AlgorithmsWrapper = styled.div`
 const BodyWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 100vw;
   background-color: white;
   flex-grow: 20;
   align-items: flex-start;
@@ -37,12 +37,12 @@ const BodyWrapper = styled.div`
   ${media.mobile} {
     flex-direction: column-reverse;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-start
   }
 `;
 
 const ItemRowDescription = styled.div`
-  width: 66%;
+  min-width: 40%;
   background-color: transparent;
   display: grid;
   flex-wrap: wrap;
@@ -59,11 +59,13 @@ const ItemRowDescription = styled.div`
     align-items: center;
     width: 100%;
     margin: 0%;
+    padding-top: 2vh;
   }
 `;
 
 const ItemRowContent = styled.div`
-  width: 66%;
+  max-width: 30vw;
+  padding-left: 10vw;
   background-color: transparent;
   display: flex;
   flex-wrap: wrap;
@@ -76,14 +78,12 @@ const ItemRowContent = styled.div`
 
   justify-content: center;
   ${media.mobile} {
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    width: 100%;
-
+    min-width: 100vw
     height: 40vh;
-
+    padding-left: 0vw;
     margin: 0%;
-    margin-bottom: 10vh;
   }
 `;
 
@@ -121,7 +121,6 @@ const ArrayHolder = styled.div`
   justify-content: space-evenly;
   background-color: transparent;
   height: auto;
-  max-width: 38vw;
   padding-top: 2vh;
 
   align-items: center;
@@ -150,10 +149,9 @@ const ArrayHolder = styled.div`
   ${media.mobile} {
     justify-content: flex-start;
     align-items: center;
-    width: 100vw;
     margin: 0%;
     height: 49vh;
-    margin-top: "30vh";
+    margin-left: 3vw;
   }
 `;
 
@@ -654,17 +652,6 @@ function QuickSort() {
           />
         </ItemRowDescription>
         <ItemRowContent>
-          {/*   <Array value={10} />
-          <ArrayLine
-            rotation={"translate(-2vh, 1vh) rotate(-20deg) "}
-            movement={"5vw"}
-          />
-          <Array value={20} movement={"5vw"} />
-          <ArrayLine
-            rotation={"translate(-3vh, 0vh) rotate(20deg) "}
-            movement={"5vw"}
-          />
-          <Array value={30} movement={"-5vw"} />*/}
           <StaticPosition>
             {" "}
             <ArrayHolder>
