@@ -121,7 +121,7 @@ const ArrayHolder = styled.div`
   justify-content: space-evenly;
   background-color: transparent;
   height: auto;
-  min-width: 38vw;
+  max-width: 38vw;
   padding-top: 2vh;
 
   align-items: center;
@@ -588,7 +588,7 @@ function QuickSort() {
                   style={{
                     textAlign: "center",
                     fontSize: "18px",
-                    minHeight: "5vh",
+                    minHeight: "8vh",
                     maxHeight: "5vh",
                   }}
                 >
@@ -616,7 +616,10 @@ function QuickSort() {
             description={
               <div>
                 <p style={{ textAlign: "center" }}>
-                  quick sort can be used any time data needs to be sorted. if
+                  quick sort can be used any time comparable data needs to be sorted. 
+                  <br/>
+                  <br/>
+                  if
                   the rough locations of where the different values of data
                   might be are known, it can also be optimised through good
                   choices of pivots.

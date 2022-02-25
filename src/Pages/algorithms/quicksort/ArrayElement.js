@@ -2,9 +2,8 @@ import styled from "styled-components";
 import { media } from "../../Shared";
 
 const ElementWrapper = styled.div`
-  width: 10vh;
-
-  height: 10vh;
+  width: calc(3vh + 3vw);
+  height: calc(3vh + 3vw);
   margin-top: 1vh;
 
   border-radius: 3vh;
@@ -29,8 +28,8 @@ const ElementWrapper = styled.div`
   }
 
   ${media.mobile} {
-    width: 7vh;
-    height: 7vh;
+    width: calc(5vh + 3vw);
+    height: calc(5vh + 3vw);
     border-radius: 2vh;
     p {
       font-size: 4vh;
@@ -40,8 +39,8 @@ const ElementWrapper = styled.div`
 
 const ElementBackground = styled.div`
   position: relative;
-  width: 10vh;
-  height: 10vh;
+  width: calc(3vh + 3vw);
+  height: calc(3vh + 3vw);
   border-radius: 3vh;
   background-color: #a8a8a8;
   margin-top: 1vh;
@@ -53,8 +52,8 @@ const ElementBackground = styled.div`
   grid-column-end: 10;
   grid-row-start: 1;
   ${media.mobile} {
-    width: 7vh;
-    height: 7vh;
+    width: calc(5vh + 3vw);
+    height: calc(5vh + 3vw);
     margin-left: 1vh;
     border-radius: 2vh;
   }
@@ -65,9 +64,8 @@ const Container = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
 
-  margin-right: 4vh;
+  margin-right: 2vh;
   ${media.mobile} {
-    margin: 1vh;
   }
 
   animation: bob 3s infinite ease;
