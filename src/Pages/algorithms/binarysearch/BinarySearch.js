@@ -2,7 +2,7 @@ import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import styled from "styled-components";
 import { TopWrapper, Title, media, Item } from "../../Shared";
-import ArrayElement from "../common/ArrayElement";
+import ArrayElement from "../../common/ArrayElement";
 import React, { useState, useEffect } from "react";
 
 const AlgorithmsWrapper = styled.div`
@@ -277,7 +277,7 @@ function Info(props) {
     <Item style={{ backgroundColor: props.colour }}>
       <h1>{props.title}</h1>
 
-      <p>{props.description}</p>
+      <div>{props.description}</div>
     </Item>
   );
 }
@@ -304,7 +304,7 @@ function MainInfo(props) {
     >
       <h1>{props.title}</h1>
 
-      <p>{props.description}</p>
+      <div>{props.description}</div>
     </Item>
   );
 }

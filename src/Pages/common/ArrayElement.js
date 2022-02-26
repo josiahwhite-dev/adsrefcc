@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { media } from "../../Shared";
+import { media } from "../Shared";
 
 const ElementWrapper = styled.div`
   width: calc(3vh + 3vw);
@@ -106,3 +106,4 @@ export default function ArrayElement(props) {
     </Container>
   );
 }
+

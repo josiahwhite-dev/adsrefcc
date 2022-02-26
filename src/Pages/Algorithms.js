@@ -1,4 +1,4 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ReactComponent as BackArrow } from "./icons/BackArrow.svg";
 import styled from "styled-components";
 import { TopWrapper, Title, media, Item } from "./Shared";
