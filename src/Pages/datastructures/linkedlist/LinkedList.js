@@ -652,10 +652,12 @@ function BFS() {
                   search: O(n)
                   <br />
                   <br />
-                  insert data: O(1)
+                  insert data at start: O(1)
+                  insert data at point: O(n)
                   <br />
                   <br />
-                  delete data: O(1)
+                  delete data at start: O(1)
+                  delete data at point: O(n)
                 </p>
               </div>
             }
