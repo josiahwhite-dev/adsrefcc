@@ -653,10 +653,12 @@ function BFS() {
                   <br />
                   <br />
                   insert data at start: O(1)
+                  <br />
                   insert data at point: O(n)
                   <br />
                   <br />
                   delete data at start: O(1)
+                  <br />
                   delete data at point: O(n)
                 </p>
               </div>
