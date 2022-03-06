@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import { Item, media, Title, TopWrapper } from "../../Shared";
 
+
 const AlgorithmsWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -225,7 +226,7 @@ function Info(props) {
     >
       <h1>{props.title}</h1>
 
-      <p>{props.description}</p>
+      <div>{props.description}</div>
     </Item>
   );
 }
@@ -252,7 +253,7 @@ function MainInfo(props) {
     >
       <h1>{props.title}</h1>
 
-      <p>{props.description}</p>
+      <div>{props.description}</div>
     </Item>
   );
 }
@@ -267,30 +268,32 @@ function ArrayVisDistance(props) {
       <h2 style={{ color: "white" }}>{props.title}</h2>
 
       <table style={{ width: "80%", borderCollapse: "collapse" }}>
-        <thead
-          style={{
-            color: "white",
-            fontSize: "150%",
-            fontWeight: "bolder",
-          }}
-        >
-          <th>0</th>
-          <th>1</th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5</th>
-          <th>6</th>
-        </thead>
-        <tr style={{ fontSize: "150%" }}>
-          <td id="D0"></td>
-          <td id="D1"></td>
-          <td id="D2"></td>
-          <td id="D3"></td>
-          <td id="D4"></td>
-          <td id="D5"></td>
-          <td id="D6"></td>
-        </tr>
+        <tbody>
+          <tr
+            style={{
+              color: "white",
+              fontSize: "150%",
+              fontWeight: "bolder",
+            }}
+          >
+            <th>0</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+          </tr>
+          <tr style={{ fontSize: "150%" }}>
+            <td id="D0"></td>
+            <td id="D1"></td>
+            <td id="D2"></td>
+            <td id="D3"></td>
+            <td id="D4"></td>
+            <td id="D5"></td>
+            <td id="D6"></td>
+          </tr>
+        </tbody>
       </table>
     </Item>
   );
@@ -305,30 +308,32 @@ function ArrayVisParents(props) {
       <h2 style={{ color: "white" }}>{props.title}</h2>
 
       <table style={{ width: "80%", borderCollapse: "collapse" }}>
-        <thead
-          style={{
-            color: "white",
-            fontSize: "150%",
-            fontWeight: "bolder",
-          }}
-        >
-          <th id="H0">0</th>
-          <th id="H1">1</th>
-          <th id="H2">2</th>
-          <th id="H3">3</th>
-          <th id="H4">4</th>
-          <th id="H5">5</th>
-          <th id="H6">6</th>
-        </thead>
-        <tr style={{ fontSize: "150%" }}>
-          <td id="V0"></td>
-          <td id="V1"></td>
-          <td id="V2"></td>
-          <td id="V3"></td>
-          <td id="V4"></td>
-          <td id="V5"></td>
-          <td id="V6"></td>
-        </tr>
+        <tbody>
+          <tr
+            style={{
+              color: "white",
+              fontSize: "150%",
+              fontWeight: "bolder",
+            }}
+          >
+            <th id="H0">0</th>
+            <th id="H1">1</th>
+            <th id="H2">2</th>
+            <th id="H3">3</th>
+            <th id="H4">4</th>
+            <th id="H5">5</th>
+            <th id="H6">6</th>
+          </tr>
+          <tr style={{ fontSize: "150%" }}>
+            <td id="V0"></td>
+            <td id="V1"></td>
+            <td id="V2"></td>
+            <td id="V3"></td>
+            <td id="V4"></td>
+            <td id="V5"></td>
+            <td id="V6"></td>
+          </tr>
+        </tbody>
       </table>
     </Item>
   );
@@ -852,6 +857,8 @@ function Dijkstra() {
             if (testDistance < distFromStart[i]) {
               parent[i] = e;
               distFromStart[i] = testDistance;
+
+              
 
               //Updating distance animation
               document.getElementById("D" + i).innerHTML = distFromStart[i];

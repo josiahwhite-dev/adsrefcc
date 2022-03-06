@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as BackArrow } from "../../icons/BackArrow.svg";
 import { Item, media, Title, TopWrapper } from "../../Shared";
+import {Info} from "../../common/Structure"
+
 
 const AlgorithmsWrapper = styled.div`
   display: flex;
@@ -232,15 +234,6 @@ const StaticPosition = styled.div`
   }
 `;
 
-function Info(props) {
-  return (
-    <Item style={{ backgroundColor: props.colour }}>
-      <h1>{props.title}</h1>
-
-      <p>{props.description}</p>
-    </Item>
-  );
-}
 
 function BFS() {
   const holderRef = useRef();

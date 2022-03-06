@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { HashRouter, Route, Link } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 
 //Main Pages

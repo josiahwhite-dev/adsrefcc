@@ -5,85 +5,9 @@ import { TopWrapper, Title, media, Item } from "../../Shared";
 import ArrayElement from "./ArrayElement";
 import React, { useState, useEffect } from "react";
 
-const AlgorithmsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  /*height: auto;*/
+import {AlgorithmsWrapper, BodyWrapper, ItemRowDescription, ItemRowContent, ArrayHolder, ArrayPosHolder, Info, MainInfo} from "../../common/Structure"
 
-  width: 100%;
-  background-color: #61dafb;
-  justify-content: center;
-  align-items: center;
 
-  s ${media.mobile} {
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
-const BodyWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  background-color: white;
-  flex-grow: 20;
-  align-items: flex-start;
-  justify-content: space-evenly;
-
-  ${media.mobile} {
-    flex-direction: column-reverse;
-    justify-content: center;
-    align-items: flex-end;
-  }
-`;
-
-const ItemRowDescription = styled.div`
-  width: 66%;
-  background-color: transparent;
-  display: grid;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center;
-
-  height: auto;
-
-  margin-left: 10%;
-  width: 100vw;
-
-  justify-content: space-evenly;
-  ${media.mobile} {
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0%;
-  }
-`;
-
-const ItemRowContent = styled.div`
-  width: 66%;
-  background-color: transparent;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  height: auto;
-  margin-right: 10%;
-  width: 100vw;
-  margin-top: 10vh;
-
-  justify-content: center;
-  ${media.mobile} {
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-
-    height: 60vh;
-    margin-top: "30vh";
-    margin: 0%;
-  }
-`;
 
 const InputValue = styled.input`
   border: 0;
@@ -165,45 +89,6 @@ const MinusButton = styled.div`
   }
 `;
 
-const ArrayHolder = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  background-color: transparent;
-  height: auto;
-  width: 38vw;
-  padding-top: 2vh;
-
-  align-items: center;
-
-  h1 {
-    color: #535353;
-    font-size: 4vh;
-    font-weight: bold;
-    animation: bob 3s infinite ease;
-  }
-
-  @keyframes bob {
-    0% {
-      transform: translate(0vh, 0vh);
-    }
-    50% {
-      transform: translate(0vh, -2vh);
-    }
-    100% {
-      transform: translate(0vh, 0vh);
-    }
-  }
-
-  ${media.mobile} {
-    justify-content: flex-start;
-    align-items: center;
-    width: 100vw;
-    margin: 0%;
-    height: 49vh;
-    margin-top: "30vh";
-  }
-`;
 
 const ControlHolder = styled.div`
   display: grid;
@@ -226,11 +111,6 @@ const ControlHolder = styled.div`
   }
 `;
 
-const ArrayPosHolder = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 0vh;
-`;
 
 const BackLink = styled.div`
   /* lets use react link */
@@ -246,15 +126,16 @@ const StaticPosition = styled.div`
   }
 `;
 
-function Info(props) {
-  return (
-    <Item style={{ backgroundColor: props.colour }}>
-      <h1>{props.title}</h1>
+const DownshiftArray = styled.div`
 
-      <p>{props.description}</p>
-    </Item>
-  );
-}
+margin-top: 20vh;
+  ${media.mobile}{
+    margin-top: 0vh;
+  }
+
+`
+
+
 
 function ArrayVis() {
   const [arrayLink, setArrayLink] = useState([]);
@@ -433,8 +314,9 @@ function ArrayVis() {
           />
           <Array value={30} movement={"-5vw"} />*/}
           <StaticPosition>
+            <DownshiftArray/>
             <ArrayHolder>
-              <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ display: "flex", flexDirection: "column"}}>
                 <h1>Value:</h1>
                 <ArrayPosHolder>
                   {arrayLink.map(({ arrayValue, arrayID }) => (
