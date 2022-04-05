@@ -258,7 +258,7 @@ function ArrayVis() {
                   <br />
                   <br />
                   however, this also means that inserting/deleting elements
-                  cannot be done, as elements are already right next to each
+                  is very difficult, as elements are already right next to each
                   other.
                 </p>
               </div>
@@ -282,7 +282,7 @@ function ArrayVis() {
           />
           <Info
             colour="#FFA5B2"
-            title="costs"
+            title="complexity"
             description={
               <div>
                 <p>

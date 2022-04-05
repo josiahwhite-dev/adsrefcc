@@ -283,25 +283,8 @@ function Info(props) {
 }
 
 function MainInfo(props) {
-  var screenSize;
-  var itemPadding;
-  if (window.innerWidth < 1024) {
-    screenSize = "50vh";
-    itemPadding = "2vh";
-  } else {
-    screenSize = "30vh";
-    itemPadding = "0vh";
-  }
-
   return (
-    <Item
-      id="mainInfo"
-      style={{
-        backgroundColor: props.colour,
-        minHeight: screenSize,
-        margin: itemPadding,
-      }}
-    >
+    <Item id="mainInfo" style={{ backgroundColor: props.colour,  }}>
       <h1>{props.title}</h1>
 
       <div>{props.description}</div>
@@ -606,7 +589,7 @@ function BinarySearch() {
                 <p>
                   while this search algorithm is relatively easy to understand
                   and implement, it only works if the array is sorted.
-                  otherwise, it will not know which half of the array to look
+                  otherwise, there is no information to tell the algorithm which half of the array to look
                   in.
                   <br />
                   <br />
@@ -619,15 +602,23 @@ function BinarySearch() {
           />
           <Info
             colour="#FFA5B2"
-            title="cost"
+            title="complexity"
             description={
               <div>
                 <p>
-                  binary search: O(log n)
+                  time complexity: O(log n)
+                  <br />
+                  space complexity: O(1)
                   <br />
                   <br />
-                  why? every iteration, the number of elements being looked at
-                  is halved.
+                  why? 
+                  <br/>
+                  <br/> 
+                  for time, if every element was looked at, this would be O(n). however, every iteration, 
+                  the number of elements being looked at is halved, hence O(log n).
+                  <br/>
+                  for space, there are only ever 3 pieces of information we need to keep: left, right, and
+                  middle. hence, only constant space, O(1), is needed.
                 </p>
               </div>
             }

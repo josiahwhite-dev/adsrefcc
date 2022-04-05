@@ -235,25 +235,8 @@ function Info(props) {
 }
 
 function MainInfo(props) {
-  var screenSize;
-  var itemPadding;
-  if (window.innerWidth < 1024) {
-    screenSize = "50vh";
-    itemPadding = "2vh";
-  } else {
-    screenSize = "30vh";
-    itemPadding = "0vh";
-  }
-
   return (
-    <Item
-      id="mainInfo"
-      style={{
-        backgroundColor: props.colour,
-        minHeight: screenSize,
-        margin: itemPadding,
-      }}
-    >
+    <Item id="mainInfo" style={{ backgroundColor: props.colour, paddingBottom: "3vh" }}>
       <h1>{props.title}</h1>
 
       <div>{props.description}</div>
@@ -299,6 +282,9 @@ function QuickSort() {
   );
 
   async function quickSortFunction(low, high) {
+
+
+
     if (low < high) {
       let pi = await partition(low, high);
       console.log("Pi: " + pi);
@@ -322,6 +308,8 @@ function QuickSort() {
     console.log(arrayLink[high].arrayValue);
 
     for (j = low; j <= high - 1; j++) {
+    document.getElementById("stats").innerHTML = "i index: "+i+ "&emsp;j index: "+j;
+
       updateColours(i, j, high);
 
       if (arrayLink[j].arrayValue >= pivot.arrayValue) {
@@ -379,6 +367,8 @@ function QuickSort() {
           await sleep(1000);
           document.getElementById("taskDescription").innerHTML =
             "so i moves up 1 ";
+            document.getElementById("stats").innerHTML = "i index: "+i+ "&emsp;j index: "+j;
+
           document.getElementById("taskDescription").style.fontSize = "120%";
           await sleep(2500);
 
@@ -395,6 +385,7 @@ function QuickSort() {
 
           document.getElementById("taskDescription").style.fontSize = "100%";
         } else {
+
           //setFound(
           //  "j is smaller than " + pivot.arrayValue + ", i and j will swap"
           //);
@@ -402,6 +393,8 @@ function QuickSort() {
           await sleep(1000);
           document.getElementById("taskDescription").innerHTML =
             "i moves up 1 ";
+            document.getElementById("stats").innerHTML = "i index: "+i+ "&emsp;j index: "+j;
+
           document.getElementById("taskDescription").style.fontSize = "120%";
           await sleep(1500);
           highlightInstruction.style.transition =
@@ -581,6 +574,7 @@ function QuickSort() {
             title="quick sort"
             description={
               <div>
+                <p id="stats"></p>
                 <p
                   id="taskDescription"
                   style={{
@@ -619,7 +613,8 @@ function QuickSort() {
                   <br/>
                   if
                   the rough locations of where the different values of data
-                  might be are known, it can also be optimised through good
+                  might be are known (i.e. higher values are likely to be in the right side of the array), 
+                  it can also be optimised through good
                   choices of pivots.
                   <br />
                 </p>
@@ -628,24 +623,36 @@ function QuickSort() {
           />
           <Info
             colour="#FFA5B2"
-            title="cost"
+            title="complexity"
             description={
               <div>
                 <p style={{ textAlign: "center" }}>
-                  best case O(n)
+                  time complexity: O(n^2)
+
+                  <br />
+                  space complexity: O(log n)
                   <br />
                   <br />
-                  happens when the pivot value is the value closest to the
-                  average of the dataset
+                  why?
                   <br />
                   <br />
-                  worst case O(n^2)
+                  for time complexity, if an unlucky pivot is picked (i.e. the highest or lowest element)
+                  in the list, then every element will need to be compared to every other
+                  element. type a really high number into the last element to see what happens yourself.
                   <br />
                   <br />
-                  happens when pivot value is the max / min of the dataset
+                  However, if an element that is pretty much in the middle is picked, the best case runtime is O(n)
+                  again, see what happens yourself by typing in the last element. 
                   <br />
                   <br />
-                  stable: no
+                 for space, based on the recursion stack, we will at most need O(log n) space.
+                 consider the first split: we take half the array and we need to store this somewhere.
+                 we split this half in half again and need to store it. since the number of elements we 
+                 need to store is constantly halving until we hit the bottom of the recursion, storage is O(log n). 
+                  <br />
+                  <br />
+                  stable: no. if there are two of the same number in the list, they are not guaranteed
+                  to be in the same order still after sorting.
                 </p>
               </div>
             }

@@ -232,25 +232,8 @@ function Info(props) {
 }
 
 function MainInfo(props) {
-  var screenSize;
-  var itemPadding;
-  if (window.innerWidth < 1024) {
-    screenSize = "50vh";
-    itemPadding = "2vh";
-  } else {
-    screenSize = "30vh";
-    itemPadding = "0vh";
-  }
-
   return (
-    <Item
-      id="mainInfo"
-      style={{
-        backgroundColor: props.colour,
-        minHeight: screenSize,
-        margin: itemPadding,
-      }}
-    >
+    <Item id="mainInfo" style={{ backgroundColor: props.colour, paddingBottom: "5vh" }}>
       <h1>{props.title}</h1>
 
       <div>{props.description}</div>
@@ -1265,34 +1248,47 @@ function Dijkstra() {
                   nodes are known.
                   <br />
                   <br />
-                  the most obvious real-world example is google maps: every
-                  location is a node, and the distances between them are real
-                  distances, like miles or kilometers. finding the shortest path
-                  between two places can be done using this algorithm.
+                  the most obvious real-world example is an application like google maps: every
+                  location can be considered as a node, and the distances between nodes are real
+                  distances, like miles or kilometers. 
                 </p>
               </div>
             }
           />
           <Info
             colour="#FFA5B2"
-            title="cost"
+            title="complexity"
             description={
               <div>
                 <p>
-                  dijkstra's algorithm: O(V^2)
+                  if V is the # of nodes and E is the # of edges:
                   <br />
                   <br />
-                  where V is the number of vertices, or nodes. this is because
-                  every node needs to be looked at (V), and then all of its
-                  connections needs to be looked at (V), leaving (V*V).
-                  different optimisations, such as using a min-heap as a
-                  priority queue can reduce this to:
+                  time complexity: O(V^2) or O(E * log V)
+                  <br />
+                  space complexity: O(V) or O(E))
                   <br />
                   <br />
-                  dijkstra's algorithm (min-heap): O((V+E) log V)
+                  why?
                   <br />
                   <br />
-                  where E is the amount of edges, or connections between nodes.
+                  time complexity: at worst, every node will need to be 
+                  looked at between the start node and the end node, giving
+                  O(V). For each of these nodes, the 'next closest node' needs to
+                  be found in our list of nodes, which is a linear search. this gives
+                  us O(V) * O(V) = O(V^2). 
+                  <br />
+                  <br />
+                  however, dijkstra's algorithm can have a time complexity of O(max(V,E) log V)
+                  if a min-heap containing pairs of [node, distance] is used. min heaps keep the node with the 
+                  smallest distance on the top of the heap. taking the smallest element off of a heap has a complexity of O(log V).
+                  after popping off the smalest element from the heap, we consider all of the edges of that node. hence, we
+                  finish with O(E log V).
+                  <br />
+                  <br />
+                  for space, in the worst case every node can be added to the storage data structure of choice as many times as it appears on an edge,
+                  hence O(E).
+                
                 </p>
               </div>
             }

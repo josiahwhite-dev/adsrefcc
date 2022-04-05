@@ -72,7 +72,7 @@ const Container = styled.div`
 
   p {
     color: white;
-    font-size: 3vh;
+    font-size: 12px;
     font-weight: bold;
     padding: 0px;
     margin: 0px;
@@ -95,7 +95,7 @@ export default function ArrayElement(props) {
   return (
     <Container>
       <p>{props.id}</p>
-      <p style={{ color: props.textColour, marginLeft: "1vh" }}>
+      <p style={{ color: props.textColour }}>
         {" "}
         {props.elementState}
       </p>

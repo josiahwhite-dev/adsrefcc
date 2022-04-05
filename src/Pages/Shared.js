@@ -54,11 +54,11 @@ export const Item = styled.div`
     font-weight: bolder;
     color: white;
 
-    margin-left: 1vw;
-    margin-right: 1vw;
-    margin-bottom: 5vh;
+    margin-left: 4vw;
+    margin-right: 4vw;
+    margin-bottom: 4vh;
 
-    text-align: left;
+    text-align: center;
     line-height: 1.5;
     text-justify: inter-word;
     ${media.mobile} {

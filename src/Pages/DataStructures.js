@@ -86,16 +86,7 @@ function DataStructures() {
               </div>
             }
           />
-          <DataType
-            colour="#40B8ED"
-            opacity="0.3"
-            title="vector"
-            description={
-              <div>
-                <p>"coming soon... "</p>
-              </div>
-            }
-          />
+         
           <DataType
             colour="#7CED61"
             url="/linkedlist"
@@ -107,6 +98,16 @@ function DataStructures() {
                   addresses in memory. this means inserting/removing data is
                   fast, but accessing is slow"
                 </p>
+              </div>
+            }
+          />
+           <DataType
+            colour="#40B8ED"
+            opacity="0.3"
+            title="vector"
+            description={
+              <div>
+                <p>"coming soon... "</p>
               </div>
             }
           />

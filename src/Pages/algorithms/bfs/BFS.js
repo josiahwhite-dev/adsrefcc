@@ -195,25 +195,8 @@ function Info(props) {
 }
 
 function MainInfo(props) {
-  var screenSize;
-  var itemPadding;
-  if (window.innerWidth < 1024) {
-    screenSize = "50vh";
-    itemPadding = "2vh";
-  } else {
-    screenSize = "30vh";
-    itemPadding = "0vh";
-  }
-
   return (
-    <Item
-      id="mainInfo"
-      style={{
-        backgroundColor: props.colour,
-        minHeight: screenSize,
-        margin: itemPadding,
-      }}
-    >
+    <Item id="mainInfo" style={{ backgroundColor: props.colour, paddingBottom: "5vh" }}>
       <h1>{props.title}</h1>
 
       <div>{props.description}</div>
@@ -1107,7 +1090,7 @@ function BFS() {
                   }}
                 >
                   Finds the shortest path between nodes <br /> in an unweighted
-                  (distances are unknown) graph.
+                  (distances are unknown or uniform) graph.
                 </p>
                 <p
                   id="queue"
@@ -1150,6 +1133,9 @@ function BFS() {
                   between two people, treating friends as nodes connected to the
                   start point, and friends of friends as the connection's
                   connections.
+                  <br />
+                  <br />
+                  click and drag between nodes to form a connection! tap on an edge to delete the connection!
                 </p>
               </div>
             }
@@ -1160,16 +1146,27 @@ function BFS() {
             description={
               <div>
                 <p>
-                  breadth first search: O(E + V)
+                  if V is the # of nodes and E is the # of edges:
                   <br />
                   <br />
-                  where E is the number of edges (connections) and V is the
-                  number of vertexes (nodes).
+                  time complexity: O(max(E,V))
+                  <br />
+                  space complexity: O(V)
                   <br />
                   <br />
-                  why? because every node needs to be scanned through (O(V)),
-                  and only the edges that have not yet been visited yet need to
-                  be scanned (O(E)), so we get O(E + V).
+                  why?
+                  <br />
+                  <br />
+                  for time complexity, as each node is traversed through, each of its
+                  edges is looked at exactly once, hence O(E). 
+                  <br />
+                  <br /> additionally, each node V needs to be marked as 'visited' during the 
+                  process, hence O(V). big O notation would
+                  take the maximum of these two, hence O(max(V,E)).
+                  <br />
+                  <br />
+                  for space complexity, the worst case is that one node is connected to all other nodes,
+                  and hence every node would need to be stored in the queue. this gives us O(V) space.
                 </p>
               </div>
             }
