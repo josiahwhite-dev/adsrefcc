@@ -1082,12 +1082,7 @@ function BFS() {
               <div>
                 <p
                   id="taskDescription"
-                  style={{
-                    textAlign: "center",
-                    fontSize: "18px",
-                    minHeight: "5vh",
-                    maxHeight: "5vh",
-                  }}
+                 
                 >
                   Finds the shortest path between nodes <br /> in an unweighted
                   (distances are unknown or uniform) graph.

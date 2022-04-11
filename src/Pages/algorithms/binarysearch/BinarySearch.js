@@ -556,12 +556,7 @@ function BinarySearch() {
               <div>
                 <p
                   id="taskDescription"
-                  style={{
-                    textAlign: "center",
-                    fontSize: "18px",
-                    height: "10vh",
-                    overflow: "visible",
-                  }}
+                 
                 >
                   a simple search algorithm for sorted arrays
                   <br />

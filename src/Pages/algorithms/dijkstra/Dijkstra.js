@@ -1199,12 +1199,7 @@ function Dijkstra() {
               <div>
                 <p
                   id="taskDescription"
-                  style={{
-                    textAlign: "center",
-                    fontSize: "18px",
-                    minHeight: "5vh",
-                    maxHeight: "5vh",
-                  }}
+                 
                 >
                   finds the shortest path from <br />
                   one point to another.

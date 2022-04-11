@@ -577,12 +577,7 @@ function QuickSort() {
                 <p id="stats"></p>
                 <p
                   id="taskDescription"
-                  style={{
-                    textAlign: "center",
-                    fontSize: "18px",
-                    minHeight: "8vh",
-                    maxHeight: "5vh",
-                  }}
+                 
                 >
                   an efficient sorting algorithm for arrays that works by
                   breaking the array into smaller sub arrays, sorting them, then
